@@ -2,7 +2,7 @@
 
 This is the primary codebase of Team 51 in CodeU Summer 2019.
 
-Team Members:
+**Team Members:**
 
 - Archana Pradeep
 - Jannat Bedi
