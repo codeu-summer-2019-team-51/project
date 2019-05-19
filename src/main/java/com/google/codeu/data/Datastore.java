@@ -53,22 +53,42 @@ public class Datastore {
    *     message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
-    List<Message> messages = new ArrayList<>();
+    List<Message> messages;
 
     Query query =
-        new Query("Message")
-            .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
-            .addSort("timestamp", SortDirection.DESCENDING);
+            new Query("Message")
+                    .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+                    .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
+    messages = createList(results, user);
+    return messages;
+
+  }
+
+  public List<Message> getAllMessages(){
+    List<Message> messages;
+
+    Query query = new Query("Message").addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    messages = createList(results,null);
+    return messages;
+
+  }
+
+
+  public List<Message> createList(PreparedQuery results,String user) {
+    List<Message> messages = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
+        String temp = user==null?(String) entity.getProperty("user"):user;
         String text = (String) entity.getProperty("text");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Message message = new Message(id, user, text, timestamp);
+        Message message = new Message(id, temp, text, timestamp);
         messages.add(message);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -79,4 +99,5 @@ public class Datastore {
 
     return messages;
   }
+
 }
