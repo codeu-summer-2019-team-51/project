@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * This servlet will respond with a hard-coded "this will be my message feed"
  * whenever the user requests the /feed URL.
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/feed")
 public class MessageFeedServlet extends HttpServlet {
-
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {

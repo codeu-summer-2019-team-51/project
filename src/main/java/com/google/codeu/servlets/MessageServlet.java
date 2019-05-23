@@ -21,16 +21,19 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
-import java.io.IOException;
-import java.util.List;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import java.io.IOException;
+import java.util.List;
 
-/** Handles fetching and saving {@link Message} instances. */
+/**
+ * Handles fetching and saving {@link Message} instances.
+ */
 @WebServlet("/messages")
 public class MessageServlet extends HttpServlet {
 
@@ -65,7 +68,9 @@ public class MessageServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  /** Stores a new {@link Message}. */
+  /**
+   * Stores a new {@link Message}.
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
