@@ -26,7 +26,6 @@ public class MessageFeedServlet extends HttpServlet {
     datastore = new Datastore();
   }
 
-
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
     res.setContentType("application/json");
