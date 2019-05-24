@@ -37,4 +37,5 @@ public class LogoutServlet extends HttpServlet {
     String googleLogoutUrl = userService.createLogoutURL("/index.html");
     response.sendRedirect(googleLogoutUrl);
   }
+
 }

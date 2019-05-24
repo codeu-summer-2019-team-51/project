@@ -54,8 +54,6 @@ public class Datastore {
    * message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
-    List<Message> messages;
-
     Query query =
         new Query("Message")
             .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
@@ -71,16 +69,11 @@ public class Datastore {
    * @return a list of all messages posted. List is sorted by time descending.
    */
   public List<Message> getAllMessages() {
-    List<Message> messages;
-
     Query query = new Query("Message").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     return createList(results, null);
-
-
   }
-
 
   /**
    * Creates a list of messages either with user id or without.

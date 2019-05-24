@@ -34,7 +34,6 @@ public class LoginStatusServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     JsonObject jsonObject = new JsonObject();
 
     UserService userService = UserServiceFactory.getUserService();
@@ -48,4 +47,5 @@ public class LoginStatusServlet extends HttpServlet {
     response.setContentType("application/json");
     response.getWriter().println(jsonObject.toString());
   }
+
 }

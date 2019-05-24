@@ -15,7 +15,6 @@ import java.io.IOException;
 @WebServlet("/feed")
 public class MessageFeedServlet extends HttpServlet {
 
-
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
     res.getOutputStream().println("this will be my message feed!");
