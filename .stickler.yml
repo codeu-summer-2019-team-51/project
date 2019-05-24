@@ -2,5 +2,5 @@ linters:
   checkstyle:
     config: ./checkstyle.xml
   eslint:
-    config: './.eslintrc'
+    config: './eslint.config'
   csslint:
