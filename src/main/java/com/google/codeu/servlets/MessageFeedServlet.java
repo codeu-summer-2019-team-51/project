@@ -19,23 +19,23 @@ import com.google.gson.Gson;
 
 @WebServlet("/feed")
 public class MessageFeedServlet extends HttpServlet {
-    private Datastore datastore;
+  private Datastore datastore;
 
-    @Override
-    public void init() {
-        datastore = new Datastore();
-    }
+  @Override
+  public void init() {
+    datastore = new Datastore();
+  }
 
 
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        res.setContentType("application/json");
+  @Override
+  public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    res.setContentType("application/json");
 
-        List<Message> messageList = datastore.getAllMessages();
-        Gson gson = new Gson();
-        String json = gson.toJson(messageList);
+    List<Message> messageList = datastore.getAllMessages();
+    Gson gson = new Gson();
+    String json = gson.toJson(messageList);
 
-        res.getOutputStream().println(json);
-    }
+    res.getOutputStream().println(json);
+  }
 
 }
