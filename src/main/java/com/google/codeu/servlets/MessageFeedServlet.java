@@ -6,11 +6,13 @@ import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
+
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * This servlet will respond with a hard-coded "this will be my message feed"
