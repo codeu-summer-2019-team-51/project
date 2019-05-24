@@ -2,9 +2,4 @@ linters:
   checkstyle:
     config: ./checkstyle.xml
   eslint:
-      config: './.eslintrc'
-  csslint: {  }
-files:
-  ignore:
-    - 'bower_components/*'
-    - 'node_modules/*'
+  csslint:
