@@ -55,9 +55,9 @@ public class Datastore {
    */
   public List<Message> getMessages(String user) {
     Query query =
-        new Query("Message")
-            .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
-            .addSort("timestamp", SortDirection.DESCENDING);
+            new Query("Message")
+                    .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+                    .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     return createList(results, user);
