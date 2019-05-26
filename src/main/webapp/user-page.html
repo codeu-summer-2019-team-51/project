@@ -17,41 +17,31 @@ limitations under the License.
 <!DOCTYPE html>
 <html>
   <head>
+    <title>User Page</title>
     <meta charset="UTF-8">
-    <title>About Us</title>
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/user-page.css">
+    <script src="/js/user-page-loader.js"></script>
   </head>
-  <body>
+  <body onload="buildUI();">
     <nav>
       <ul id="navigation">
         <li><a href="/">Home</a></li>
         <li><a href="/aboutus.html">About Our Team</a></li>
       </ul>
     </nav>
-    <h1>About Our Team</h1>
-    <h2>Teammate A Name</h2>
-    <ul>
-      <li>Summer Feelz: </li>
-      <li>Aspirational Hobby: </li>
-      <li>Ask me About: </li>
-    </ul>
-    <h2>Jannat Bedi</h2>
-    <ul>
-      <li>Summer Feelz: fun, chill and experimental</li>
-      <li>Aspirational Hobby: To be fluent in atleast 10 different languages (:</li>
-      <li>Ask me About: gender inequality! Would looove to have a passionate talk about it!</li>
-    </ul>
-    <h2>Teammate C Name</h2>
-    <ul>
-      <li>Summer Feelz: </li>
-      <li>Aspirational Hobby: </li>
-      <li>Ask me About: </li>
-    </ul>
-    <h2>Teammate D Name (delete if you team only has 3 students) </h2>
-    <ul>
-      <li>Summer Feelz: </li>
-      <li>Aspirational Hobby: </li>
-      <li>Ask me About: </li>
-    </ul>
+    <h1 id="page-title">User Page</h1>
+
+    <form id="message-form" action="/messages" method="POST" class="hidden">
+      Enter a new message:
+      <br/>
+      <textarea name="text" id="message-input"></textarea>
+      <br/>
+      <input type="submit" value="Submit">
+    </form>
+    <hr/>
+
+    <div id="message-container">Loading...</div>
+
   </body>
 </html>
