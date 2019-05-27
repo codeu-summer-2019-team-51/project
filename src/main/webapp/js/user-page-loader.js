@@ -42,11 +42,13 @@ function showMessageFormIfViewingSelf() {
             loginStatus.username == parameterUsername) {
           const messageForm = document.getElementById('message-form');
           messageForm.classList.remove('hidden');
+          const aboutMeForm = document.getElementById('about-me-form')
+          aboutMeForm.classList.remove('hidden');
         }
       });
 }
 
-/** Fetches messages and add them to the page. */
+/** Fetches messages and adds them to the page. */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
@@ -64,6 +66,21 @@ function fetchMessages() {
           const messageDiv = buildMessageDiv(message);
           messagesContainer.appendChild(messageDiv);
         });
+      });
+}
+
+/** Fetches about me data and adds them to the page. */
+function fetchAboutMe() {
+  const url = '/about?user=' + parameterUsername;
+  fetch(url)
+      .then((response) => {
+        return response.text();
+      })
+      .then((aboutMe) => {
+        const aboutMeContainer = document.getElementById('about-me-container');
+
+        aboutMeContainer.innerHTML = aboutMe;
+
       });
 }
 
@@ -94,5 +111,6 @@ function buildMessageDiv(message) {
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
+  fetchAboutMe();
   fetchMessages();
 }
