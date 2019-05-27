@@ -42,7 +42,7 @@ function showMessageFormIfViewingSelf() {
             loginStatus.username == parameterUsername) {
           const messageForm = document.getElementById('message-form');
           messageForm.classList.remove('hidden');
-          const aboutMeForm = document.getElementById('about-me-form')
+          const aboutMeForm = document.getElementById('about-me-form');
           aboutMeForm.classList.remove('hidden');
         }
       });
@@ -71,20 +71,20 @@ function fetchMessages() {
 
 /** Fetches about me data and adds them to the page. */
 function fetchAboutMe() {
-  const url = '/about?user=' + parameterUsername;
+  const url = `/about?user=${parameterUsername}`;
   fetch(url)
-      .then((response) => {
-        return response.text();
-      })
-      .then((aboutMe) => {
-        const aboutMeContainer = document.getElementById('about-me-container');
-        if (aboutMe == '') {
-          aboutMe = 'This user has not entered any information yet.';
-        }
+    .then((response) => response.text())
+    .then((response) => {
+      const aboutMeContainer = document.getElementById('about-me-container');
+      if (response === '') {
+        aboutMe = 'This user has not entered any information yet.';
+      } else {
+        aboutMe = response;
+      }
 
-        aboutMeContainer.innerHTML = aboutMe;
+      aboutMeContainer.innerHTML = aboutMe;
 
-      });
+    });
 }
 
 /**
