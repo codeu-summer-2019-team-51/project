@@ -42,7 +42,7 @@ function createLink(url, text) {
  * Adds a login or logout link to the page, depending on whether the user is
  * already logged in.
  */
-function addLoginOrLogoutLinkToNavigation() {
+function addLoginOrLogoutLinkToNavigation() { // eslint-disable-line no-unused-vars
   const navigationElement = document.getElementById('navigation');
   if (!navigationElement) {
     console.warn('Navigation element not found!');
