@@ -14,6 +14,30 @@
  * limitations under the License.
  */
 
+ /**
+  * Creates an li element.
+  * @param {Element} childElement
+  * @return {Element} li element
+  */
+ function createListItem(childElement) {
+   const listItemElement = document.createElement('li');
+   listItemElement.appendChild(childElement);
+   return listItemElement;
+ }
+
+ /**
+  * Creates an anchor element.
+  * @param {string} url
+  * @param {string} text
+  * @return {Element} Anchor element
+  */
+ function createLink(url, text) {
+   const linkElement = document.createElement('a');
+   linkElement.appendChild(document.createTextNode(text));
+   linkElement.href = url;
+   return linkElement;
+ }
+
 /**
  * Adds a login or logout link to the page, depending on whether the user is
  * already logged in.
@@ -26,14 +50,12 @@ function addLoginOrLogoutLinkToNavigation() {
   }
 
   fetch('/login-status')
-    .then((response) => {
-      return response.json();
-    })
+    .then((response) =>
+      return response.json())
     .then((loginStatus) => {
       if (loginStatus.isLoggedIn) {
         navigationElement.appendChild(createListItem(createLink(
-          '/user-page.html?user=' + loginStatus.username, 'Your Page')));
-
+          `/user-page.html?user=${loginStatus.username}`, 'Your Page')));
         navigationElement.appendChild(
           createListItem(createLink('/logout', 'Logout')));
       } else {
@@ -41,28 +63,4 @@ function addLoginOrLogoutLinkToNavigation() {
           createListItem(createLink('/login', 'Login')));
       }
     });
-}
-
-/**
- * Creates an li element.
- * @param {Element} childElement
- * @return {Element} li element
- */
-function createListItem(childElement) {
-  const listItemElement = document.createElement('li');
-  listItemElement.appendChild(childElement);
-  return listItemElement;
-}
-
-/**
- * Creates an anchor element.
- * @param {string} url
- * @param {string} text
- * @return {Element} Anchor element
- */
-function createLink(url, text) {
-  const linkElement = document.createElement('a');
-  linkElement.appendChild(document.createTextNode(text));
-  linkElement.href = url;
-  return linkElement;
 }
