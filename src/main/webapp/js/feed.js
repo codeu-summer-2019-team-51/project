@@ -27,14 +27,12 @@ function buildMessageDiv(message) {
 // Fetch messages and add them to the page.
 function fetchMessages() {
   const url = '/feed';
-  fetch(url).then((response) => {
-    return response.json();
-  }).then((messages) => {
+  fetch(url).then((response) => return response.json();
+  .then((messages) => {
     const messageContainer = document.getElementById('message-container');
-    if(messages.length == 0) {
+    if(messages.length === 0) {
       messageContainer.innerHTML = '<p>There are no posts yet.</p>';
-    }
-    else {
+    }else {
       messageContainer.innerHTML = '';
     }
     messages.forEach((message) => {
@@ -42,9 +40,4 @@ function fetchMessages() {
       messageContainer.appendChild(messageDiv);
     });
   });
-}
-
-// Fetch data and populate the UI of the page.
-function buildUI(){
-  fetchMessages();
 }
