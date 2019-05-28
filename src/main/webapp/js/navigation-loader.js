@@ -42,7 +42,7 @@ function createLink(url, text) {
  * Adds a login or logout link to the page, depending on whether the user is
  * already logged in.
  */
-this.addLoginOrLogoutLinkToNavigation = function() {
+this.addLoginOrLogoutLinkToNavigation = function () {
   const navigationElement = document.getElementById('navigation');
   if (!navigationElement) {
     console.warn('Navigation element not found!');
@@ -50,8 +50,8 @@ this.addLoginOrLogoutLinkToNavigation = function() {
   }
 
   fetch('/login-status')
-    .then((response) => response.json())
-    .then((loginStatus) => {
+    .then(response => response.json())
+    .then(loginStatus => {
       if (loginStatus.isLoggedIn) {
         navigationElement.appendChild(
           createListItem(
@@ -71,4 +71,4 @@ this.addLoginOrLogoutLinkToNavigation = function() {
         );
       }
     });
-}
+};

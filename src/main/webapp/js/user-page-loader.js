@@ -38,8 +38,9 @@ function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   const messageDate = new Date(message.timestamp);
   headerDiv.classList.add('message-header');
-  headerDiv.appendChild(document.createTextNode(
-    `${message.user} - ${messageDate}`));
+  headerDiv.appendChild(
+    document.createTextNode(`${message.user} - ${messageDate}`)
+  );
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
@@ -58,10 +59,10 @@ function buildMessageDiv(message) {
  */
 function showMessageFormIfViewingSelf() {
   fetch('/login-status')
-    .then((response) => response.json())
-    .then((loginStatus) => {
-      if (loginStatus.isLoggedIn &&
-        loginStatus.username === parameterUsername) {
+    .then(response => response.json())
+    .then(loginStatus => {
+      if (loginStatus.isLoggedIn
+        && loginStatus.username === parameterUsername) {
         const messageForm = document.getElementById('message-form');
         messageForm.classList.remove('hidden');
       }
@@ -70,10 +71,10 @@ function showMessageFormIfViewingSelf() {
 
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
-  const url = '/messages?user=' + parameterUsername;
+  const url = `/messages?user=${parameterUsername}`;
   fetch(url)
-    .then((response) => response.json())
-    .then((messages) => {
+    .then(response => response.json())
+    .then(messages => {
       const messagesContainer = document.getElementById('message-container');
       if (messages.length === 0) {
         messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
