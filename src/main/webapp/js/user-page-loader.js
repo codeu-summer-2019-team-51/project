@@ -60,7 +60,7 @@ function buildMessageDiv(message) {
 function showMessageFormIfViewingSelf() {
   fetch('/login-status')
     .then(response => response.json())
-    .then(loginStatus => {
+    .then((loginStatus) => {
       if (loginStatus.isLoggedIn
         && loginStatus.username === parameterUsername) {
         const messageForm = document.getElementById('message-form');
@@ -74,7 +74,7 @@ function fetchMessages() {
   const url = `/messages?user=${parameterUsername}`;
   fetch(url)
     .then(response => response.json())
-    .then(messages => {
+    .then((messages) => {
       const messagesContainer = document.getElementById('message-container');
       if (messages.length === 0) {
         messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
