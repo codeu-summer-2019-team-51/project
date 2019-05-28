@@ -58,8 +58,7 @@ function buildMessageDiv(message) {
  */
 function showMessageFormIfViewingSelf() {
   fetch('/login-status')
-    .then((response) =>
-      return response.json())
+    .then((response) => response.json())
     .then((loginStatus) => {
       if (loginStatus.isLoggedIn &&
         loginStatus.username === parameterUsername) {
