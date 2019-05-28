@@ -1,5 +1,3 @@
-/* global addLoginOrLogoutLinkToNavigation */
-
 /*
  * Copyright 2019 Google Inc.
  *
