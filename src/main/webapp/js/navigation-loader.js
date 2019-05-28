@@ -15,35 +15,6 @@
  */
 
 /**
- * Adds a login or logout link to the page, depending on whether the user is
- * already logged in.
- */
-function addLoginOrLogoutLinkToNavigation() {
-  const navigationElement = document.getElementById('navigation');
-  if (!navigationElement) {
-    console.warn('Navigation element not found!');
-    return;
-  }
-
-  fetch('/login-status')
-      .then((response) => {
-        return response.json();
-      })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn) {
-          navigationElement.appendChild(createListItem(createLink(
-              '/user-page.html?user=' + loginStatus.username, 'Your Page')));
-
-          navigationElement.appendChild(
-              createListItem(createLink('/logout', 'Logout')));
-        } else {
-          navigationElement.appendChild(
-              createListItem(createLink('/login', 'Login')));
-        }
-      });
-}
-
-/**
  * Creates an li element.
  * @param {Element} childElement
  * @return {Element} li element
@@ -65,4 +36,39 @@ function createLink(url, text) {
   linkElement.appendChild(document.createTextNode(text));
   linkElement.href = url;
   return linkElement;
+}
+
+/**
+ * Adds a login or logout link to the page, depending on whether the user is
+ * already logged in.
+ */
+function addLoginOrLogoutLinkToNavigation() { // eslint-disable-line no-unused-vars
+  const navigationElement = document.getElementById('navigation');
+  if (!navigationElement) {
+    console.warn('Navigation element not found!');
+    return;
+  }
+
+  fetch('/login-status')
+    .then(response => response.json())
+    .then((loginStatus) => {
+      if (loginStatus.isLoggedIn) {
+        navigationElement.appendChild(
+          createListItem(
+            createLink(`/user-page.html?user=${loginStatus.username}`, 'Your Page')
+          )
+        );
+        navigationElement.appendChild(
+          createListItem(
+            createLink('/logout', 'Logout')
+          )
+        );
+      } else {
+        navigationElement.appendChild(
+          createListItem(
+            createLink('/login', 'Login')
+          )
+        );
+      }
+    });
 }
