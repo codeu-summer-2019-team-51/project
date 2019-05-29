@@ -27,7 +27,7 @@ function buildMessageDiv(message) {
 // Fetch messages and add them to the page.
 function fetchMessages() { // eslint-disable-line no-unused-vars
   const url = '/feed';
-  fetch(url).then((response) => response.json())
+  fetch(url).then(response => response.json())
     .then((messages) => {
       const messageContainer = document.getElementById('message-container');
       if (messages.length === 0) {
@@ -46,3 +46,4 @@ function fetchMessages() { // eslint-disable-line no-unused-vars
 function buildUI() { // eslint-disable-line no-unused-vars
   fetchMessages();
 }
+
