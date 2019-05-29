@@ -42,3 +42,8 @@ function fetchMessages() { // eslint-disable-line-no-unused-vars
       });
     });
 }
+
+// Fetch data and populate the UI of the page.
+function buildUI() { // eslint-disable-line-no-unused-vars
+  fetchMessages();
+}
