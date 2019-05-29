@@ -46,4 +46,3 @@ function fetchMessages() { // eslint-disable-line no-unused-vars
 function buildUI() { // eslint-disable-line no-unused-vars
   fetchMessages();
 }
-
