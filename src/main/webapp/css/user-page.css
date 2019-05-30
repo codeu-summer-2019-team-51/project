@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 /* Set the size of the message input to be 100 pixels high
    and will fill the width of its parent element. */
 #message-input {
@@ -37,6 +36,15 @@
 /* Give the message body a margin so the text
    isn't too close to the border. */
 .message-body {
+  margin: 5px;
+}
+
+.left-align {
+  margin: 5px;
+  text-align: 10px;
+}
+
+.right-align {
   margin: 5px;
 }
 

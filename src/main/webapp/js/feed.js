@@ -25,7 +25,7 @@ function buildMessageDiv(message) {
 }
 
 // Fetch messages and add them to the page.
-function fetchMessages() { // eslint-disable-line no-unused-vars
+function fetchMessages() {
   const url = '/feed';
   fetch(url).then(response => response.json())
     .then((messages) => {
