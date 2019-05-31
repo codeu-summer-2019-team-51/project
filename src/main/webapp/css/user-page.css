@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /* Set the size of the message input to be 100 pixels high
    and will fill the width of its parent element. */
 #message-input {
@@ -46,6 +47,7 @@
 
 .right-align {
   margin: 5px;
+  text-align: right;
 }
 
 /* Use this to hide certain elements like forms if the

@@ -4,7 +4,7 @@ function buildMessageDiv(message) {
   usernameDiv.appendChild(document.createTextNode(message.user));
 
   const timeDiv = document.createElement('div');
-  timeDiv.classList.add('right-align');
+  timeDiv.classList.add('left-align');
   timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
 
   const headerDiv = document.createElement('div');
