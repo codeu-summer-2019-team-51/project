@@ -4,6 +4,7 @@ public class User {
 
   private String email;
   private String aboutMe;
+  private String profilePic;
 
   public User(String email, String aboutMe) {
     this.email = email;
@@ -16,5 +17,13 @@ public class User {
 
   public String getAboutMe() {
     return aboutMe;
+  }
+
+  public String getProfilePic() {
+    return profilePic;
+  }
+
+  public void setProfilePic(String profilePic) {
+    this.profilePic = profilePic;
   }
 }
