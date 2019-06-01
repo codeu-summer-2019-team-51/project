@@ -1,14 +1,17 @@
 package com.google.codeu.data;
 
+import java.util.List;
+
 public class User {
 
   private String email;
   private String aboutMe;
-  private String profilePic;
+  private List<String> profilePic;
 
-  public User(String email, String aboutMe) {
+  public User(String email, String aboutMe, List<String> profilePic) {
     this.email = email;
     this.aboutMe = aboutMe;
+    this.profilePic = profilePic;
   }
 
   public String getEmail() {
@@ -19,11 +22,7 @@ public class User {
     return aboutMe;
   }
 
-  public String getProfilePic() {
+  public List<String> getProfilePic() {
     return profilePic;
-  }
-
-  public void setProfilePic(String profilePic) {
-    this.profilePic = profilePic;
   }
 }

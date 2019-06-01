@@ -6,6 +6,7 @@ import com.google.codeu.data.Datastore;
 import com.google.codeu.data.User;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -65,8 +66,9 @@ public class AboutMeServlet extends HttpServlet {
 
     String userEmail = userService.getCurrentUser().getEmail();
     String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.none());
+    List<String> profilePic = datastore.getUser(userEmail).getProfilePic();
 
-    User user = new User(userEmail, aboutMe);
+    User user = new User(userEmail, aboutMe, profilePic);
     datastore.storeUser(user);
 
     response.sendRedirect("/user-page.html?user=" + userEmail);

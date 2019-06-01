@@ -7,6 +7,7 @@ import com.google.codeu.data.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
@@ -47,7 +48,8 @@ public class ProfilePicServlet extends HttpServlet {
     }
 
     String userEmail = userService.getCurrentUser().getEmail();
-    List<String> profilePic = new List<String>();
+    String aboutMe = datastore.getUser(userEmail).getAboutMe();
+    List<String> profilePic = new ArrayList<String>();
 
     if (ServletFileUpload.isMultipartContent(request)) {
       try {
@@ -69,8 +71,7 @@ public class ProfilePicServlet extends HttpServlet {
       request.setAttribute("message", "Sorry this Servlet only handles file upload request");
     }
 
-    User user = datastore.getUser(userEmail);
-    user.setProfilePic(profilePic);
+    User user = new User(userEmail, aboutMe, profilePic);
     datastore.storeUser(user);
 
     response.sendRedirect("/user-page.html?user=" + userEmail);

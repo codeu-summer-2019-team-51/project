@@ -67,6 +67,8 @@ function showMessageFormIfViewingSelf() {
         messageForm.classList.remove('hidden');
         const aboutMeForm = document.getElementById('about-me-form');
         aboutMeForm.classList.remove('hidden');
+        const profilePicForm = document.getElementById('profile-pic-form');
+        profilePicForm.classList.remove('hidden');
       }
     });
 }
