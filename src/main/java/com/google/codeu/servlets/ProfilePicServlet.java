@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @WebServlet("/profile-pic")
 public class ProfilePicServlet extends HttpServlet {
 
-  private final String uploadDirectory = "../data/profile-pic";
+  private final String uploadDirectory = "image";
 
   private Datastore datastore;
 
@@ -35,11 +37,39 @@ public class ProfilePicServlet extends HttpServlet {
   }
 
   /**
+   * Responds with the profile picture for a particular user.
+   */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException {
+
+    response.setContentType("text/html");
+
+    String user = request.getParameter("user");
+
+    if (user == null || user.equals("")) {
+      // Request is invalid, return empty response
+      return;
+    }
+
+    User userData = datastore.getUser(user);
+
+    if (userData == null || userData.getProfilePic() == null) {
+      return;
+    }
+
+    String filePath = uploadDirectory + File.separator + user 
+      + userData.getProfilePic().get(0);
+
+    response.getOutputStream().println(filePath);
+  }
+
+  /**
    * Saves uploaded profile picture.
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+      throws IOException, ServletException {
 
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
@@ -58,7 +88,8 @@ public class ProfilePicServlet extends HttpServlet {
         for (FileItem item : multiparts) {
           if (!item.isFormField()) {
             String fileName = new File(item.getName()).getName();
-            item.write(new File(uploadDirectory + File.separator + fileName));
+            item.write(new File(
+                uploadDirectory + File.separator + userEmail + fileName));
             profilePic.add(fileName);
           }
         }

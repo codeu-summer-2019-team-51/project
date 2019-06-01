@@ -107,10 +107,26 @@ function fetchAboutMe() {
     });
 }
 
+/** Fetches profile picture and adds it to the page. */
+function fetchProfilePic() {
+  const url = `/profile-pic?user=${parameterUsername}`;
+  fetch(url)
+    .then(response => response.text())
+    .then((response) => {
+      const profilePic = document.getElementById('profile-pic');
+      let filePath = response;
+      if (response === '') {
+        filePath = "image/profile-pic.png";
+      }
+      profilePic.src = filePath;
+    });
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
+  fetchProfilePic();
   fetchAboutMe();
   fetchMessages();
 }
