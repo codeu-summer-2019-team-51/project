@@ -34,7 +34,13 @@ limitations under the License.
     <div id="my-profile">
       <div id="profile-pic-container">
         <img id="profile-pic" src="image/profile-pic.png" alt="Profile Picture">
-        <div id="edit-profile-pic" class="edit" style="text-align: center;">edit</div>
+        <form action="/profile-pic" method="POST">
+          Upload new profile picture:
+          <br/>
+          <input type="file" name="profile-pic" accept="image/png, image/jpeg">
+          <br/>
+          <input type="submit" value="Submit">
+        </form>
       </div>
       <h1 id="page-title">User Page</h1>
 
