@@ -1,17 +1,15 @@
 package com.google.codeu.data;
 
-import java.util.List;
-
 public class User {
 
   private String email;
   private String aboutMe;
-  private List<String> profilePic;
+  private String profilePic;
 
   /**
    * Creates a new User object.
    */
-  public User(String email, String aboutMe, List<String> profilePic) {
+  public User(String email, String aboutMe, String profilePic) {
     this.email = email;
     this.aboutMe = aboutMe;
     this.profilePic = profilePic;
@@ -25,7 +23,7 @@ public class User {
     return aboutMe;
   }
 
-  public List<String> getProfilePic() {
+  public String getProfilePic() {
     return profilePic;
   }
 }

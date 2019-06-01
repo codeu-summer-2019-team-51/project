@@ -127,7 +127,7 @@ public class Datastore {
     }
 
     String aboutMe = (String) userEntity.getProperty("aboutMe");
-    List<String> profilePic = (List<String>) userEntity.getProperty("profilePic");
+    String profilePic = (String) userEntity.getProperty("profilePic");
     User user = new User(email, aboutMe, profilePic);
 
     return user;

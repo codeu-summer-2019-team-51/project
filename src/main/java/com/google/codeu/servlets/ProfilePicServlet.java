@@ -7,7 +7,6 @@ import com.google.codeu.data.User;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -58,8 +57,7 @@ public class ProfilePicServlet extends HttpServlet {
       return;
     }
 
-    String filePath = uploadDirectory + File.separator + user
-        + userData.getProfilePic().get(0);
+    String filePath = uploadDirectory + File.separator + user + "_" + userData.getProfilePic();
 
     response.getOutputStream().println(filePath);
   }
@@ -79,7 +77,7 @@ public class ProfilePicServlet extends HttpServlet {
 
     String userEmail = userService.getCurrentUser().getEmail();
     String aboutMe = datastore.getUser(userEmail).getAboutMe();
-    List<String> profilePic = new ArrayList<String>();
+    String profilePic = "";
 
     if (ServletFileUpload.isMultipartContent(request)) {
       try {
@@ -89,8 +87,8 @@ public class ProfilePicServlet extends HttpServlet {
           if (!item.isFormField()) {
             String fileName = new File(item.getName()).getName();
             item.write(new File(
-                uploadDirectory + File.separator + userEmail + fileName));
-            profilePic.add(fileName);
+                uploadDirectory + File.separator + userEmail + "_" + fileName));
+            profilePic = fileName;
           }
         }
         //File uploaded successfully
