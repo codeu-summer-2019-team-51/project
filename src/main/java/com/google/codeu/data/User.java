@@ -8,6 +8,9 @@ public class User {
   private String aboutMe;
   private List<String> profilePic;
 
+  /**
+   * Creates a new User object.
+   */
   public User(String email, String aboutMe, List<String> profilePic) {
     this.email = email;
     this.aboutMe = aboutMe;
