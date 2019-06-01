@@ -30,27 +30,36 @@ limitations under the License.
         <li><a href="/aboutus.html">About Our Team</a></li>
       </ul>
     </nav>
-    <h1 id="page-title">User Page</h1>
 
-    <div id="about-me-container">Loading...</div>
-    <div id="about-me-form" class="hidden">
-      <form action="/about" method="POST">
-        <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
+    <div id="my-profile">
+      <div id="profile-pic-container">
+        <img id="profile-pic" src="image/profile-pic.png" alt="Profile Picture">
+        <div id="edit-profile-pic" class="edit" style="text-align: center;">edit</div>
+      </div>
+      <h1 id="page-title">User Page</h1>
+
+      <div id="about-me-container">Loading...</div>
+      <div id="about-me-form" class="hidden">
+        <form action="/about" method="POST">
+          <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
+          <br/>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+
+    <div id="my-posts">
+      <form id="message-form" action="/messages" method="POST" class="hidden">
+        Enter a new message:
+        <br/>
+        <textarea name="text" id="message-input"></textarea>
         <br/>
         <input type="submit" value="Submit">
       </form>
+      <hr/>
+
+      <div id="message-container">Loading...</div>
     </div>
-
-    <form id="message-form" action="/messages" method="POST" class="hidden">
-      Enter a new message:
-      <br/>
-      <textarea name="text" id="message-input"></textarea>
-      <br/>
-      <input type="submit" value="Submit">
-    </form>
-    <hr/>
-
-    <div id="message-container">Loading...</div>
 
   </body>
 </html>
