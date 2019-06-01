@@ -116,7 +116,7 @@ function fetchProfilePic() {
       const profilePic = document.getElementById('profile-pic');
       let filePath = response;
       if (response === '') {
-        filePath = "image/profile-pic.png";
+        filePath = 'image/profile-pic.png';
       }
       profilePic.src = filePath;
     });

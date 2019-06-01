@@ -58,8 +58,8 @@ public class ProfilePicServlet extends HttpServlet {
       return;
     }
 
-    String filePath = uploadDirectory + File.separator + user 
-      + userData.getProfilePic().get(0);
+    String filePath = uploadDirectory + File.separator + user
+        + userData.getProfilePic().get(0);
 
     response.getOutputStream().println(filePath);
   }
