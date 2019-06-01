@@ -24,7 +24,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @WebServlet("/profile-pic")
 public class ProfilePicServlet extends HttpServlet {
 
-  private final String UPLOAD_DIRECTORY = "../data/profile-pic";
+  private final String uploadDirectory = "../data/profile-pic";
 
   private Datastore datastore;
 
@@ -47,15 +47,17 @@ public class ProfilePicServlet extends HttpServlet {
     }
 
     String userEmail = userService.getCurrentUser().getEmail();
-    String fileName = "";
+    List<String> profilePic = new List<String>();
 
     if (ServletFileUpload.isMultipartContent(request)) {
       try {
-        List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+        List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory())
+            .parseRequest(request);
         for (FileItem item : multiparts) {
           if (!item.isFormField()) {
-            fileName = new File(item.getName()).getName();
-            item.write(new File(UPLOAD_DIRECTORY + File.separator + userEmail + File.separator + fileName));
+            String fileName = new File(item.getName()).getName();
+            item.write(new File(uploadDirectory + File.separator + fileName));
+            profilePic.add(fileName);
           }
         }
         //File uploaded successfully
@@ -68,7 +70,7 @@ public class ProfilePicServlet extends HttpServlet {
     }
 
     User user = datastore.getUser(userEmail);
-    user.setProfilePic(fileName);
+    user.setProfilePic(profilePic);
     datastore.storeUser(user);
 
     response.sendRedirect("/user-page.html?user=" + userEmail);

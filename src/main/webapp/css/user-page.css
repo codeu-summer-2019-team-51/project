@@ -14,24 +14,6 @@
  * limitations under the License.
  */
 
-#my-profile {
-  height: 250px;
-  padding: 25px;
-  padding-left: 0px;
-  margin-bottom: 25px;
-}
-
-/* Set the size of the profile picture to be 500 pixels high and wide
-  and will be positioned on the left part of its parent element. */
-#profile-pic-container {
-  float: left;
-}
-
-#profile-pic {
-  border-radius: 50%;
-  height: 200px;
-}
-
 .edit {
   color: Gray;
 }
