@@ -30,53 +30,17 @@ function setPageTitle() {
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
- */
-function showMessageFormIfViewingSelf() {
-  fetch('/login-status')
-      .then((response) => {
-        return response.json();
-      })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn &&
-            loginStatus.username == parameterUsername) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.classList.remove('hidden');
-        }
-      });
-}
-
-/** Fetches messages and add them to the page. */
-function fetchMessages() {
-  const url = '/messages?user=' + parameterUsername;
-  fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((messages) => {
-        const messagesContainer = document.getElementById('message-container');
-        if (messages.length == 0) {
-          messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
-        } else {
-          messagesContainer.innerHTML = '';
-        }
-        messages.forEach((message) => {
-          const messageDiv = buildMessageDiv(message);
-          messagesContainer.appendChild(messageDiv);
-        });
-      });
-}
-
-/**
  * Builds an element that displays the message.
  * @param {Message} message
  * @return {Element}
  */
 function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
+  const messageDate = new Date(message.timestamp);
   headerDiv.classList.add('message-header');
-  headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
+  headerDiv.appendChild(
+    document.createTextNode(`${message.user} - ${messageDate}`)
+  );
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
@@ -90,9 +54,61 @@ function buildMessageDiv(message) {
   return messageDiv;
 }
 
+/**
+ * Shows the message form if the user is logged in and viewing their own page.
+ */
+function showMessageFormIfViewingSelf() {
+  fetch('/login-status')
+    .then(response => response.json())
+    .then((loginStatus) => {
+      if (loginStatus.isLoggedIn
+          && loginStatus.username === parameterUsername) {
+        const messageForm = document.getElementById('message-form');
+        messageForm.classList.remove('hidden');
+        const aboutMeForm = document.getElementById('about-me-form');
+        aboutMeForm.classList.remove('hidden');
+      }
+    });
+}
+
+/** Fetches messages and adds them to the page. */
+function fetchMessages() {
+  const url = `/messages?user=${parameterUsername}`;
+  fetch(url)
+    .then(response => response.json())
+    .then((messages) => {
+      const messagesContainer = document.getElementById('message-container');
+      if (messages.length === 0) {
+        messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
+      } else {
+        messagesContainer.innerHTML = '';
+      }
+      messages.forEach((message) => {
+        const messageDiv = buildMessageDiv(message);
+        messagesContainer.appendChild(messageDiv);
+      });
+    });
+}
+
+/** Fetches about me data and adds them to the page. */
+function fetchAboutMe() {
+  const url = `/about?user=${parameterUsername}`;
+  fetch(url)
+    .then(response => response.text())
+    .then((response) => {
+      const aboutMeContainer = document.getElementById('about-me-container');
+      let aboutMe = response;
+      if (response === '') {
+        aboutMe = 'This user has not entered any information yet.';
+      }
+      aboutMeContainer.innerHTML = aboutMe;
+    });
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
+  fetchAboutMe();
   fetchMessages();
 }
