@@ -65,7 +65,7 @@ function show(elementId) {
 /**
  * Hides html element with specified elementId.
  */
-function hide(elementId) {
+function hide(elementId) { // eslint-disable-line no-unused-vars
   const element = document.getElementById(elementId);
   element.classList.add('hidden');
 }
