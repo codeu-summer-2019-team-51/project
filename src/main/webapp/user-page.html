@@ -32,14 +32,21 @@ limitations under the License.
     </nav>
 
     <div id="my-profile" style="height: 250px; margin-bottom: 25px; margin: 25px; margin-left: 0;">
-      <div id="profile-pic-container" style="float: left;">
+      <div id="profile-pic-container" style="float: left; width: 200px; margin-right: 25px;">
         <img id="profile-pic" alt="Profile Picture"
             style="border-radius: 50%; height: 200px; width: 200px; overflow: hidden">
+        <div id="profile-pic-editor" style="text-align: center; color: grey;" class="hidden"
+            onclick="
+              show('profile-pic-form');
+              hide('profile-pic-editor');
+            ">
+          Edit
+        </div>
         <form action="/profile-pic" method="POST" enctype="multipart/form-data"
             id="profile-pic-form" class="hidden">
           Upload new profile picture:
           <br/>
-          <input type="file" name="profile-pic" accept="image/png, image/jpeg">
+          <input type="file" name="profile-pic" accept="image/png, image/jpeg" required>
           <br/>
           <input type="submit" value="Upload">
         </form>
@@ -47,6 +54,13 @@ limitations under the License.
       <h1 id="page-title">User Page</h1>
 
       <div id="about-me-container">Loading...</div>
+      <div id="about-me-editor" style="color: grey;" class="hidden"
+          onclick="
+            show('about-me-form');
+            hide('about-me-editor');
+          ">
+        Edit
+      </div>
       <div id="about-me-form" class="hidden">
         <form action="/about" method="POST">
           <textarea name="about-me" placeholder="about me" rows=4 required></textarea>

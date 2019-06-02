@@ -55,6 +55,22 @@ function buildMessageDiv(message) {
 }
 
 /**
+ * Shows html element with specified elementId.
+ */
+function show(elementId) {
+  const element = document.getElementById(elementId);
+  element.classList.remove('hidden');
+}
+
+/**
+ * Hides html element with specified elementId.
+ */
+function hide(elementId) {
+  const element = document.getElementById(elementId);
+  element.classList.add('hidden');
+}
+
+/**
  * Shows the message form if the user is logged in and viewing their own page.
  */
 function showMessageFormIfViewingSelf() {
@@ -63,12 +79,9 @@ function showMessageFormIfViewingSelf() {
     .then((loginStatus) => {
       if (loginStatus.isLoggedIn
           && loginStatus.username === parameterUsername) {
-        const messageForm = document.getElementById('message-form');
-        messageForm.classList.remove('hidden');
-        const aboutMeForm = document.getElementById('about-me-form');
-        aboutMeForm.classList.remove('hidden');
-        const profilePicForm = document.getElementById('profile-pic-form');
-        profilePicForm.classList.remove('hidden');
+        show('message-form');
+        show('profile-pic-editor');
+        show('about-me-editor');
       }
     });
 }
