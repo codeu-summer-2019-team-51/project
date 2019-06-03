@@ -55,6 +55,22 @@ function buildMessageDiv(message) {
 }
 
 /**
+ * Shows html element with specified elementId.
+ */
+function show(elementId) {
+  const element = document.getElementById(elementId);
+  element.classList.remove('hidden');
+}
+
+/**
+ * Hides html element with specified elementId.
+ */
+function hide(elementId) { // eslint-disable-line no-unused-vars
+  const element = document.getElementById(elementId);
+  element.classList.add('hidden');
+}
+
+/**
  * Shows the message form if the user is logged in and viewing their own page.
  */
 function showMessageFormIfViewingSelf() {
@@ -63,10 +79,9 @@ function showMessageFormIfViewingSelf() {
     .then((loginStatus) => {
       if (loginStatus.isLoggedIn
           && loginStatus.username === parameterUsername) {
-        const messageForm = document.getElementById('message-form');
-        messageForm.classList.remove('hidden');
-        const aboutMeForm = document.getElementById('about-me-form');
-        aboutMeForm.classList.remove('hidden');
+        show('message-form');
+        show('profile-pic-editor');
+        show('about-me-editor');
       }
     });
 }
@@ -105,10 +120,26 @@ function fetchAboutMe() {
     });
 }
 
+/** Fetches profile picture and adds it to the page. */
+function fetchProfilePic() {
+  const url = `/profile-pic?user=${parameterUsername}`;
+  fetch(url)
+    .then(response => response.text())
+    .then((response) => {
+      const profilePic = document.getElementById('profile-pic');
+      let filePath = response;
+      if (response === '') {
+        filePath = 'image/profile-pic.png';
+      }
+      profilePic.src = filePath;
+    });
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
+  fetchProfilePic();
   fetchAboutMe();
   fetchMessages();
 }
