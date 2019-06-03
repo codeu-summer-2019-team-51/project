@@ -21,12 +21,12 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
- * Handles fetching and saving user data.
+ * Handles fetching and saving of user's profile picture.
  */
 @WebServlet("/profile-pic")
 public class ProfilePicServlet extends HttpServlet {
 
-  private final String uploadDirectory = "image";
+  private static final String UPLOAD_DIRECTORY = "image";
 
   private Datastore datastore;
 
@@ -57,7 +57,7 @@ public class ProfilePicServlet extends HttpServlet {
       return;
     }
 
-    String filePath = uploadDirectory + File.separator + user + "_" + userData.getProfilePic();
+    String filePath = UPLOAD_DIRECTORY + File.separator + user + "_" + userData.getProfilePic();
 
     response.getOutputStream().println(filePath);
   }
@@ -87,7 +87,7 @@ public class ProfilePicServlet extends HttpServlet {
           if (!item.isFormField()) {
             String fileName = new File(item.getName()).getName();
             item.write(new File(
-                uploadDirectory + File.separator + userEmail + "_" + fileName));
+                UPLOAD_DIRECTORY + File.separator + userEmail + "_" + fileName));
             profilePic = fileName;
           }
         }

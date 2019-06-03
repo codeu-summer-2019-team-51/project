@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-.edit {
-  color: Gray;
-}
-
 /* Set the size of the message input to be 100 pixels high
    and will fill the width of its parent element. */
 #message-input {
