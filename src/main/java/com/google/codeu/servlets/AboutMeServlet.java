@@ -64,10 +64,14 @@ public class AboutMeServlet extends HttpServlet {
     }
 
     String userEmail = userService.getCurrentUser().getEmail();
-    String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.none());
-    String profilePic = datastore.getUser(userEmail).getProfilePic();
+    User user = datastore.getUser(userEmail);
+    if (user == null) {
+      user = new User(userEmail);
+    }
 
-    User user = new User(userEmail, aboutMe, profilePic);
+    String aboutMe = Jsoup.clean(request.getParameter("about-me"), Whitelist.none());
+
+    user.setAboutMe(aboutMe);
     datastore.storeUser(user);
 
     response.sendRedirect("/user-page.html?user=" + userEmail);

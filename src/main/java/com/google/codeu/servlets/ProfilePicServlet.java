@@ -76,7 +76,10 @@ public class ProfilePicServlet extends HttpServlet {
     }
 
     String userEmail = userService.getCurrentUser().getEmail();
-    String aboutMe = datastore.getUser(userEmail).getAboutMe();
+    User user = datastore.getUser(userEmail);
+    if (user == null) {
+      user = new User(userEmail);
+    }
     String profilePic = "";
 
     if (ServletFileUpload.isMultipartContent(request)) {
@@ -100,9 +103,8 @@ public class ProfilePicServlet extends HttpServlet {
       request.setAttribute("message", "Sorry this Servlet only handles file upload request");
     }
 
-    User user = new User(userEmail, aboutMe, profilePic);
+    user.setProfilePic(profilePic);
     datastore.storeUser(user);
-
     response.sendRedirect("/user-page.html?user=" + userEmail);
   }
 }
