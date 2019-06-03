@@ -22,8 +22,8 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -133,7 +133,9 @@ public class Datastore {
     return user;
   }
 
-  /*Returns the list of Users who have posted messages*/
+  /**
+  *Returns the list of Users who have posted messages
+  */
   public Set<String> getUsers() {
     Set<String> users = new HashSet<>();
     Query query = new Query("Message");
