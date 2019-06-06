@@ -16,24 +16,45 @@ limitations under the License.
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>CodeU 2019 Starter Project</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <script src="/js/navigation-loader.js"></script>
-  </head>
-  <body onload="addLoginOrLogoutLinkToNavigation();">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li><a href="/aboutus.html">About Our Team</a></li>
-      </ul>
-    </nav>
-    <h1>CodeU Starter Project</h1>
-    <p>This is the CodeU starter project. Click the links above to login and visit your page.
-    You can post messages on your page, and you can visit other user pages if you have
-    their URL.</p>
-    <p>This is your code now! Feel free to make changes, and don't be afraid to get creative!
-    You could start by modifying this page to tell the world more about your team.</p>
-  </body>
+
+<head>
+  <meta charset="UTF-8">
+  <title>CodeU 2019 Starter Project</title>
+
+  <!-- Milligram Dependencies -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/navigation-loader.js"></script>
+</head>
+
+<body onload="addLoginOrLogoutLinkToNavigation();">
+  <nav>
+    <ul id="navigation">
+      <li><a href="/">Home</a></li>
+      <li><a href="/aboutus.html">About Our Team</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="column-50 column-offset-25">
+        <h1>CodeU Starter Project</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column-50 column-offset-25">
+        <p>This is the CodeU starter project. Click the links above to login and visit your page.
+          You can post messages on your page, and you can visit other user pages if you have
+          their URL.</p>
+        <p>This is your code now! Feel free to make changes, and don't be afraid to get creative!
+          You could start by modifying this page to tell the world more about your team.</p>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
