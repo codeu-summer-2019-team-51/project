@@ -28,9 +28,9 @@ public class Book {
 //	}
 
 	/*Getters and Setters*/
-//	public Int getId() {
-//		return id;
-//	}
+	public Int getId() {
+		return id;
+	}
 //
 //	public String getTitle() {
 //		return title;
