@@ -28,55 +28,55 @@ public class Book {
 	}
 
 	/*Getters and Setters*/
-	public Int getId() {
-		return id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String[] getAuthors() {
-		return authors;
-	}
-
-	public void setAuthors(String[] authors) {
-		this.authors = authors;
-	}
-
-	public List<Int> getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(List<Int> ratings) {
-		this.ratings = ratings;
-	}
-
-	public List<String> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(List<String> reviews) {
-		this.reviews = reviews;
-	}
-
-	public String getCoverPic() {
-		return coverPic;
-	}
-
-	public void setCoverPic(String coverPic) {
-		this.coverPic = coverPic;
-	}
-
-	public List<String> getMorePics() {
-		return morePics;
-	}
-
-	public void setMorePics(List<String> morePics) {
-		this.morePics = morePics;
-	}
+//	public Int getId() {
+//		return id;
+//	}
+//
+//	public String getTitle() {
+//		return title;
+//	}
+//
+//	public void setTitle(String title) {
+//		this.title = title;
+//	}
+//
+//	public String[] getAuthors() {
+//		return authors;
+//	}
+//
+//	public void setAuthors(String[] authors) {
+//		this.authors = authors;
+//	}
+//
+//	public List<Int> getRatings() {
+//		return ratings;
+//	}
+//
+//	public void setRatings(List<Int> ratings) {
+//		this.ratings = ratings;
+//	}
+//
+//	public List<String> getReviews() {
+//		return reviews;
+//	}
+//
+//	public void setReviews(List<String> reviews) {
+//		this.reviews = reviews;
+//	}
+//
+//	public String getCoverPic() {
+//		return coverPic;
+//	}
+//
+//	public void setCoverPic(String coverPic) {
+//		this.coverPic = coverPic;
+//	}
+//
+//	public List<String> getMorePics() {
+//		return morePics;
+//	}
+//
+//	public void setMorePics(List<String> morePics) {
+//		this.morePics = morePics;
+//	}
 }
