@@ -58,3 +58,7 @@ textarea {
 .hidden {
   display: none;
 }
+
+.right-align {
+  text-align: right;
+}
