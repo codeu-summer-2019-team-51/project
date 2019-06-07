@@ -17,15 +17,15 @@ public class Book {
 		this.title = title;
 		this.authors = authors;
 	}
-	public Book(Int id, String title, String[] authors, List<Int> ratings, List<String> reviews, String coverPic, List<String> morePics){
-		this.id = id;
-		this.title = title;
-		this.authors = authors;
-		this.ratings = ratings;
-		this.reviews = reviews;
-		this.coverPic = coverPic;
-		this.morePics = morePics;
-	}
+//	public Book(Int id, String title, String[] authors, List<Int> ratings, List<String> reviews, String coverPic, List<String> morePics){
+//		this.id = id;
+//		this.title = title;
+//		this.authors = authors;
+//		this.ratings = ratings;
+//		this.reviews = reviews;
+//		this.coverPic = coverPic;
+//		this.morePics = morePics;
+//	}
 
 	/*Getters and Setters*/
 //	public Int getId() {
