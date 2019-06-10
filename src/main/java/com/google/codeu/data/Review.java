@@ -40,8 +40,15 @@ public class Review {
     return comments;
   }
 
-  public void setComments(List<String> comments) {
-    this.comments = comments;
+/**  public void setComments(List<String> comments) {
+*    this.comments = comments;
+*  }
+* Will decide which one of the methods (commented one or the one mentioned below)
+* will be used.
+*/
+  
+  public void addComment (String comment) {
+      comments.add(comment);
   }
 
   public List<String> getPictures() {

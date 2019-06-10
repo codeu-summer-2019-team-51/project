@@ -51,11 +51,12 @@ public class Book {
     return reviews;
   }
 
-  public void setReviews(List<Review> reviews) {
-    this.reviews = reviews;
+  public void addReview (Review review) {
+      reviews.add(review);
   }
 
-  public Integer calAvgRating (List<Review> reviews){
+  /**Calculates the average rating of a book.*/
+  public Integer calAvgRating (List<Review> reviews) {
     Integer average = 0;
     //average is pos 0
     // sum is pos 1
