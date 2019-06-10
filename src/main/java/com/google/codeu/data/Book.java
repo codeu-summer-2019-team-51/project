@@ -61,15 +61,16 @@ public class Book {
     //average is pos 0
     // sum is pos 1
     if (reviews.size() == 0) {
+      average = 0;
     } else if (reviews.size() == 1) {
       average = reviews.get(0).getRating();
     } else {
       for (int i = 0; i < reviews.size(); i++) {
         average += reviews.get(i).getRating();
       }
-      average = average/(reviews.size());
+      average = average / (reviews.size());
     }
-   return average;
+    return average;
   }
 
 }
