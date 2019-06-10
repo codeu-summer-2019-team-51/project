@@ -51,25 +51,23 @@ public class Book {
     return reviews;
   }
 
-  public void addReview (Review review) {
-      reviews.add(review);
+  public void addReview(Review review) {
+    reviews.add(review);
   }
 
   /**Calculates the average rating of a book.*/
-  public Integer calAvgRating (List<Review> reviews) {
+  public Integer calAvgRating(List<Review> reviews) {
     Integer average = 0;
     //average is pos 0
     // sum is pos 1
-    if (reviews.size()==0) {
-    }
-    else if(reviews.size()==1) {
-        average = reviews.get(0).getRating();
-    }
-    else {
-        for (int i = 0; i < reviews.size(); i++) {
-            average += reviews.get(i).getRating();
-        }
-        average = average/(reviews.size());
+    if (reviews.size() == 0) {
+    } else if (reviews.size() == 1) {
+      average = reviews.get(0).getRating();
+    } else {
+      for (int i = 0; i < reviews.size(); i++) {
+        average += reviews.get(i).getRating();
+      }
+      average = average/(reviews.size());
     }
    return average;
   }
