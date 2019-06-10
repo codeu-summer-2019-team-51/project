@@ -8,9 +8,9 @@ public class Book {
   private String[] authors;
 
   /*Creates a new Book object for every new book.*/
-  public Book(Int id, String title, SAtring[] authors){
-    this.id=id;
-    this.title=title;
-    this.authors=authors;
+  public Book(Int id, String title, SAtring[] authors) {
+    this.id = id;
+    this.title = title;
+    this.authors = authors;
   }
 }
