@@ -3,27 +3,31 @@ package com.google.codeu.data;
 import java.util.List;
 
 public class Book {
-  private final Int id;
+  private final Integer id;
   private String title;
   private List<String> authors;
-  private List<Reviews> reviews;
+  private List<Review> reviews;
+  private Integer avgRating;
 
-  /**Creates a new Book object for every new book.*/
-  public Book(Int id, String title, List<String> authors) {
+  /**Creates a new Book object for every new book. For cases when the user wants to provide
+   * only the title and author of the book*/
+  public Book(Integer id, String title, List<String> authors) {
     this.id = id;
     this.title = title;
     this.authors = authors;
   }
-  
-  /**Creates a new Book object for every new book.*/
-  public Book(Int id, String title, List<String> authors, List<Reviews> reviews) {
+
+  /**Creates a new Book object for every new book.For cases when the user wants to provide
+   * the complete description of the book.*/
+  public Book(Integer id, String title, List<String> authors, List<Review> reviews) {
     this.id = id;
     this.title = title;
     this.authors = authors;
     this.reviews = reviews;
+    this.avgRating = calAvgRating(reviews);
   }
 
-  public Int getId() {
+  public Integer getId() {
     return id;
   }
 
@@ -43,11 +47,30 @@ public class Book {
     this.authors = authors;
   }
 
-  public List<Reviews> getReviews() {
+  public List<Review> getReviews() {
     return reviews;
   }
 
-  public void setReviews(List<Reviews> reviews) {
+  public void setReviews(List<Review> reviews) {
     this.reviews = reviews;
   }
+
+  public Integer calAvgRating (List<Review> reviews){
+    Integer average = 0;
+    //average is pos 0
+    // sum is pos 1
+    if (reviews.size()==0) {
+    }
+    else if(reviews.size()==1) {
+        average = reviews.get(0).getRating();
+    }
+    else {
+        for (int i = 0; i < reviews.size(); i++) {
+            average += reviews.get(i).getRating();
+        }
+        average = average/(reviews.size());
+    }
+   return average;
+  }
+
 }

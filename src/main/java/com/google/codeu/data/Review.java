@@ -3,35 +3,37 @@ package com.google.codeu.data;
 import java.util.List;
 
 public class Review {
-  private final Int reviewId;
-  private List<Int> ratings;
+  private final Integer reviewId;
+  private Integer rating;
   private List<String> comments;
   private List<String> pictures;
 
-  /** Creates a new Review object for every new review.*/
-  public Review(Int reviewId, List<Int> ratings) {
+  /** Creates a new Review object for every new review. For cases when
+   *  the user wants to provide only a rating.*/
+  public Review(Integer reviewId, Integer rating) {
     this.reviewId = reviewId;
-    this.ratings = ratings;
+    this.rating = rating;
   }
 
-  /** Creates a new Review object for every new review.*/
-  public Review(Int reviewId, List<Int> ratings, List<String> comments, List<String> pictures) {
+  /** Creates a new Review object for every new review. For cases when
+   * the user wants to provide a complete review.*/
+  public Review(Integer reviewId, Integer rating, List<String> comments, List<String> pictures) {
     this.reviewId = reviewId;
-    this.ratings = ratings;
+    this.rating = rating;
     this.comments = comments;
     this.pictures = pictures;
   }
 
-  public Int getReviewId() {
+  public Integer getReviewId() {
     return reviewId;
   }
 
-  public List<Int> getRatings() {
-    return ratings;
+  public Integer getRating() {
+    return rating;
   }
 
-  public void setRatings(List<Int> ratings) {
-    this.ratings = ratings;
+  public void setRating(Integer rating) {
+    this.rating = rating;
   }
 
   public List<String> getComments() {
@@ -49,4 +51,5 @@ public class Review {
   public void setPictures(List<String> pictures) {
     this.pictures = pictures;
   }
+
 }
