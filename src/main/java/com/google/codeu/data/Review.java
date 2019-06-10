@@ -1,7 +1,9 @@
 package com.google.codeu.data;
 
+import java.util.List;
+
 public class Review {
- private final Int reviewId;
+  private final Int reviewId;
  private List<Int> ratings;
  private List<String> comments;
  private List<String> pictures;
