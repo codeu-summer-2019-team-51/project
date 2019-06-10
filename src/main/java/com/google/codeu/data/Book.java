@@ -7,7 +7,7 @@ public class Book {
   private String title;
   private String[] authors;
 
-  /*Creates a new Book object for every new book.*/
+  /**Creates a new Book object for every new book.*/
   public Book(Int id, String title, String[] authors) {
     this.id = id;
     this.title = title;
