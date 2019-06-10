@@ -8,12 +8,13 @@ public class Review {
   private List<String> comments;
   private List<String> pictures;
 
- /** Creates a new Review object for every new review.*/
+  /** Creates a new Review object for every new review.*/
   public Review(Int reviewId, List<Int> ratings) {
     this.reviewId = reviewId;
     this.ratings = ratings;
   }
 
+  /** Creates a new Review object for every new review.*/
   public Review(Int reviewId, List<Int> ratings, List<String> comments, List<String> pictures) {
     this.reviewId = reviewId;
     this.ratings = ratings;
@@ -21,31 +22,31 @@ public class Review {
     this.pictures = pictures;
   }
 
-   public Int getReviewId() {
-     return reviewId;
-   }
+  public Int getReviewId() {
+    return reviewId;
+  }
 
-   public List<Int> getRatings() {
-     return ratings;
-   }
+  public List<Int> getRatings() {
+    return ratings;
+  }
 
-   public void setRatings(List<Int> ratings) {
-     this.ratings = ratings;
-   }
+  public void setRatings(List<Int> ratings) {
+    this.ratings = ratings;
+  }
 
-   public List<String> getComments() {
-     return comments;
-   }
+  public List<String> getComments() {
+    return comments;
+  }
 
-   public void setComments(List<String> comments) {
-     this.comments = comments;
-   }
+  public void setComments(List<String> comments) {
+    this.comments = comments;
+  }
 
-   public List<String> getPictures() {
-     return pictures;
-   }
+  public List<String> getPictures() {
+    return pictures;
+  }
 
-   public void setPictures(List<String> pictures) {
-     this.pictures = pictures;
-   }
+  public void setPictures(List<String> pictures) {
+    this.pictures = pictures;
+  }
 }
