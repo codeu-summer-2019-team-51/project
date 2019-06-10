@@ -14,6 +14,7 @@ public class Book {
     this.title = title;
     this.authors = authors;
   }
+  
   /**Creates a new Book object for every new book.*/
   public Book(Int id, String title, List<String> authors, List<Reviews> reviews) {
     this.id = id;
