@@ -18,7 +18,8 @@ public class Review {
 
   /** Creates a new Review object for every new review. For cases when
    * the user wants to provide a complete review.*/
-  public Review(Integer reviewId, String author, Integer rating, String comment, List<String> pictures) {
+  public Review(Integer reviewId, String author, Integer rating, String comment,
+          List<String> pictures) {
     this.reviewId = reviewId;
     this.author = author;
     this.rating = rating;
