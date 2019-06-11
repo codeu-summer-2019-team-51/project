@@ -158,7 +158,7 @@ public class Datastore {
       return null;
     }
     String title = (String) bookEntity.getProperty("title");
-    List<String>authors = (List<String>) bookEntity.getProperty("authors");
+    List<String> authors = (List<String>) bookEntity.getProperty("authors");
     Book book = new Book(id, title, authors);
     return book;
   }
