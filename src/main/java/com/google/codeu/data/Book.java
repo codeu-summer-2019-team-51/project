@@ -54,6 +54,10 @@ public class Book {
   public void addReview(Review review) {
     reviews.add(review);
   }
+  
+  public Integer getAvgRating() {
+    return avgRating;
+  }  
 
   /**Calculates the average rating of a book.*/
   public Integer calAvgRating(List<Review> reviews) {
