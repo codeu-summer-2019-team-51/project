@@ -1,33 +1,38 @@
 package com.google.codeu.data;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Review {
-  private final Integer reviewId;
+  private final UUID reviewId;
   private String author;
-  private Integer rating;
+  private int rating;
   private String comment;
   private List<String> pictures;
 
-  /** Creates a new Review object for every new review. For cases when
-   *  the user wants to provide only a rating.*/
-  public Review(Integer reviewId, Integer rating) {
-    this.reviewId = reviewId;
+  /** 
+   * Creates a new Review object for every new review for cases when
+   *  the user wants to provide only a rating.
+   */
+  public Review(int rating) {
+    this.reviewId = UUID.randomUUID();
     this.rating = rating;
   }
 
-  /** Creates a new Review object for every new review. For cases when
-   * the user wants to provide a complete review.*/
-  public Review(Integer reviewId, String author, Integer rating, String comment,
-          List<String> pictures) {
-    this.reviewId = reviewId;
+  /** 
+   * Creates a new Review object for every new review for cases when
+   * the user wants to provide a complete review.
+   */
+  public Review(String author, int rating, String comment,
+                List<String> pictures) {
+    this.reviewId = UUID.randomUUID();
     this.author = author;
     this.rating = rating;
     this.comment = comment;
     this.pictures = pictures;
   }
 
-  public Integer getReviewId() {
+  public UUID getReviewId() {
     return reviewId;
   }
 
@@ -39,11 +44,11 @@ public class Review {
     this.author = author;
   }
 
-  public Integer getRating() {
+  public int getRating() {
     return rating;
   }
 
-  public void setRating(Integer rating) {
+  public void setRating(int rating) {
     this.rating = rating;
   }
 
