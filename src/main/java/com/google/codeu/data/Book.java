@@ -71,7 +71,7 @@ public class Book {
       average += reviews.get(i).getRating();
     }
     
-    if(reviews.size()==0){
+    if (reviews.size() == 0) {
       return average;
     }
     average = average / (reviews.size());
