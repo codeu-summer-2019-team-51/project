@@ -59,23 +59,25 @@ public class Book {
   public void addReview(Review review) {
     reviews.add(review);
   }
-  
+
   public double getAvgRating() {
     return avgRating;
-  }  
+  }
 
-  /**Calculates the average rating of a book.*/
+  /**
+   * Calculates the average rating of a book.
+   */
   public double calcAvgRating(List<Review> reviews) {
     double average = 0.0;
     for (int i = 0; i < reviews.size(); i++) {
       average += reviews.get(i).getRating();
     }
-    
+
     if (reviews.size() == 0) {
       return average;
     }
     average = average / (reviews.size());
-    
+
     return average;
   }
 

@@ -10,16 +10,16 @@ public class Review {
   private String comment;
   private List<String> pictures;
 
-  /** 
+  /**
    * Creates a new Review object for every new review for cases when
-   *  the user wants to provide only a rating.
+   * the user wants to provide only a rating.
    */
   public Review(int rating) {
     this.reviewId = UUID.randomUUID();
     this.rating = rating;
   }
 
-  /** 
+  /**
    * Creates a new Review object for every new review for cases when
    * the user wants to provide a complete review.
    */
@@ -59,7 +59,7 @@ public class Review {
   public void setComment(String comment) {
     this.comment = comment;
   }
-  
+
   public List<String> getPictures() {
     return pictures;
   }
