@@ -58,6 +58,7 @@ public class Book {
 
   public void addReview(Review review) {
     reviews.add(review);
+    this.avgRating = calcAvgRating(reviews);
   }
 
   public double getAvgRating() {

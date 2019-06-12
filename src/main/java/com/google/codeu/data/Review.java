@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class Review {
-  private final UUID reviewId;
-  private String author;
+  private final UUID reviewId; //This is the ID of the user posting the review
+  private String author; //The user posting the review
   private int rating;
   private String comment;
   private List<String> pictures;
@@ -14,8 +14,9 @@ public class Review {
    * Creates a new Review object for every new review for cases when
    * the user wants to provide only a rating.
    */
-  public Review(int rating) {
+  public Review(String author, int rating) {
     this.reviewId = UUID.randomUUID();
+    this.author = author;
     this.rating = rating;
   }
 
