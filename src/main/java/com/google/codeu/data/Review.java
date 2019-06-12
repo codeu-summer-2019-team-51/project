@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Review {
-  private final UUID reviewId; //This is the ID of the user posting the review
+  private final UUID reviewId; //This is the ID of the review
   private String author; //The user posting the review
   private int rating;
   private String comment;
