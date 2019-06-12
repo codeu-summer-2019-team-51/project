@@ -76,9 +76,7 @@ public class Book {
     if (reviews.size() == 0) {
       return average;
     }
-    average = average / (reviews.size());
-
-    return average;
+    return average = average / (reviews.size());
   }
 
 }
