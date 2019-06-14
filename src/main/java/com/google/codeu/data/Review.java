@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class Review {
   private final UUID reviewId; //This is the ID of the review
+  private long timestamp;
   private String author; //The user posting the review
   private int rating;
   private String comment;
@@ -18,6 +19,7 @@ public class Review {
     this.reviewId = UUID.randomUUID();
     this.author = author;
     this.rating = rating;
+    this.timestamp = System.currentTimeMillis();
   }
 
   /**
@@ -31,10 +33,15 @@ public class Review {
     this.rating = rating;
     this.comment = comment;
     this.pictures = pictures;
+    this.timestamp = System.currentTimeMillis();
   }
 
   public UUID getReviewId() {
     return reviewId;
+  }
+
+  public long getTimestamp() {
+    return timestamp;
   }
 
   public String getAuthor() {
