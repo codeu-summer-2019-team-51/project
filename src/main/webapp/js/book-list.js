@@ -8,15 +8,15 @@ function buildBookDiv(book) {
   authorsDiv.appendChild(document.createTextNode(book.authors.join()));
 
   const headerDiv = document.createElement('div');
-  headerDiv.classList.add('message-header');
+  headerDiv.classList.add('book-title');
   headerDiv.appendChild(titleDiv);
 
   const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('message-body');
+  bodyDiv.classList.add('book-authors');
   bodyDiv.appendChild(authorsDiv);
 
   const bookDiv = document.createElement('div');
-  bookDiv.classList.add('message-div');
+  bookDiv.classList.add('book-div');
   bookDiv.appendChild(headerDiv);
   bookDiv.appendChild(bodyDiv);
 
