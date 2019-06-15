@@ -130,4 +130,11 @@ public class Datastore {
 
     return user;
   }
+
+  public Review getAllReviews() {
+    Query query = new Query("Review").addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    return createList(results, null);
+  }
 }

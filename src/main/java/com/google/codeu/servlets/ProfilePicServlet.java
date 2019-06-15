@@ -7,9 +7,7 @@ import com.google.codeu.data.User;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
