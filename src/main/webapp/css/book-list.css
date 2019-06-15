@@ -14,7 +14,7 @@
 /* Give the list of book authors a margin so the text
    isn't too close to the border. */
 .book-authors {
-  margin: 5px;
+  padding: 5px;
 }
 
 .left-align {
@@ -25,4 +25,8 @@
 .right-align {
   margin: 5px;
   text-align: right;
+}
+
+.hidden {
+  display: none;
 }

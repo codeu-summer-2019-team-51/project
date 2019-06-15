@@ -1,24 +1,18 @@
 function buildBookDiv(book) {
   const titleDiv = document.createElement('div');
   titleDiv.classList.add('left-align');
+  titleDiv.classList.add('book-title');
   titleDiv.appendChild(document.createTextNode(book.title));
 
   const authorsDiv = document.createElement('div');
   authorsDiv.classList.add('left-align');
+  authorsDiv.classList.add('book-authors');
   authorsDiv.appendChild(document.createTextNode(book.authors.join()));
-
-  const headerDiv = document.createElement('div');
-  headerDiv.classList.add('book-title');
-  headerDiv.appendChild(titleDiv);
-
-  const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('book-authors');
-  bodyDiv.appendChild(authorsDiv);
 
   const bookDiv = document.createElement('div');
   bookDiv.classList.add('book-div');
-  bookDiv.appendChild(headerDiv);
-  bookDiv.appendChild(bodyDiv);
+  bookDiv.appendChild(titleDiv);
+  bookDiv.appendChild(authorsDiv);
 
   return bookDiv;
 }
@@ -44,4 +38,25 @@ function fetchBooks() {
 // Fetch data and populate the UI of the page.
 function buildUI() { // eslint-disable-line no-unused-vars
   fetchBooks();
+}
+
+function searchBooks() {
+  let input = document.getElementById('book-search');
+  let filter = input.value.toUpperCase();
+  let bookContainer = document.getElementById('book-container');
+  let books = bookContainer.getElementsByClassName('book-div');
+
+  for (let bookDiv of books) {
+    let title = bookDiv.getElementsByClassName('book-title')[0].innerText;
+    let authors = bookDiv.getElementsByClassName('book-authors')[0].innerText;
+    console.log(title);
+    console.log(title.toUpperCase().indexOf(filter));
+    console.log(authors.toUpperCase().indexOf(filter));
+    if (title.toUpperCase().indexOf(filter) < 0
+        && authors.toUpperCase().indexOf(filter) < 0) {
+      bookDiv.classList.add('hidden');
+    } else {
+      bookDiv.classList.remove('hidden');
+    }
+  }
 }

@@ -5,6 +5,8 @@
   <title>Book List</title>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/book-list.css">
+  <link rel="stylesheet" href="
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="js/book-list.js"></script>
 </head>
 
@@ -12,6 +14,10 @@
   <div id="content">
     <h1>Book List</h1>
     <hr />
+    <div id="book-search-container">
+      <input type="text" id="book-search" placeholder="Search books">
+      <button onclick="searchBooks()"><i class="fa fa-search"></i></button>
+    </div>
     <div id="book-container">Loading...</div>
   </div>
 
