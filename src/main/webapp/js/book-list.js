@@ -40,15 +40,15 @@ function buildUI() { // eslint-disable-line no-unused-vars
   fetchBooks();
 }
 
-function searchBooks() {
-  let input = document.getElementById('book-search');
-  let filter = input.value.toUpperCase();
-  let bookContainer = document.getElementById('book-container');
-  let books = bookContainer.getElementsByClassName('book-div');
+function searchBooks() { // eslint-disable-line no-unused-vars
+  const input = document.getElementById('book-search');
+  const filter = input.value.toUpperCase();
+  const bookContainer = document.getElementById('book-container');
+  const books = bookContainer.getElementsByClassName('book-div');
 
-  for (let bookDiv of books) {
-    let title = bookDiv.getElementsByClassName('book-title')[0].innerText;
-    let authors = bookDiv.getElementsByClassName('book-authors')[0].innerText;
+  Array.from(books).forEach((bookDiv) => {
+    const title = bookDiv.getElementsByClassName('book-title')[0].innerText;
+    const authors = bookDiv.getElementsByClassName('book-authors')[0].innerText;
     console.log(title);
     console.log(title.toUpperCase().indexOf(filter));
     console.log(authors.toUpperCase().indexOf(filter));
@@ -58,5 +58,5 @@ function searchBooks() {
     } else {
       bookDiv.classList.remove('hidden');
     }
-  }
+  });
 }
