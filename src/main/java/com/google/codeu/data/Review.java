@@ -36,6 +36,15 @@ public class Review {
     this.timestamp = System.currentTimeMillis();
   }
 
+  public Review(String author, int rating, String comment, long timestamp) {
+    this.reviewId = UUID.randomUUID();
+    this.author = author;
+    this.rating = rating;
+    this.comment = comment;
+    this.timestamp = timestamp;
+    this.pictures = null;
+  }
+
   public UUID getReviewId() {
     return reviewId;
   }

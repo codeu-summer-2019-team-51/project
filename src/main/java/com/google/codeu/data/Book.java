@@ -69,14 +69,15 @@ public class Book {
    * Calculates the average rating of a book.
    */
   public double calcAvgRating(List<Review> reviews) {
+    if (reviews.size() == 0) {
+      return 0;
+    }
     double average = 0.0;
-    for (int i = 0; i < reviews.size(); i++) {
-      average += reviews.get(i).getRating();
+    for (Review review: reviews) {
+      average += review.getRating();
     }
 
-    if (reviews.size() == 0) {
-      return average;
-    }
+
     return  average / (reviews.size());
 
   }

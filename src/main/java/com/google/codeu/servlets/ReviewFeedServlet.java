@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
+import com.google.codeu.data.Review;
 import com.google.gson.Gson;
 
 @WebServlet("/reviewFeed")
@@ -25,7 +26,7 @@ public void init() {
 public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
   res.setContentType("application/json");
 
-  List<Message> reviewsList = datastore.getAllReviews();
+  List<Review> reviewsList = datastore.getAllReviews();
   Gson gson = new Gson();
   String json = gson.toJson(reviewsList);
 

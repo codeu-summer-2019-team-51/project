@@ -47,7 +47,20 @@ public class Datastore {
     datastore.put(messageEntity);
   }
 
-  /**
+/**
+ * Stores the Review in Datastore
+ */
+  public void storeReview(Review review) {
+    Entity reviewEntity = new Entity("Review", review.getReviewId().toString());
+    reviewEntity.setProperty("author", review.getAuthor());
+    reviewEntity.setProperty("comment", review.getComment());
+    reviewEntity.setProperty("rating", review.getRating());
+    reviewEntity.setProperty("timestamp", review.getTimestamp());
+    datastore.put(reviewEntity);
+  }
+
+
+/**
    * Gets messages posted by a specific user.
    *
    * @return a list of messages posted by the user, or empty list if user has never posted a
@@ -109,17 +122,19 @@ public class Datastore {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
         String temp = user == null ? (String) entity.getProperty("author") : user;
+        int rating = (Integer) entity.getProperty("rating");
         String text = (String) entity.getProperty("comment");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Review review = new Review(id, temp, text,);
-        messages.add(message);
+        Review review = new Review(temp,rating,text,timestamp);
+        reviews.add(review);
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
         e.printStackTrace();
       }
     }
+    return reviews;
   }
 
   /** Stores the User in Datastore. */
@@ -151,10 +166,20 @@ public class Datastore {
     return user;
   }
 
-  public Review getAllReviews() {
+  public List<Review> getAllReviews() {
     Query query = new Query("Review").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     return createListOfReviews(results, null);
+  }
+
+  public List<Review> getReviews(String user) {
+    Query query =
+            new Query("Review")
+                    .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+                    .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    return createListOfReviews(results, user);
   }
 }
