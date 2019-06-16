@@ -1,7 +1,5 @@
 package com.google.codeu.data;
 
-import com.google.codeu.data.Thread;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +11,6 @@ public class Community {
   private String name;
   private String description;
   private List<String> members;
-  private List<Thread> threads;
   //TODO: add moderators with more permissions than members
 
   /**
@@ -22,8 +19,7 @@ public class Community {
    */
   public Community(String name, String description, String creator) {
     this(UUID.randomUUID(), name, description,
-        (List<String>) Arrays.asList(creator),
-        (List<Thread>) new ArrayList<Thread>());
+        (List<String>) Arrays.asList(creator));
   }
 
   /**
@@ -31,13 +27,12 @@ public class Community {
    * used to create a {@link Community} based on {@link Entity} stored in
    * {@link Datastore}.
    */
-  public Community(UUID id, String name, String description, List<String> members,
-      List<Thread> threads) {
+  public Community(UUID id, String name, String description,
+      List<String> members) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.members = members;
-    this.threads = threads;
   }
 
   public UUID getId() {
@@ -67,14 +62,5 @@ public class Community {
   // Should we have a setMembers method or addMember and deleteMember methods?
   public void setMembers(List<String> members) {
     this.members = members;
-  }
-
-  public List<Thread> getThreads() {
-    return threads;
-  }
-
-  // Should we have a setThreads method or addThread and deleteThread methods?
-  public void setThreads(List<Thread> threads) {
-    this.threads = threads;
   }
 }

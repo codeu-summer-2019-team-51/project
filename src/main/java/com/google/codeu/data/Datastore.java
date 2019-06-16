@@ -139,7 +139,6 @@ public class Datastore {
     communityEntity.setProperty("name", community.getName());
     communityEntity.setProperty("description", community.getDescription());
     communityEntity.setProperty("members", community.getMembers());
-    communityEntity.setProperty("threads", community.getThreads());
 
     datastore.put(communityEntity);
   }
@@ -163,10 +162,8 @@ public class Datastore {
         String name = (String) entity.getProperty("name");
         String description = (String) entity.getProperty("description");
         List<String> members = (List<String>) entity.getProperty("members");
-        List<Thread> threads = (List<Thread>) entity.getProperty("threads");
 
-        Community community = new Community(id, name, description, members,
-            threads);
+        Community community = new Community(id, name, description, members);
         communities.add(community);
       } catch (Exception e) {
         System.err.println("Error reading message.");
