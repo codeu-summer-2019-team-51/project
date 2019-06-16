@@ -8,15 +8,15 @@ public class Thread {
   private String name;
   private String description;
   private final String creator;
-  private final String communityId;
+  private final Community community;
 
   /**
    * Constructs a new {@link Thread} titled {@code name} with content
    * {@code description}. Generates a random ID.
    */
   public Thread(String name, String description, String creator,
-      String communityId) {
-    this(UUID.randomUUID(), name, description, creator, communityId);
+      Community community) {
+    this(UUID.randomUUID(), name, description, creator, community);
   }
 
   /**
@@ -25,12 +25,12 @@ public class Thread {
    * {@link Datastore}.
    */
   public Thread(UUID id, String name, String description, String creator,
-      String communityId) {
+      Community community) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.creator = creator;
-    this.communityId = communityId;
+    this.community = community;
   }
 
   public UUID getId() {
@@ -57,7 +57,7 @@ public class Thread {
     return creator;
   }
 
-  public String getCommunityId() {
-    return communityId;
+  public Community getCommunity() {
+    return community;
   }
 }
