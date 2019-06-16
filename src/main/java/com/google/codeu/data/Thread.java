@@ -1,22 +1,24 @@
 package com.google.codeu.data;
 
+import com.google.codeu.data.Post;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Thread {
 
   private final UUID id;
   private String name;
-  private String description;
-  private final String creator;
-  private final Community community;
+  private Post mainPost;
+  private List<Post> posts;
 
   /**
-   * Constructs a new {@link Thread} titled {@code name} with content
-   * {@code description}. Generates a random ID.
+   * Constructs a new {@link Thread} titled {@code name} with main post
+   * {@code post}. Generates a random ID.
    */
-  public Thread(String name, String description, String creator,
-      Community community) {
-    this(UUID.randomUUID(), name, description, creator, community);
+  public Thread(String name, Post mainPost) {
+    this(UUID.randomUUID(), name, mainPost, (List<Post>) new ArrayList<Post>());
   }
 
   /**
@@ -24,13 +26,11 @@ public class Thread {
    * used to create a {@link Thread} based on {@link Entity} stored in
    * {@link Datastore}.
    */
-  public Thread(UUID id, String name, String description, String creator,
-      Community community) {
+  public Thread(UUID id, String name, Post mainPost, List<Post> posts) {
     this.id = id;
     this.name = name;
-    this.description = description;
-    this.creator = creator;
-    this.community = community;
+    this.mainPost = mainPost;
+    this.posts = posts;
   }
 
   public UUID getId() {
@@ -45,23 +45,20 @@ public class Thread {
     this.name = name;
   }
 
-  public String getDescription() {
-    return description;
+  public Post getMainPost() {
+    return mainPost;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setMainPost(Post post) {
+    this.mainPost = mainPost;
   }
 
-  public String getCreator() {
-    return creator;
+  public List<Post> getPosts() {
+    return posts;
   }
 
-  public void setCreator(String creator) {
-    this.creator = creator;
-  }
-
-  public Community getCommunity() {
-    return community;
+  // Should we have a setPosts method or addPost and deletePost methods?
+  public void setPosts(List<Post> posts) {
+    this.posts = posts;
   }
 }
