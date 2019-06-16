@@ -60,7 +60,7 @@ public class Datastore {
                     .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    return createList(results, user);
+    return createListOfMessages(results, user);
   }
 
   /**
@@ -72,7 +72,7 @@ public class Datastore {
     Query query = new Query("Message").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    return createList(results, null);
+    return createListOfMessages(results, null);
   }
 
   /**
@@ -80,7 +80,7 @@ public class Datastore {
    *
    * @return a list of all messages posted or by a specific user
    */
-  public List<Message> createList(PreparedQuery results, String user) {
+  public List<Message> createListOfMessages(PreparedQuery results, String user) {
     List<Message> messages = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       try {
@@ -100,6 +100,26 @@ public class Datastore {
     }
 
     return messages;
+  }
+
+  public List<Review> createListOfReviews(PreparedQuery results, String user) {
+    List<Review> reviews = new ArrayList<>();
+    for (Entity entity: results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String temp = user == null ? (String) entity.getProperty("author") : user;
+        String text = (String) entity.getProperty("comment");
+        long timestamp = (long) entity.getProperty("timestamp");
+
+        Review review = new Review(id, temp, text,);
+        messages.add(message);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
   }
 
   /** Stores the User in Datastore. */
@@ -135,6 +155,6 @@ public class Datastore {
     Query query = new Query("Review").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    return createList(results, null);
+    return createListOfReviews(results, null);
   }
 }
