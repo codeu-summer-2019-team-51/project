@@ -1,6 +1,12 @@
 package com.google.codeu.servlets;
 
+import com.google.codeu.data.Datastore;
+import com.google.codeu.data.Thread;
+import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,10 +19,25 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/community")
 public class CommunityServlet extends HttpServlet {
 
+  private Datastore datastore;
+
+  @Override
+  public void init() {
+    datastore = new Datastore();
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws IOException {
+      throws IOException, IllegalArgumentException {
 
-   response.getOutputStream().println("this will be my community");
+    response.setContentType("application/json");
+
+    String communityId = request.getParameter("id");
+
+    List<Thread> threads = datastore.getThreads(communityId);
+    Gson gson = new Gson();
+    String json = gson.toJson(threads);
+
+    response.getOutputStream().println(json);
   }
 }
