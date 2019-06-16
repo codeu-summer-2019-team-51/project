@@ -5,13 +5,51 @@
   <title>Forum</title>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/forum.css">
+  <link rel="stylesheet" href=
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+  <script src=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js">
+  </script>
+  <script src=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js">
+  </script>
   <script src="js/forum.js"></script>
 </head>
 
 <body onload="buildUI();">
+  <nav>
+    <ul id="navigation">
+      <li><a href="/">Home</a></li>
+      <li><a href="/aboutus.html">About Our Team</a></li>
+    </ul>
+  </nav>
   <div id="content">
     <h1>Forum</h1>
     <hr />
+    <button>
+      <i class="fa fa-plus"></i>
+      <a href="#create-new-community" rel="modal:open">Create new community</a>
+    </button>
+    <div id="create-new-community" class="modal">
+      <h1>Create new community</h1>
+      <hr />
+      <form action="/forum" method="POST">
+        <label for="name"><b>Name</b></label>
+        <br/>
+        <input type="text" name="name" placeholder="Enter community name"
+            required>
+        <br/>
+        <label for="description"><b>Description</b></label>
+        <br/>
+        <textarea name="description" placeholder="Enter description" rows=4
+            required></textarea>
+        <br/>
+        <br/>
+        <input type="submit" value="Create new community">
+      </form>
+    </div>
     <div id="community-container">Loading...</div>
   </div>
 
