@@ -57,6 +57,10 @@ public class Thread {
     return creator;
   }
 
+  public void setCreator(String creator) {
+    this.creator = creator;
+  }
+
   public Community getCommunity() {
     return community;
   }
