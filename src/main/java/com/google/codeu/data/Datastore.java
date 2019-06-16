@@ -155,14 +155,14 @@ public class Datastore {
         .addSort("name", SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    List<Community> communities = new ArrayList<>();
+    List<Community> communities = new ArrayList<Community>();
     for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
         String name = (String) entity.getProperty("name");
         String description = (String) entity.getProperty("description");
-        List<User> members = (List<User>) entity.getProperty("members");
+        List<String> members = (List<String>) entity.getProperty("members");
         List<Thread> threads = (List<Thread>) entity.getProperty("threads");
 
         Community community = new Community(id, name, description, members,
