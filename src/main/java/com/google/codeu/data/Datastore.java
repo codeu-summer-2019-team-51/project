@@ -130,4 +130,51 @@ public class Datastore {
 
     return user;
   }
+
+  /**
+   * Stores the {@code community} in Datastore.
+   */
+  public void storeCommunity(Community community) {
+    Entity communityEntity = new Entity("Community", community.getId().toString());
+    communityEntity.setProperty("name", community.getName());
+    communityEntity.setProperty("description", community.getDescription());
+    communityEntity.setProperty("members", community.getMembers());
+    communityEntity.setProperty("threads", community.getThreads());
+
+    datastore.put(communityEntity);
+  }
+
+  /**
+   * Gets all {@code community}s.
+   *
+   * @return a list of communities.
+   */
+  //TODO: decide how to sort communities
+  public List<Community> getAllCommunities() {
+    Query query = new Query("Community")
+        .addSort("name", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    List<Community> communities = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String name = (String) entity.getProperty("name");
+        String description = (String) entity.getProperty("description");
+        List<User> members = (List<User>) entity.getProperty("members");
+        List<Thread> threads = (List<Thread>) entity.getProperty("threads");
+
+        Community community = new Community(id, name, description, members,
+            threads);
+        communities.add(community);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return communities;
+  }
 }
