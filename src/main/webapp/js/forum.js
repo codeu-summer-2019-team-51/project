@@ -35,7 +35,21 @@ function fetchCommunities() {
     });
 }
 
+/**
+ * Shows if the user is logged in.
+ */
+function showIfLoggedIn() {
+  fetch('/login-status')
+    .then(response => response.json())
+    .then((loginStatus) => {
+      if (loginStatus.isLoggedIn) {
+        document.getElementById('create-button').classList.remove('hidden');
+      }
+    });
+}
+
 // Fetch data and populate the UI of the page.
 function buildUI() { // eslint-disable-line no-unused-vars
+  showIfLoggedIn();
   fetchCommunities();
 }
