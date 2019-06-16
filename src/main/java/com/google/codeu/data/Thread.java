@@ -1,24 +1,22 @@
 package com.google.codeu.data;
 
-import com.google.codeu.data.Post;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Thread {
 
   private final UUID id;
   private String name;
-  private Post mainPost;
-  private List<Post> posts;
+  private String description;
+  private final String creator;
+  private final Community community;
 
   /**
-   * Constructs a new {@link Thread} titled {@code name} with main post
-   * {@code post}. Generates a random ID.
+   * Constructs a new {@link Thread} titled {@code name} with content
+   * {@code description}. Generates a random ID.
    */
-  public Thread(String name, Post mainPost) {
-    this(UUID.randomUUID(), name, mainPost, (List<Post>) new ArrayList<Post>());
+  public Thread(String name, String description, String creator,
+      Community community) {
+    this(UUID.randomUUID(), name, description, creator, community);
   }
 
   /**
@@ -26,11 +24,13 @@ public class Thread {
    * used to create a {@link Thread} based on {@link Entity} stored in
    * {@link Datastore}.
    */
-  public Thread(UUID id, String name, Post mainPost, List<Post> posts) {
+  public Thread(UUID id, String name, String description, String creator,
+      Community community) {
     this.id = id;
     this.name = name;
-    this.mainPost = mainPost;
-    this.posts = posts;
+    this.description = description;
+    this.creator = creator;
+    this.community = community;
   }
 
   public UUID getId() {
@@ -45,20 +45,23 @@ public class Thread {
     this.name = name;
   }
 
-  public Post getMainPost() {
-    return mainPost;
+  public String getDescription() {
+    return description;
   }
 
-  public void setMainPost(Post post) {
-    this.mainPost = mainPost;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
-  public List<Post> getPosts() {
-    return posts;
+  public String getCreator() {
+    return creator;
   }
 
-  // Should we have a setPosts method or addPost and deletePost methods?
-  public void setPosts(List<Post> posts) {
-    this.posts = posts;
+  public void setCreator(String creator) {
+    this.creator = creator;
+  }
+
+  public Community getCommunity() {
+    return community;
   }
 }
