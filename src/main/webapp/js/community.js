@@ -60,10 +60,15 @@ function showIfLoggedIn() {
     });
 }
 
+function setPostParam(id) {
+  const communityIdParam = document.getElementById('community-id-param');
+  communityIdParam.setAttribute('value', id);
+}
+
 // Fetch data and populate the UI of the page.
 function buildUI() { // eslint-disable-line no-unused-vars
   const id = getCommunityId();
-
   showIfLoggedIn();
   fetchThreads(id);
+  setPostParam(id);
 }

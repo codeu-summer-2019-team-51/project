@@ -1,5 +1,7 @@
 package com.google.codeu.servlets;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Thread;
 import com.google.gson.Gson;
@@ -12,6 +14,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
  /**
  * Handles fetching community threads.
@@ -42,5 +47,27 @@ public class CommunityServlet extends HttpServlet {
     String json = gson.toJson(threads);
 
     response.getOutputStream().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/index.html");
+      return;
+    }
+
+    String userEmail = userService.getCurrentUser().getEmail();
+    String name = Jsoup.clean(request.getParameter("name"), Whitelist.none());
+    String description = Jsoup.clean(request.getParameter("description"),
+        Whitelist.none());
+    String communityId = request.getParameter("communityId");
+
+    Thread thread = new Thread(name, description, userEmail, communityId);
+    datastore.storeThread(thread);
+
+    response.sendRedirect("/community.html?id=" + communityId);
   }
 }

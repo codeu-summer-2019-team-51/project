@@ -28,14 +28,15 @@
   <div id="content">
     <h1>Community</h1>
     <hr />
-    <!-- <button id="create-button" class="hidden">
+    <button id="create-button" class="hidden">
       <i class="fa fa-plus"></i>
       <a href="#create-new-thread" rel="modal:open">Create new thread</a>
-    </button> -->
+    </button>
     <div id="create-new-thread" class="modal">
       <h1>Create new thread</h1>
       <hr />
-      <form action="/forum" method="POST">
+      <form action="/community" method="POST">
+        <input type="hidden" id="community-id-param" name="communityId">
         <label for="name"><b>Title</b></label>
         <br/>
         <input type="text" name="name" placeholder="Enter thread title"
