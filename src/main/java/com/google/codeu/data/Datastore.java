@@ -144,9 +144,9 @@ public class Datastore {
   }
 
   /**
-  * @return the Community with the specified {@code idString} or
-  * null if no matching Community was found.
-  */
+   * @return the Community with the specified {@code idString} or
+   *     null if no matching Community was found.
+   */
   public Community getCommunity(String idString) {
     Key key = KeyFactory.createKey("Community", idString);
     try {
@@ -223,6 +223,9 @@ public class Datastore {
     return threads;
   }
 
+  /**
+   * Converts Entity to Community.
+   */
   private Community entityToCommunity(Entity entity) {
     String idString = entity.getKey().getName();
 
@@ -235,6 +238,9 @@ public class Datastore {
     return community;
   }
 
+  /**
+   * Converts Entity to Thread.
+   */
   private Thread entityToThread(Entity entity, String communityId) {
     String idString = entity.getKey().getName();
 

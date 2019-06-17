@@ -2,8 +2,8 @@
 .community-a {
   border: thin solid black;
   border-radius: 5px;
-  margin-top: 20px;
   display: block;
+  margin-top: 20px;
 }
 
 /* Add a bottom border to the community name. */

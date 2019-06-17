@@ -1,9 +1,9 @@
 function getCommunityId() {
   let params = window.location.search.substr(1);
-  params = params.split("&");
-  for (const element of params) {
-    const param = element.split("=");
-    if (param[0] = 'id') {
+  params = params.split('&');
+  for (const element of params) { // eslint-disable-line no-restricted-syntax
+    const param = element.split('=');
+    if (param[0] == 'id') {
       return param[1];
     }
   }
