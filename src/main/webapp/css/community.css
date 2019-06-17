@@ -1,20 +1,20 @@
-/* Give each community listing a rounded border. */
-.community-a {
+/* Give each thread listing a rounded border. */
+.thread-a {
   border: thin solid black;
   border-radius: 5px;
   margin-top: 20px;
   display: block;
 }
 
-/* Add a bottom border to the community name. */
-.community-name {
+/* Add a bottom border to the thread name. */
+.thread-name {
   border-bottom: thin solid black;
   padding: 5px;
 }
 
-/* Give the community description a margin so the text
+/* Give the thread description a margin so the text
    isn't too close to the border. */
-.community-description {
+.thread-description {
   padding: 5px;
 }
 
