@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Review {
   private final UUID reviewId; //This is the ID of the review
-  private long timestamp;
+  private final long timestamp;
   private String author; //The user posting the review
   private int rating;
   private String comment;
@@ -16,10 +16,17 @@ public class Review {
    * the user wants to provide only a rating.
    */
   public Review(String author, int rating) {
-    this.reviewId = UUID.randomUUID();
-    this.author = author;
-    this.rating = rating;
-    this.timestamp = System.currentTimeMillis();
+  this(UUID.randomUUID(),System.currentTimeMillis(), author, rating,null,
+            null);
+  }
+  
+  /**
+   * Creates a new Review object for every new review for cases when
+   * the user wants to provide a review without any pictures.
+   */
+  public Review(String author, int rating, String comment) {
+    this(UUID.randomUUID(),System.currentTimeMillis(), author, rating, comment,
+            null);
   }
 
   /**
@@ -28,12 +35,21 @@ public class Review {
    */
   public Review(String author, int rating, String comment,
                 List<String> pictures) {
-    this.reviewId = UUID.randomUUID();
+    this(UUID.randomUUID(),System.currentTimeMillis(), author, rating, comment,
+            pictures);
+  }
+  
+  /**
+   * Standard constructor called within all other constructors.
+   */
+  public Review(UUID reviewId, long timestamp, String author, int rating, 
+          String comment, List<String> pictures) {
+    this.reviewId = reviewId;
     this.author = author;
     this.rating = rating;
     this.comment = comment;
     this.pictures = pictures;
-    this.timestamp = System.currentTimeMillis();
+    this.timestamp = timestamp;
   }
 
   public UUID getReviewId() {
