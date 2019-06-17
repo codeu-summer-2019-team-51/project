@@ -3,7 +3,7 @@ function getCommunityId() {
   params = params.split('&');
   for (const element of params) { // eslint-disable-line no-restricted-syntax
     const param = element.split('=');
-    if (param[0] == 'id') {
+    if (param[0] === 'id') {
       return param[1];
     }
   }

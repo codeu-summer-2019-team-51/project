@@ -112,9 +112,9 @@ public class Datastore {
   }
 
   /**
-  * @return the User owned by the email address, or
-  * null if no matching User was found.
-  */
+   * @return the User owned by the email address, or
+   * null if no matching User was found.
+   */
   public User getUser(String email) {
     Query query = new Query("User")
         .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
@@ -144,8 +144,8 @@ public class Datastore {
   }
 
   /**
-   * @return the Community with the specified {@code idString} or
-   *     null if no matching Community was found.
+   * Gets the Community with the specified {@code idString} or
+   * null if no matching Community was found.
    */
   public Community getCommunity(String idString) {
     Key key = KeyFactory.createKey("Community", idString);
@@ -196,8 +196,8 @@ public class Datastore {
   }
 
   /**
-   * @return a list of threads posted in a community, or empty list if the
-   *     community has no thread. List is sorted by name ascending.
+   * Gets a list of threads posted in a community, or empty list if the
+   * community has no thread. List is sorted by name ascending.
    */
   //TODO: find a better way to sort threads
   public List<Thread> getThreads(String communityId) {
