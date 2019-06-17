@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
- /**
-  * Handles fetching community threads.
-  */
+/**
+* Handles fetching community threads.
+*/
 @WebServlet("/community")
 public class CommunityServlet extends HttpServlet {
 

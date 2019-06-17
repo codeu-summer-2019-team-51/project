@@ -112,7 +112,7 @@ public class Datastore {
   }
 
   /**
-   * @return the User owned by the email address, or
+   * Gets the User owned by the email address, or
    * null if no matching User was found.
    */
   public User getUser(String email) {
