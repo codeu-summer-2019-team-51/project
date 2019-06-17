@@ -112,7 +112,7 @@ public class Datastore {
   }
 
   /**
-  * Returns the User owned by the email address, or
+  * @return the User owned by the email address, or
   * null if no matching User was found.
   */
   public User getUser(String email) {
@@ -144,6 +144,20 @@ public class Datastore {
   }
 
   /**
+  * @return the Community with the specified {@code idString} or
+  * null if no matching Community was found.
+  */
+  public Community getCommunity(String idString) {
+    Key key = KeyFactory.createKey("Community", idString);
+    try {
+      Entity communityEntity = datastore.get(key);
+      return entityToCommunity(communityEntity);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+  }
+
+  /**
    * Gets all {@code community}s.
    *
    * @return a list of communities.
@@ -157,17 +171,7 @@ public class Datastore {
     List<Community> communities = new ArrayList<Community>();
     for (Entity entity : results.asIterable()) {
       try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String name = (String) entity.getProperty("name");
-        String description = (String) entity.getProperty("description");
-        List<String> members = (List<String>) entity.getProperty("members");
-        if (members == null) {
-          datastore.delete(entity.getKey());
-        }
-
-        Community community = new Community(id, name, description, members);
-        communities.add(community);
+        communities.add(entityToCommunity(entity));
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
@@ -208,14 +212,7 @@ public class Datastore {
 
     for (Entity entity : results.asIterable()) {
       try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String name = (String) entity.getProperty("name");
-        String description = (String) entity.getProperty("description");
-        String creator = (String) entity.getProperty("creator");
-
-        Thread thread = new Thread(id, name, description, creator, communityId);
-        threads.add(thread);
+        threads.add(entityToThread(entity, communityId));
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
@@ -224,5 +221,29 @@ public class Datastore {
     }
 
     return threads;
+  }
+
+  private Community entityToCommunity(Entity entity) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String name = (String) entity.getProperty("name");
+    String description = (String) entity.getProperty("description");
+    List<String> members = (List<String>) entity.getProperty("members");
+
+    Community community = new Community(id, name, description, members);
+    return community;
+  }
+
+  private Thread entityToThread(Entity entity, String communityId) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String name = (String) entity.getProperty("name");
+    String description = (String) entity.getProperty("description");
+    String creator = (String) entity.getProperty("creator");
+
+    Thread thread = new Thread(id, name, description, creator, communityId);
+    return thread;
   }
 }
