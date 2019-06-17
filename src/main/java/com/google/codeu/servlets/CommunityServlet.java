@@ -2,6 +2,7 @@ package com.google.codeu.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.codeu.data.Community;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Thread;
 import com.google.gson.Gson;
@@ -41,12 +42,19 @@ public class CommunityServlet extends HttpServlet {
     response.setContentType("application/json");
 
     String communityId = request.getParameter("id");
-
+    Community community = datastore.getCommunity(communityId);
     List<Thread> threads = datastore.getThreads(communityId);
-    Gson gson = new Gson();
-    String json = gson.toJson(threads);
 
-    response.getOutputStream().println(json);
+    Gson gson = new Gson();
+    String communityJson = gson.toJson(community);
+    String threadsJson = gson.toJson(threads);
+
+    String resultJson = String.format(
+        "{\"community\":%s,\"threads\":%s}",
+        communityJson,
+        threadsJson);
+
+    response.getOutputStream().println(resultJson);
   }
 
   @Override

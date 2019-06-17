@@ -33,7 +33,8 @@ function buildThreadDiv(thread) {
 function fetchThreads(id) {
   const url = `/community?id=${id}`;
   fetch(url).then(response => response.json())
-    .then((threads) => {
+    .then((result) => {
+      const threads = result.threads;
       const threadContainer = document.getElementById('thread-container');
       if (threads.length === 0) {
         threadContainer.innerHTML = '<p>There are no threads yet.</p>';
