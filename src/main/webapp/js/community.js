@@ -29,22 +29,43 @@ function buildThreadDiv(thread) {
   return threadA;
 }
 
-// Fetch threads and add them to the page.
-function fetchThreads(id) {
+function loadCommunityDetails(community) {
+  const title = document.getElementsByTagName('title')[0];
+  title.innerText = community.name;
+
+  const header = document.getElementById('header');
+  header.innerText = community.name;
+
+  const description = document.getElementById('description');
+  description.innerText = community.description;
+
+  const members = document.getElementById('members');
+  const memberCount = community.members.length;
+  members.innerHTML = memberCount > 1
+    ? `<b>${memberCount} members</b>`
+    : `<b>${memberCount} member</b>`;
+}
+
+function loadThreads(threads) {
+  const threadContainer = document.getElementById('thread-container');
+  if (threads.length === 0) {
+    threadContainer.innerHTML = '<p>There are no threads yet.</p>';
+  } else {
+    threadContainer.innerHTML = '';
+  }
+  threads.forEach((thread) => {
+    const threadA = buildThreadDiv(thread);
+    threadContainer.appendChild(threadA);
+  });
+}
+
+// Fetch community and threads and add them to the page.
+function fetchContent(id) {
   const url = `/community?id=${id}`;
   fetch(url).then(response => response.json())
     .then((result) => {
-      const threads = result.threads;
-      const threadContainer = document.getElementById('thread-container');
-      if (threads.length === 0) {
-        threadContainer.innerHTML = '<p>There are no threads yet.</p>';
-      } else {
-        threadContainer.innerHTML = '';
-      }
-      threads.forEach((thread) => {
-        const threadA = buildThreadDiv(thread);
-        threadContainer.appendChild(threadA);
-      });
+      loadCommunityDetails(result.community);
+      loadThreads(result.threads);
     });
 }
 
@@ -70,6 +91,6 @@ function setPostParam(id) {
 function buildUI() { // eslint-disable-line no-unused-vars
   const id = getCommunityId();
   showIfLoggedIn();
-  fetchThreads(id);
+  fetchContent(id);
   setPostParam(id);
 }
