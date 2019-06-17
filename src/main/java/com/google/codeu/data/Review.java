@@ -16,7 +16,7 @@ public class Review {
    * the user wants to provide only a rating.
    */
   public Review(String author, int rating) {
-  this(UUID.randomUUID(),System.currentTimeMillis(), author, rating,null,
+    this(UUID.randomUUID(),System.currentTimeMillis(), author, rating,null,
             null);
   }
   
