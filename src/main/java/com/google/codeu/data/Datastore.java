@@ -162,6 +162,9 @@ public class Datastore {
         String name = (String) entity.getProperty("name");
         String description = (String) entity.getProperty("description");
         List<String> members = (List<String>) entity.getProperty("members");
+        if (members == null) {
+          datastore.delete(entity.getKey());
+        }
 
         Community community = new Community(id, name, description, members);
         communities.add(community);
@@ -179,7 +182,7 @@ public class Datastore {
    * Stores the {@code thread} in Datastore.
    */
   public void storeThread(Thread thread) {
-    Entity threadEntity = new Entity("Community", thread.getId().toString());
+    Entity threadEntity = new Entity("Thread", thread.getId().toString());
     threadEntity.setProperty("name", thread.getName());
     threadEntity.setProperty("description", thread.getDescription());
     threadEntity.setProperty("creator", thread.getCreator());
@@ -198,7 +201,7 @@ public class Datastore {
 
     Query query =
         new Query("Thread")
-            .setFilter(new Query.FilterPredicate("community",
+            .setFilter(new Query.FilterPredicate("communityId",
                 FilterOperator.EQUAL, communityId))
             .addSort("name", SortDirection.ASCENDING);
     PreparedQuery results = datastore.prepare(query);
