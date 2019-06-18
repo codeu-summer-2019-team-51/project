@@ -43,11 +43,11 @@ function fetchBookAuthors() {
     });
 }
 
-function showData() {
-
-        show('about-book-form');
-
-}
+//function showData() {
+//
+//        show('about-book-form');
+//
+//}
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
