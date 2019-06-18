@@ -11,6 +11,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Book;
+import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.UUID;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 /**
  *Handles fetching and saving book data.
@@ -63,17 +66,22 @@ public class AboutBookServlet extends HttpServlet {
     }
   }
   
-//  @Override
-//  public void doPost(HttpServletRequest request, HttpServletResponse response)
-//          throws IOException {
-//    UserService bookService = UserServiceFactory.getUserService();
-//    String 
-//  }
-  
-//  @Override
-//  public void doPost(HttpServletRequest request, HttpServletResponse response)
-//          throws IOException {
-//    UserService bookService = UserServiceFactory.getUserService();
-//    String bookInfo = bookService.
-//  }
+  /**
+   * Stores a new Book.
+   */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+          throws IOException {
+    String title = Jsoup.clean(request.getParameter("title"), Whitelist.none());
+    List<String> authors = null;
+    authors.set(0, Jsoup.clean(request.getParameter("authors"), 
+            Whitelist.none()));
+    while(request.getParameter("authors")!=null){
+      authors.add(Jsoup.clean(request.getParameter("authors"), 
+              Whitelist.none()));
+    }
+    Book book = new Book(title, authors);
+    datastore.storeBook(book);
+    response.sendRedirect("/aboutbook.html?book=" + book );
+  }
 }
