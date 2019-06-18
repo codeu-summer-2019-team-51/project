@@ -132,6 +132,51 @@ public class Datastore {
   }
 
   /**
+   * Stores the Book in Datastore.
+   */
+  public void storeBook(Book book) {
+    Entity bookEntity = new Entity("Book", book.getId().toString());
+    bookEntity.setProperty("title", book.getTitle());
+    bookEntity.setProperty("authors", book.getAuthors());
+    bookEntity.setProperty("reviews", book.getReviews());
+    bookEntity.setProperty("avgRating", book.getAvgRating());
+
+    datastore.put(bookEntity);
+  }
+
+  /**
+   * Gets all books.
+   *
+   * @return a list of books. List is sorted by title.
+   */
+  public List<Book> getAllBooks() {
+    List<Book> books = new ArrayList<Book>();
+
+    Query query = new Query("Book").addSort("title", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String title = (String) entity.getProperty("title");
+        List<String> authors = (List<String>) entity.getProperty("authors");
+        List<Review> reviews = (List<Review>) entity.getProperty("reviews");
+        double avgRating = (double) entity.getProperty("avgRating");
+
+        Book book = new Book(id, title, authors, reviews, avgRating);
+        books.add(book);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return books;
+  }
+
+  /**
    * Stores the {@code community} in Datastore.
    */
   public void storeCommunity(Community community) {
