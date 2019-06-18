@@ -1,8 +1,16 @@
 function buildCommunityDiv(community) {
-  const nameDiv = document.createElement('div');
+  const nameDiv = document.createElement('h3');
   nameDiv.classList.add('left-align');
   nameDiv.classList.add('community-name');
   nameDiv.appendChild(document.createTextNode(community.name));
+
+  const memberCountDiv = document.createElement('div');
+  memberCountDiv.classList.add('left-align');
+  memberCountDiv.classList.add('community-member-count');
+  let memberCount = community.members.length;
+  memberCount = memberCount > 1 ? `${memberCount} members`
+                                : `${memberCount} member`;
+  memberCountDiv.appendChild(document.createTextNode(memberCount));
 
   const descriptionDiv = document.createElement('div');
   descriptionDiv.classList.add('left-align');
@@ -12,6 +20,7 @@ function buildCommunityDiv(community) {
   const communityDiv = document.createElement('div');
   communityDiv.classList.add('community-div');
   communityDiv.appendChild(nameDiv);
+  communityDiv.appendChild(memberCountDiv);
   communityDiv.appendChild(descriptionDiv);
 
   return communityDiv;
