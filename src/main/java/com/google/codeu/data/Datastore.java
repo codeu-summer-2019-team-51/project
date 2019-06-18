@@ -135,7 +135,7 @@ public class Datastore {
   public void storeBook(Book book) {
     //Entity bookEntity = new Entity("Book", book.getId());
     Entity bookEntity = new Entity("Book", book.getId().toString());
-    //bookEntity.setProperty("id", book.getId());
+    bookEntity.setProperty("id", book.getId());
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
     bookEntity.setProperty("reviews", book.getReviews());
