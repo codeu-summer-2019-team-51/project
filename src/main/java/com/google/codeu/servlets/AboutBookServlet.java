@@ -13,6 +13,7 @@ import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Book;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -75,7 +76,7 @@ public class AboutBookServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     String title = Jsoup.clean(request.getParameter("title"), Whitelist.none());
-    List<String> authors = null;
+    List<String> authors = new ArrayList();
     authors.set(0,"Stephen Hawking");
     authors.set(1, Jsoup.clean(request.getParameter("authors"),
         Whitelist.none()));
