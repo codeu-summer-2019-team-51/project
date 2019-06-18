@@ -54,5 +54,5 @@ function buildUI() {
   setPageTitle();
   fetchBookTitle();
   fetchBookAuthors();
-  showData();
+
 }
