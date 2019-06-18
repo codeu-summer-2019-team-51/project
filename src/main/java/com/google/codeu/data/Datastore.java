@@ -80,7 +80,6 @@ public class Datastore {
    *
    * @return a list of all messages posted or by a specific user
    */
-
   public List<Message> createList(PreparedQuery results, String user) {
     List<Message> messages = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
@@ -117,7 +116,6 @@ public class Datastore {
   * null if no matching User was found.
   */
   public User getUser(String email) {
-
     Query query = new Query("User")
         .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
     PreparedQuery results = datastore.prepare(query);
