@@ -76,9 +76,9 @@ public class AboutBookServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     String title = Jsoup.clean(request.getParameter("title"), Whitelist.none());
-    List<String> authors = new ArrayList();
-    authors.set(0,"Stephen Hawking");
-    authors.set(1, Jsoup.clean(request.getParameter("authors"),
+    List<String> authors = new ArrayList<String>();
+    authors.add("Stephen Hawking");
+    authors.set(0, Jsoup.clean(request.getParameter("authors"),
         Whitelist.none()));
 //    while (request.getParameter("authors") != null) {
 //      authors.add(Jsoup.clean(request.getParameter("authors"),
