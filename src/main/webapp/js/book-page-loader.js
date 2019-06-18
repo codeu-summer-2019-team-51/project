@@ -13,13 +13,28 @@ function setPageTitle() {
   document.title = parameterBookname + ' - Book Page';
 }
 
-/** Fetches about book data and adds it to the page. */
-function fetchAboutBook() {
+/** Fetches book title and adds it to the page. */
+function fetchBookTitle() {
   const url = `/title?book=${parameterBookname}`;
   fetch(url)
     .then(response => response.text())
     .then((response) => {
-      const bookContainer = document.getElementById('book-info');
+      const bookContainer = document.getElementById('book-title');
+      let aboutBook = response;
+      if (response === '') {
+        aboutBook = 'No information yet.';
+      }
+      bookContainer.innerHTML = aboutBook;
+    });
+}
+
+/** Fetches book author(s) and adds them to the page. */
+function fetchBookAuthors() {
+  const url = `/authors?book=${parameterBookname}`;
+  fetch(url)
+    .then(response => response.text())
+    .then((response) => {
+      const bookContainer = document.getElementById('book-authors');
       let aboutBook = response;
       if (response === '') {
         aboutBook = 'No information yet.';
@@ -31,5 +46,6 @@ function fetchAboutBook() {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
-  fetchAboutBook();
+  fetchBookTitle();
+  fetchBookAuthors();
 }
