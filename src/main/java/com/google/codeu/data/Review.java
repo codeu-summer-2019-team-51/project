@@ -3,6 +3,10 @@ package com.google.codeu.data;
 import java.util.List;
 import java.util.UUID;
 
+
+/**
+ * A single review posted by a user.
+ */
 public class Review {
   private final UUID reviewId; //This is the ID of the review
   private long timestamp;

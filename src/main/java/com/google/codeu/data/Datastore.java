@@ -47,9 +47,9 @@ public class Datastore {
     datastore.put(messageEntity);
   }
 
-/**
- * Stores the Review in Datastore
- */
+  /**
+   * Stores the Review in Datastore
+   */
   public void storeReview(Review review) {
     Entity reviewEntity = new Entity("Review", review.getReviewId().toString());
     reviewEntity.setProperty("author", review.getAuthor());
@@ -60,7 +60,7 @@ public class Datastore {
   }
 
 
-/**
+  /**
    * Gets messages posted by a specific user.
    *
    * @return a list of messages posted by the user, or empty list if user has never posted a
@@ -115,6 +115,11 @@ public class Datastore {
     return messages;
   }
 
+  /**
+   * Creates a list of reviews with or without id
+   *
+   * @return a list of all reviews posted or by a specific user
+   */
   public List<Review> createListOfReviews(PreparedQuery results, String user) {
     List<Review> reviews = new ArrayList<>();
     for (Entity entity: results.asIterable()) {
@@ -123,7 +128,6 @@ public class Datastore {
         UUID id = UUID.fromString(idString);
         String temp = user == null ? (String) entity.getProperty("author") : user;
         long rating = (Long) entity.getProperty("rating");
-        System.out.println("rating class: "+entity.getProperty("rating").getClass());
         String text = (String) entity.getProperty("comment");
         long timestamp = (long) entity.getProperty("timestamp");
 
@@ -148,9 +152,9 @@ public class Datastore {
   }
 
   /**
-  * Returns the User owned by the email address, or
-  * null if no matching User was found.
-  */
+   * Returns the User owned by the email address, or
+   * null if no matching User was found.
+   */
   public User getUser(String email) {
     Query query = new Query("User")
         .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
@@ -167,7 +171,11 @@ public class Datastore {
     return user;
   }
 
-
+  /**
+   * Gets reviews posted by all users.
+   *
+   * @return a list of all reviews posted. List is sorted by time descending.
+   */
   public List<Review> getAllReviews() {
     Query query = new Query("Review").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
@@ -175,6 +183,12 @@ public class Datastore {
     return createListOfReviews(results, null);
   }
 
+  /**
+   * Gets reviews posted by a specific user.
+   *
+   * @return a list of reviews posted by the user, or empty list if user has never posted a
+   * review. List is sorted by time descending.
+   */
   public List<Review> getReviews(String user) {
     Query query =
             new Query("Review")
@@ -188,7 +202,7 @@ public class Datastore {
   /**
    * Stores the Book in Datastore.
    */
-  public void storeBook (Book book) {
+  public void storeBook(Book book) {
     Entity bookEntity = new Entity("Book", book.getId().toString());
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
