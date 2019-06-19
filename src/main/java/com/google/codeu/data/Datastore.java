@@ -187,7 +187,6 @@ public class Datastore {
    * Gets reviews posted by a specific user.
    *
    * @return a list of reviews posted by the user, or empty list if user has never posted a review.
-   * List is sorted by time descending.
    */
   public List<Review> getReviews(String user) {
     Query query =
