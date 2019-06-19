@@ -48,7 +48,7 @@ public class Datastore {
   }
 
   /**
-   * Stores the Review in Datastore
+   * Stores the Review in Datastore.
    */
   public void storeReview(Review review) {
     Entity reviewEntity = new Entity("Review", review.getReviewId().toString());
@@ -116,7 +116,7 @@ public class Datastore {
   }
 
   /**
-   * Creates a list of reviews with or without id
+   * Creates a list of reviews with or without id.
    *
    * @return a list of all reviews posted or by a specific user
    */

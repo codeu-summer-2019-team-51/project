@@ -19,8 +19,8 @@ public class ReviewFeedServlet extends HttpServlet {
 
   @Override
   public void init() {
-  datastore = new Datastore();
-}
+    datastore = new Datastore();
+  }
 
   @Override
   public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {

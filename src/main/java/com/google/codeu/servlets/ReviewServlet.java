@@ -44,8 +44,8 @@ public class ReviewServlet extends HttpServlet {
 
   @Override
   public void init() {
-  datastore = new Datastore();
-}
+    datastore = new Datastore();
+  }
 
   /**
    * Responds with a JSON representation of {@link Message} data for a specific user. Responds with
