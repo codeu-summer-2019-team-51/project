@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Handles fetching and saving {@link Message} instances.
  */
-@WebServlet("/messages")
+@WebServlet("/reviews")
 public class ReviewServlet extends HttpServlet {
 
 private Datastore datastore;
@@ -58,6 +58,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 
   if (user == null || user.equals("")) {
     // Request is invalid, return empty array
+    System.out.println("IN HERE");
     response.getWriter().println("[]");
     return;
   }

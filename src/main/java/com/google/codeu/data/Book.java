@@ -24,12 +24,12 @@ public class Book {
    * Creates a new Book object for every new book for cases when the user wants to provide
    * the complete description of the book.
    */
-  public Book(String title, List<String> authors, List<Review> reviews) {
-    this.id = UUID.randomUUID();
+  public Book(UUID id, String title, List<String> authors, List<Review> reviews, double avgRating) {
+    this.id = id;
     this.title = title;
     this.authors = authors;
     this.reviews = reviews;
-    this.avgRating = calcAvgRating(reviews);
+    this.avgRating = avgRating;
   }
 
   public UUID getId() {
