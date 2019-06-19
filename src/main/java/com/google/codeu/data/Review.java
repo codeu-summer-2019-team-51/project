@@ -40,6 +40,10 @@ public class Review {
     this.timestamp = System.currentTimeMillis();
   }
 
+  /**
+   * Creates a new Review object for every new review for cases when
+   * the user wants to provide a complete review.
+   */
   public Review(String author, long rating, String comment, long timestamp) {
     this.reviewId = UUID.randomUUID();
     this.author = author;

@@ -48,16 +48,16 @@ textarea {
 }
 
 .review-header {
+  border-bottom: thin solid black;
   font-size: 11px;
   font-weight: bold;
-  padding-top: 2px;
   padding-bottom: 2px;
-  border-bottom: thin solid black;
+  padding-top: 2px;
 }
 
 .review-body {
-  margin-top: 5px;
   margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .hidden {
