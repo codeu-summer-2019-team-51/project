@@ -55,10 +55,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
   response.setContentType("application/json");
 
   String user = request.getParameter("user");
-
   if (user == null || user.equals("")) {
     // Request is invalid, return empty array
-    System.out.println("IN HERE");
     response.getWriter().println("[]");
     return;
   }
@@ -81,13 +79,13 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
   }
 
   String user = userService.getCurrentUser().getEmail();
-  String text = Jsoup.clean(request.getParameter("comment"), Whitelist.none());
-  String tempRating = Jsoup.clean(request.getParameter("rating"), Whitelist.none());
-  int rating = Integer.parseInt(tempRating);
+  String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+  long rating = Long.parseLong(Jsoup.clean(request.getParameter("rating"), Whitelist.none()));
+
   Review review = new Review(user, rating, text, System.currentTimeMillis());
   datastore.storeReview(review);
 
-  response.sendRedirect("/user-page.html?user=" + user);
+  response.sendRedirect("/book-page.html?user=" + user);
 }
 
 }

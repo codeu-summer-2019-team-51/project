@@ -7,24 +7,29 @@ function buildReviewDiv(review) {
   timeDiv.classList.add('left-align');
   timeDiv.appendChild(document.createTextNode(new Date(review.timestamp)));
 
+  const ratingDiv = document.createElement('div');
+  ratingDiv.classList.add('left-align');
+  ratingDiv.appendChild(document.createTextNode(review.rating));
+
   const headerDiv = document.createElement('div');
-  headerDiv.classList.add('message-header');
+  headerDiv.classList.add('review-header');
   headerDiv.appendChild(usernameDiv);
   headerDiv.appendChild(timeDiv);
+  headerDiv.appendChild(ratingDiv);
 
   const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('message-body');
+  bodyDiv.classList.add('review-body');
   bodyDiv.appendChild(document.createTextNode(review.comment));
 
   const reviewDiv = document.createElement('div');
-  reviewDiv.classList.add('message-div');
+  reviewDiv.classList.add('review-div');
   reviewDiv.appendChild(headerDiv);
   reviewDiv.appendChild(bodyDiv);
 
   return reviewDiv;
 }
 
-// Fetch messages and add them to the page.
+// Fetch reviews and add them to the page.
 function fetchReviews() {
   const url = '/reviewFeed';
   fetch(url).then(response => response.json())

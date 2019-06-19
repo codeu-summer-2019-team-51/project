@@ -27,9 +27,9 @@ public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOExce
   res.setContentType("application/json");
 
   List<Review> reviewsList = datastore.getAllReviews();
+
   Gson gson = new Gson();
   String json = gson.toJson(reviewsList);
-
   res.getOutputStream().println(json);
 }
 

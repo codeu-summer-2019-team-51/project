@@ -122,7 +122,8 @@ public class Datastore {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
         String temp = user == null ? (String) entity.getProperty("author") : user;
-        int rating = (Integer) entity.getProperty("rating");
+        long rating = (Long) entity.getProperty("rating");
+        System.out.println("rating class: "+entity.getProperty("rating").getClass());
         String text = (String) entity.getProperty("comment");
         long timestamp = (long) entity.getProperty("timestamp");
 

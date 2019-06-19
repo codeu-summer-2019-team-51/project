@@ -1,0 +1,103 @@
+<!--
+Copyright 2019 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Book Page</title>
+
+  <!-- Milligram Dependencies -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/book-page.css">
+  <script src="/js/book-page-loader.js"></script>
+</head>
+
+<body onload="buildUI();">
+<nav>
+  <ul id="navigation">
+    <li><a href="/">Home</a></li>
+    <li><a href="/aboutus.html">About Our Team</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="column column-20">
+      <img id="profile-pic" class="avatar" alt="Profile Picture">
+      <div id="profile-pic-editor" class="edit-btn text-center hidden" onclick="
+                  show('profile-pic-form');
+                  hide('profile-pic-editor');
+                ">
+        Edit
+      </div>
+      <form id="profile-pic-form" action="/profile-pic" method="POST" enctype="multipart/form-data" class="hidden">
+        Upload new profile picture:
+        <br />
+        <input type="file" name="profile-pic" accept="image/png, image/jpeg" required>
+        <br />
+        <input type="submit" value="Upload">
+      </form>
+    </div>
+
+    <div class="column column-50">
+      <h1 id="page-title">User Page</h1>
+      <div id="about-me-container">Loading...</div>
+      <div id="about-me-editor" class="edit-btn hidden" onclick="
+                show('about-me-form');
+                hide('about-me-container');
+                hide('about-me-editor');
+              ">
+        Edit
+      </div>
+      <div id="about-me-form" class="hidden">
+        <form action="/about" method="POST">
+          <textarea name="about-me" placeholder="Enter your about me here." rows=4 required></textarea>
+          <br />
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 25px;">
+    <div class="column">
+      <form id="review-form" action="/reviews" method="POST" class="hidden">
+        Enter a new review:
+        <br />
+        <textarea name="text" class="review-input"></textarea>
+        <textarea name="rating" class="review-rating"></textarea>
+        <br />
+
+
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="review-container" class="container" style="margin-bottom: 20px;">
+  Loading...
+</div>
+
+</body>
+
+</html>
