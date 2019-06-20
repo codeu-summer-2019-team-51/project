@@ -4,8 +4,7 @@
 */
 function buildUserListItem(user) {
   const userLink = document.createElement('a');
-  const tempLink = '/user-page.html?user= ${user}';
-  userLink.setAttribute('href', tempLink);
+  userLink.setAttribute('href', '/user-page.html?user=' + user); // eslint-disable-line no-unused-vars
   userLink.appendChild(document.createTextNode(user));
   const userListItem = document.createElement('li');
   userListItem.appendChild(userLink);
