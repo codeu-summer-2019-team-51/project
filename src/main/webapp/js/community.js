@@ -16,9 +16,9 @@ function buildUserListItem(user) {
 */
 function fetchUserList() {
   const url = '/user-list';
-  fetch(url).then((response) =>
+  fetch(url).then((response) => { // eslint-disable-line arrow-body-style
     return response.json();
-  ).then((users) => {
+  }).then((users) => {
     const list = document.getElementById('list');
     list.innerHTML = '';
     users.forEach((user) => {
