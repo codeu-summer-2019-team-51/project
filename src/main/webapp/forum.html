@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Forum</title>
+
+  <!-- Milligram Dependencies -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/forum.css">
+  <link rel="stylesheet" href=
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+  <script src=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js">
+  </script>
+  <script src=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js">
+  </script>
+  <script src="js/forum.js"></script>
+</head>
+
+<body onload="buildUI();">
+  <nav>
+    <ul id="navigation">
+      <li><a href="/">Home</a></li>
+      <li><a href="/aboutus.html">About Our Team</a></li>
+      <li><a href="/feed.html">Public Feed</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="column">
+        <h1>Forum</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <a id="create-button" class="hidden button" href="#create-new-community"
+            rel="modal:open">
+          <i class="fa fa-plus" style="margin-right: 5px;"></i>
+          Create new community
+        </a>
+      </div>
+    </div>
+  </div>
+  <div id="create-new-community" class="modal">
+    <h1>Create new community</h1>
+    <hr />
+    <form action="/forum" method="POST">
+      <label for="name"><b>Name</b></label>
+      <br/>
+      <input type="text" name="name" placeholder="Enter community name"
+          required>
+      <br/>
+      <label for="description"><b>Description</b></label>
+      <br/>
+      <textarea name="description" placeholder="Enter description" rows=4
+          required></textarea>
+      <br/>
+      <br/>
+      <input type="submit" value="Create new community">
+    </form>
+  </div>
+
+  <div id="community-container" class="container" style="margin-bottom: 20px;">
+    Loading...
+  </div>
+</body>
+
+</html>

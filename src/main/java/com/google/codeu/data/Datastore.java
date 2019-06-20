@@ -175,4 +175,48 @@ public class Datastore {
 
     return books;
   }
+
+  /**
+   * Stores the {@code community} in Datastore.
+   */
+  public void storeCommunity(Community community) {
+    Entity communityEntity = new Entity("Community", community.getId().toString());
+    communityEntity.setProperty("name", community.getName());
+    communityEntity.setProperty("description", community.getDescription());
+    communityEntity.setProperty("members", community.getMembers());
+
+    datastore.put(communityEntity);
+  }
+
+  /**
+   * Gets all {@code community}s.
+   *
+   * @return a list of communities.
+   */
+  //TODO: decide how to sort communities
+  public List<Community> getAllCommunities() {
+    Query query = new Query("Community")
+        .addSort("name", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    List<Community> communities = new ArrayList<Community>();
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String name = (String) entity.getProperty("name");
+        String description = (String) entity.getProperty("description");
+        List<String> members = (List<String>) entity.getProperty("members");
+
+        Community community = new Community(id, name, description, members);
+        communities.add(community);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return communities;
+  }
 }
