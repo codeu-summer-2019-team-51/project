@@ -5,7 +5,6 @@
 function buildUserListItem(user) {
   const userLink = document.createElement('a');
   const tempLink = '/user-page.html?user= ${user}';
-//  userLink.setAttribute('href', '/user-page.html?user=' + user);
   userLink.appendChild(document.createTextNode(user));
   const userListItem = document.createElement('li');
   userListItem.appendChild(userLink);
@@ -17,9 +16,9 @@ function buildUserListItem(user) {
 */
 function fetchUserList() {
   const url = '/user-list';
-  fetch(url).then((response) => ({
+  fetch(url).then((response) =>
     return response.json();
-  })).then((users) => {
+  ).then((users) => {
     const list = document.getElementById('list');
     list.innerHTML = '';
     users.forEach((user) => {
