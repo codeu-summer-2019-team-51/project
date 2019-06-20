@@ -17,7 +17,7 @@ function buildUserListItem(user) {
 function fetchUserList() {
   const url = '/user-list';
   fetch(url).then((response) =>{
-  return response.json();
+    return response.json();
   }).then((users) => {
     const list = document.getElementById('list');
     list.innerHTML = '';
@@ -31,6 +31,6 @@ function fetchUserList() {
 /**
 *Fetches data and populates the UI of the page.
 */
-function buildUI() {
+function buildUI() { // eslint-disable-line no-unused-vars
   fetchUserList();
 }
