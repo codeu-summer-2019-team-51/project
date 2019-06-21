@@ -1,7 +1,8 @@
 // Get ?book=XYZ parameter value
-//const urlParams = new URLSearchParams(window.location.search);
-//const parameterBookname = urlParams.get('book');
-const parameterBookname = "4a785b44-d3d7-47f7-a936-6c49137cbd53";
+const urlParams = new URLSearchParams(window.location.search);
+const parameterBookname = urlParams.get('book');
+console.log(parameterBookname);
+//const parameterBookname = "4a785b44-d3d7-47f7-a936-6c49137cbd53";
 
 // URL must include ?book=XYZ parameter. If not, redirect to homepage.
 if (!parameterBookname) {
