@@ -133,20 +133,12 @@ public class Datastore {
   
   /** Stores the Book in Datastore. */
   public void storeBook(Book book) {
-    //Entity bookEntity = new Entity("Book", book.getId());
     Entity bookEntity = new Entity("Book", book.getId().toString());
-    //bookEntity.setProperty("id", book.getId());
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
     bookEntity.setProperty("reviews", book.getReviews());
     bookEntity.setProperty("avgRating", book.getAvgRating());
     datastore.put(bookEntity);
-//        Entity messageEntity = new Entity("Message", message.getId().toString());
-//    messageEntity.setProperty("user", message.getUser());
-//    messageEntity.setProperty("text", message.getText());
-//    messageEntity.setProperty("timestamp", message.getTimestamp());
-//
-//    datastore.put(messageEntity);
   }
 
   /**
