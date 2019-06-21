@@ -51,7 +51,7 @@ function fetchBookAuthors() {
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
-  setPageTitle();
+//  setPageTitle();
   fetchBookTitle();
   fetchBookAuthors();
 
