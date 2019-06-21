@@ -86,6 +86,8 @@ public class AboutBookServlet extends HttpServlet {
 //    }
     Book book = new Book(title, authors);
     datastore.storeBook(book);
-    response.sendRedirect("/user-page.html");
+//    response.sendRedirect("/user-page.html");
+    response.sendRedirect("/aboutbook.html?id=" + book.getId().toString());
+//    response.sendRedirect("/user-page.html?user=" + userEmail);
   }
 }
