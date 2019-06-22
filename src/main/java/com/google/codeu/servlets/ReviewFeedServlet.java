@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/reviewFeed")
+@WebServlet("/review-feed")
 public class ReviewFeedServlet extends HttpServlet {
   private Datastore datastore;
 

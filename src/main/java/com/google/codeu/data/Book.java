@@ -72,13 +72,13 @@ public class Book {
     if (reviews.size() == 0) {
       return 0;
     }
-    double average = 0.0;
+    double sum = 0.0;
     for (Review review: reviews) {
-      average += review.getRating();
+      sum += review.getRating();
     }
 
 
-    return  average / (reviews.size());
+    return  sum / (reviews.size());
 
   }
 

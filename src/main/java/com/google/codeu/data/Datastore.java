@@ -183,11 +183,11 @@ public class Datastore {
     return createListOfReviews(results, null);
   }
 
-  /**
-   * Gets reviews posted by a specific user.
-   *
-   * @return a list of reviews posted by the user, or empty list if user has never posted a review.
-   */
+   /**
+    * Gets reviews posted by a specific user.
+    *
+    * @return a list of reviews posted by the user, or empty list if user has never posted a review.
+    */
   public List<Review> getReviews(String user) {
     Query query =
             new Query("Review")

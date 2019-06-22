@@ -31,7 +31,7 @@ function buildReviewDiv(review) {
 
 // Fetch reviews and add them to the page.
 function fetchReviews() {
-  const url = '/reviewFeed';
+  const url = '/review-feed';
   fetch(url).then(response => response.json())
     .then((reviews) => {
       const reviewContainer = document.getElementById('review-container');

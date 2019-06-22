@@ -19,7 +19,6 @@ package com.google.codeu.servlets;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Message;
 import com.google.codeu.data.Review;
 import com.google.gson.Gson;
 
@@ -36,7 +35,7 @@ import org.jsoup.safety.Whitelist;
 
 
 /**
- * Handles fetching and saving {@link Message} instances.
+ * Handles fetching and saving {@link Review} instances.
  */
 @WebServlet("/reviews")
 public class ReviewServlet extends HttpServlet {
@@ -48,7 +47,7 @@ public class ReviewServlet extends HttpServlet {
   }
 
   /**
-   * Responds with a JSON representation of {@link Message} data for a specific user. Responds with
+   * Responds with a JSON representation of {@link Review} data for a specific user. Responds with
    * an empty array if the user is not provided.
    */
   @Override
@@ -69,7 +68,7 @@ public class ReviewServlet extends HttpServlet {
   }
 
   /**
-   * Stores a new {@link Message}.
+   * Stores a new {@link Review}.
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
