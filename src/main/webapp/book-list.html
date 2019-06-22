@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Book List</title>
+
+  <!-- Milligram Dependencies -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/book-list.css">
+  <link rel="stylesheet" href="
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="js/book-list.js"></script>
+</head>
+
+<body onload="buildUI();">
+  <nav>
+    <ul id="navigation">
+      <li><a href="/">Home</a></li>
+      <li><a href="/aboutus.html">About Our Team</a></li>
+      <li><a href="/feed.html">Public Feed</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="column">
+        <h1>Book List</h1>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 25px;">
+      <div class="column">
+        <div id="book-search-container">
+          <input type="text" id="book-search" placeholder="Search books">
+          <button onclick="searchBooks()"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="book-container" class="container" style="margin-bottom: 20px;">
+    Loading..
+  .</div>
+</body>
+
+</html>
