@@ -11,7 +11,7 @@ function getCommunityId() {
 }
 
 function buildThreadDiv(thread) {
-  const nameDiv = document.createElement('div');
+  const nameDiv = document.createElement('h3');
   nameDiv.classList.add('left-align');
   nameDiv.classList.add('thread-name');
   nameDiv.appendChild(document.createTextNode(thread.name));
@@ -25,7 +25,7 @@ function buildThreadDiv(thread) {
   threadA.classList.add('thread-a');
   threadA.appendChild(nameDiv);
   threadA.appendChild(descriptionDiv);
-
+  
   return threadA;
 }
 
