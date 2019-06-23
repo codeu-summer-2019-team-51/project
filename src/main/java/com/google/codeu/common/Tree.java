@@ -6,11 +6,19 @@ import java.util.List;
 import com.google.gson.Gson;
 
 public class Tree<E> {
-  Node<E> root;
+  List<Node<E>> roots;
   HashMap<String, Node<E>> contentToNodes;
 
   public Tree() {
+    roots = new ArrayList<Node<E>>();
     contentToNodes = new HashMap<String, Node<E>>();
+  }
+
+  public void setRoot(String id, E content) {
+    Node<E> root = new Node<E>();
+    root.setContent(content);
+    roots.add(root);
+    contentToNodes.put(id, root);
   }
 
   public void add(String childId, E content, String parentId) {
@@ -28,34 +36,27 @@ public class Tree<E> {
       childNode = new Node<E>();
     }
     childNode.setContent(content);
-    childNode.setParent(parentNode);
     contentToNodes.put(childId, childNode);
 
     parentNode.addChild(childNode);
   }
 
-  public E getRoot() {
-    return root.getContent();
-  }
-
   public String toJson() {
-    if (root == null) {
+    if (roots.size() == 0) {
       return "";
     }
-
-    return root.toJson();
+    Gson gson = new Gson();
+    return gson.toJson(roots);
   }
 }
 
 class Node<E> {
   private E content;
-  private Node<E> parent;
   private List<Node<E>> children;
 
   public Node() {
-    this.content = null;
-    this.parent = new Node<E>();
-    this.children = new ArrayList<Node<E>>();
+    content = null;
+    children = new ArrayList<Node<E>>();
   }
 
   public E getContent() {
@@ -66,25 +67,7 @@ class Node<E> {
     this.content = content;
   }
 
-  public void setParent(Node<E> parent) {
-    this.parent = parent;
-  }
-
   public void addChild(Node<E> child) {
-    this.children.add(child);
-  }
-
-  public String toJson() {
-    Gson gson = new Gson();
-    String contentJson = gson.toJson(content);
-    contentJson = contentJson.substring(0, contentJson.length()-1);
-
-    List<String> childrenJson = new ArrayList<String>();
-    for (Node<E> child : children) {
-      childrenJson.add(child.toJson());
-    }
-
-    contentJson += String.format(", children: %s}", gson.toJson(childrenJson));
-    return contentJson;
+    children.add(child);
   }
 }

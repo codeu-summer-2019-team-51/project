@@ -264,6 +264,7 @@ public class Datastore {
     commentEntity.setProperty("text", comment.getText());
     commentEntity.setProperty("user", comment.getUser());
     commentEntity.setProperty("timestamp", comment.getTimestamp());
+    commentEntity.setProperty("parentId", comment.getParentId());
     commentEntity.setProperty("threadId", comment.getThreadId());
 
     datastore.put(commentEntity);
@@ -279,15 +280,19 @@ public class Datastore {
     Query query =
         new Query("Comment")
             .setFilter(new Query.FilterPredicate("threadId",
-                FilterOperator.EQUAL, threadId))
-            .addSort("name", SortDirection.ASCENDING);
+                FilterOperator.EQUAL, threadId));
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
       try {
-        String idString = entity.getKey().getName();
         Comment comment = entityToComment(entity, threadId);
-        comments.add(idString, comment, comment.getParentId());
+        String childId = entity.getKey().getName();
+        String parentId = comment.getParentId();
+        if (parentId == "") {
+          comments.setRoot(childId, comment);
+        }
+        System.out.println(comment.getText());
+        comments.add(childId, comment, parentId);
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
