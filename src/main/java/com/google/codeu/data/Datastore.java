@@ -132,9 +132,9 @@ public class Datastore {
   }
 
   /**
-  * Stores the Book in Datastore.
-  */
- public void storeBook(Book book) {
+   * Stores the Book in Datastore.
+   */
+  public void storeBook(Book book) {
    Entity bookEntity = new Entity("Book", book.getId().toString());
    bookEntity.setProperty("title", book.getTitle());
    bookEntity.setProperty("authors", book.getAuthors());
@@ -142,13 +142,13 @@ public class Datastore {
    bookEntity.setProperty("avgRating", book.getAvgRating());
 
    datastore.put(bookEntity);
- }
+  }
 
- /**
-  * Gets all books.
-  *
-  * @return a list of books. List is sorted by title.
-  */
+  /**
+   * Gets all books.
+   *
+   * @return a list of books. List is sorted by title.
+   */
   public List<Book> getAllBooks() {
     List<Book> books = new ArrayList<Book>();
 
