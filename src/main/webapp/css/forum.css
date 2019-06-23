@@ -1,0 +1,32 @@
+/* Give each community listing a rounded border. */
+.community-div {
+  border: thin solid black;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+/* Add a bottom border to the community name. */
+.community-name {
+  padding: 5px;
+}
+
+.community-member-count {
+  font-weight: bold;
+  padding: 5px;
+}
+
+/* Give the community description a margin so the text
+   isn't too close to the border. */
+.community-description {
+  padding: 5px;
+}
+
+.left-align {
+  margin: 5px;
+  text-align: left;
+}
+
+/* Use this to hide certain elements. */
+.hidden {
+  display: none;
+}
