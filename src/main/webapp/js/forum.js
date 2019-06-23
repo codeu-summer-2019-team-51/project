@@ -17,11 +17,17 @@ function buildCommunityDiv(community) {
   descriptionDiv.classList.add('community-description');
   descriptionDiv.appendChild(document.createTextNode(community.description));
 
+  const joinButton = document.createElement('a');
+  joinButton.classList.add('button');
+  joinButton.classList.add('community-join');
+  joinButton.innerText = 'Join';
+
   const communityA = document.createElement('a');
   communityA.classList.add('community-a');
   communityA.appendChild(nameDiv);
   communityA.appendChild(memberCountDiv);
   communityA.appendChild(descriptionDiv);
+  communityA.appendChild(joinButton);
   communityA.setAttribute('href', `/community.html?id=${community.id}`);
 
   return communityA;
