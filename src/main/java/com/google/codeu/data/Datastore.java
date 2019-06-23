@@ -107,23 +107,23 @@ public class Datastore {
   }
 
   /**
-  * Stores the Book in Datastore.
-  */
- public void storeBook(Book book) {
-   Entity bookEntity = new Entity("Book", book.getId().toString());
-   bookEntity.setProperty("title", book.getTitle());
-   bookEntity.setProperty("authors", book.getAuthors());
-   bookEntity.setProperty("reviews", book.getReviews());
-   bookEntity.setProperty("avgRating", book.getAvgRating());
+   * Stores the Book in Datastore.
+   */
+  public void storeBook(Book book) {
+    Entity bookEntity = new Entity("Book", book.getId().toString());
+    bookEntity.setProperty("title", book.getTitle());
+    bookEntity.setProperty("authors", book.getAuthors());
+    bookEntity.setProperty("reviews", book.getReviews());
+    bookEntity.setProperty("avgRating", book.getAvgRating());
 
-   datastore.put(bookEntity);
- }
+    datastore.put(bookEntity);
+  }
 
- /**
-  * Gets all books.
-  *
-  * @return a list of books. List is sorted by title.
-  */
+  /**
+   * Gets all books.
+   *
+   * @return a list of books. List is sorted by title.
+   */
   public List<Book> getAllBooks() {
     List<Book> books = new ArrayList<Book>();
 
@@ -131,21 +131,21 @@ public class Datastore {
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
-     try {
-       String idString = entity.getKey().getName();
-       UUID id = UUID.fromString(idString);
-       String title = (String) entity.getProperty("title");
-       List<String> authors = (List<String>) entity.getProperty("authors");
-       List<Review> reviews = (List<Review>) entity.getProperty("reviews");
-       double avgRating = (double) entity.getProperty("avgRating");
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String title = (String) entity.getProperty("title");
+        List<String> authors = (List<String>) entity.getProperty("authors");
+        List<Review> reviews = (List<Review>) entity.getProperty("reviews");
+        double avgRating = (double) entity.getProperty("avgRating");
 
-       Book book = new Book(id, title, authors, reviews, avgRating);
-       books.add(book);
-     } catch (Exception e) {
-       System.err.println("Error reading message.");
-       System.err.println(entity.toString());
-       e.printStackTrace();
-     }
+        Book book = new Book(id, title, authors, reviews, avgRating);
+        books.add(book);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
     }
     return books;
   }
@@ -289,7 +289,7 @@ public class Datastore {
         String childId = entity.getKey().getName();
         String parentId = comment.getParentId();
         if (parentId == "") {
-          comments.setRoot(childId, comment);
+          comments.addRoot(childId, comment);
         }
         System.out.println(comment.getText());
         comments.add(childId, comment, parentId);

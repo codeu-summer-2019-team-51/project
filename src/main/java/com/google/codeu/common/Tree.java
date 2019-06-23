@@ -1,9 +1,10 @@
 package com.google.codeu.common;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import com.google.gson.Gson;
 
 public class Tree<E> {
   List<Node<E>> roots;
@@ -14,13 +15,19 @@ public class Tree<E> {
     contentToNodes = new HashMap<String, Node<E>>();
   }
 
-  public void setRoot(String id, E content) {
+  /**
+   * Adds a new root node to the tree.
+   */
+  public void addRoot(String id, E content) {
     Node<E> root = new Node<E>();
     root.setContent(content);
     roots.add(root);
     contentToNodes.put(id, root);
   }
 
+  /**
+   * Adds a new node to the tree.
+   */
   public void add(String childId, E content, String parentId) {
     Node<E> childNode = contentToNodes.get(childId);
     Node<E> parentNode = contentToNodes.get(parentId);
@@ -41,6 +48,9 @@ public class Tree<E> {
     parentNode.addChild(childNode);
   }
 
+  /**
+   * Gives a JSON representation of the {@link Tree}.
+   */
   public String toJson() {
     if (roots.size() == 0) {
       return "";
@@ -48,26 +58,26 @@ public class Tree<E> {
     Gson gson = new Gson();
     return gson.toJson(roots);
   }
-}
 
-class Node<E> {
-  private E content;
-  private List<Node<E>> children;
+  private class Node<E> {
+    private E content;
+    private List<Node<E>> children;
 
-  public Node() {
-    content = null;
-    children = new ArrayList<Node<E>>();
-  }
+    public Node() {
+      content = null;
+      children = new ArrayList<Node<E>>();
+    }
 
-  public E getContent() {
-    return content;
-  }
+    public E getContent() {
+      return content;
+    }
 
-  public void setContent(E content) {
-    this.content = content;
-  }
+    public void setContent(E content) {
+      this.content = content;
+    }
 
-  public void addChild(Node<E> child) {
-    children.add(child);
+    public void addChild(Node<E> child) {
+      children.add(child);
+    }
   }
 }
