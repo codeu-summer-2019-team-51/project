@@ -48,10 +48,10 @@ public class Datastore {
   }
 
   /**
-   * Gets messages posted by a specific user.
+   * Returns messages posted by a specific user.
    *
-   * @return a list of messages posted by the user, or empty list if user has never posted a
-   * message. List is sorted by time descending.
+   * @return a list of messages posted by the user, or empty list if user has
+   * never posted a message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
     Query query =
@@ -64,7 +64,7 @@ public class Datastore {
   }
 
   /**
-   * Gets messages posted by all users.
+   * Returns messages posted by all users.
    *
    * @return a list of all messages posted. List is sorted by time descending.
    */
@@ -73,33 +73,6 @@ public class Datastore {
     PreparedQuery results = datastore.prepare(query);
 
     return createList(results, null);
-  }
-
-  /**
-   * Creates a list of messages either with user id or without.
-   *
-   * @return a list of all messages posted or by a specific user
-   */
-  public List<Message> createList(PreparedQuery results, String user) {
-    List<Message> messages = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String temp = user == null ? (String) entity.getProperty("user") : user;
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-
-        Message message = new Message(id, temp, text, timestamp);
-        messages.add(message);
-      } catch (Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
-    }
-
-    return messages;
   }
 
   /** Stores the User in Datastore. */
@@ -112,7 +85,7 @@ public class Datastore {
   }
 
   /**
-   * Gets the User owned by the email address, or
+   * Returns the User owned by the email address, or
    * null if no matching User was found.
    */
   public User getUser(String email) {
@@ -145,9 +118,7 @@ public class Datastore {
   }
 
   /**
-   * Gets all books.
-   *
-   * @return a list of books. List is sorted by title.
+   * Returns a list of books. List is sorted by title.
    */
   public List<Book> getAllBooks() {
     List<Book> books = new ArrayList<Book>();
@@ -188,7 +159,7 @@ public class Datastore {
   }
 
   /**
-   * Gets the Community with the specified {@code idString} or
+   * Returns the Community with the specified {@code idString} or
    * null if no matching Community was found.
    */
   public Community getCommunity(String idString) {
@@ -202,9 +173,7 @@ public class Datastore {
   }
 
   /**
-   * Gets all {@code community}s.
-   *
-   * @return a list of communities.
+   * Returns all {@code community}s.
    */
   //TODO: decide how to sort communities
   public List<Community> getAllCommunities() {
@@ -240,7 +209,7 @@ public class Datastore {
   }
 
   /**
-   * Gets a list of threads posted in a community, or empty list if the
+   * Returns a list of threads posted in a community, or empty list if the
    * community has no thread. List is sorted by name ascending.
    */
   //TODO: find a better way to sort threads
@@ -265,6 +234,33 @@ public class Datastore {
     }
 
     return threads;
+  }
+
+  /**
+   * Creates a list of messages either with user id or without.
+   *
+   * @return a list of all messages posted or by a specific user
+   */
+  private List<Message> createList(PreparedQuery results, String user) {
+    List<Message> messages = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String temp = user == null ? (String) entity.getProperty("user") : user;
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+
+        Message message = new Message(id, temp, text, timestamp);
+        messages.add(message);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return messages;
   }
 
   /**
