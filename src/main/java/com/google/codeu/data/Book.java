@@ -11,20 +11,19 @@ public class Book {
   private double avgRating;
 
   /**
-   * Creates a new Book object for every new book for cases when the user wants to provide
-   * only the title and author of the book.
+   * Creates a new Book object for every new book for cases when the user wants
+   * to provide only the title and author of the book.
    */
   public Book(String title, List<String> authors) {
-    this.id = UUID.randomUUID();
-    this.title = title;
-    this.authors = authors;
+    this(UUID.randomUUID(), title, authors, null, 0);
   }
 
   /**
-   * Creates a new Book object for every new book for cases when the user wants to provide
-   * the complete description of the book.
+   * Creates a new Book object for every new book for cases when the user wants
+   * to provide the complete description of the book.
    */
-  public Book(UUID id, String title, List<String> authors, List<Review> reviews, double avgRating) {
+  public Book(UUID id, String title, List<String> authors, List<Review> reviews,
+      double avgRating) {
     this.id = id;
     this.title = title;
     this.authors = authors;
