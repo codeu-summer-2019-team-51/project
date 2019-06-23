@@ -173,7 +173,7 @@ public class Datastore {
   }
 
   /**
-   * Returns all {@code community}s.
+   * Returns a list of all {@code community}s.
    */
   //TODO: decide how to sort communities
   public List<Community> getAllCommunities() {
