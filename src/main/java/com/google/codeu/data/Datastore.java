@@ -138,7 +138,6 @@ public class Datastore {
     Entity bookEntity = new Entity("Book", book.getId().toString());
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
-    bookEntity.setProperty("reviews", book.getReviews());
     bookEntity.setProperty("avgRating", book.getAvgRating());
 
     datastore.put(bookEntity);
@@ -161,10 +160,9 @@ public class Datastore {
         UUID id = UUID.fromString(idString);
         String title = (String) entity.getProperty("title");
         List<String> authors = (List<String>) entity.getProperty("authors");
-        List<Review> reviews = (List<Review>) entity.getProperty("reviews");
         double avgRating = (double) entity.getProperty("avgRating");
 
-        Book book = new Book(id, title, authors, reviews, avgRating);
+        Book book = new Book(id, title, authors, avgRating);
         books.add(book);
       } catch (Exception e) {
         System.err.println("Error reading message.");
