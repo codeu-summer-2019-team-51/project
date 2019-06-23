@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
+import com.google.codeu.common.Tree;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -73,33 +75,6 @@ public class Datastore {
     PreparedQuery results = datastore.prepare(query);
 
     return createList(results, null);
-  }
-
-  /**
-   * Creates a list of messages either with user id or without.
-   *
-   * @return a list of all messages posted or by a specific user
-   */
-  public List<Message> createList(PreparedQuery results, String user) {
-    List<Message> messages = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String temp = user == null ? (String) entity.getProperty("user") : user;
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-
-        Message message = new Message(id, temp, text, timestamp);
-        messages.add(message);
-      } catch (Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
-    }
-
-    return messages;
   }
 
   /** Stores the User in Datastore. */
@@ -240,6 +215,20 @@ public class Datastore {
   }
 
   /**
+   * Gets the Thread with the specified {@code idString} or
+   * null if no matching Thread was found.
+   */
+  public Thread getThread(String idString) {
+    Key key = KeyFactory.createKey("Thread", idString);
+    try {
+      Entity threadEntity = datastore.get(key);
+      return entityToThread(threadEntity);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+  }
+
+  /**
    * Gets a list of threads posted in a community, or empty list if the
    * community has no thread. List is sorted by name ascending.
    */
@@ -268,6 +257,75 @@ public class Datastore {
   }
 
   /**
+   * Stores the {@code comment} in Datastore.
+   */
+  public void storeComment(Comment comment) {
+    Entity commentEntity = new Entity("Comment", comment.getId().toString());
+    commentEntity.setProperty("text", comment.getText());
+    commentEntity.setProperty("user", comment.getUser());
+    commentEntity.setProperty("timestamp", comment.getTimestamp());
+    commentEntity.setProperty("threadId", comment.getThreadId());
+
+    datastore.put(commentEntity);
+  }
+
+  /**
+   * Gets a list of comments posted in a thread, or empty list if the
+   * thread has no comment. List is sorted by name ascending.
+   */
+  public Tree<Comment> getComments(String threadId) {
+    Tree<Comment> comments = new Tree<Comment>();
+
+    Query query =
+        new Query("Comment")
+            .setFilter(new Query.FilterPredicate("threadId",
+                FilterOperator.EQUAL, threadId))
+            .addSort("name", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        Comment comment = entityToComment(entity, threadId);
+        comments.add(idString, comment, comment.getParentId());
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return comments;
+  }
+
+  /**
+   * Creates a list of messages either with user id or without.
+   *
+   * @return a list of all messages posted or by a specific user
+   */
+  private List<Message> createList(PreparedQuery results, String user) {
+    List<Message> messages = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String temp = user == null ? (String) entity.getProperty("user") : user;
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+
+        Message message = new Message(id, temp, text, timestamp);
+        messages.add(message);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return messages;
+  }
+
+  /**
    * Converts Entity to Community.
    */
   private Community entityToCommunity(Entity entity) {
@@ -285,6 +343,13 @@ public class Datastore {
   /**
    * Converts Entity to Thread.
    */
+  private Thread entityToThread(Entity entity) {
+    return entityToThread(entity, null);
+  }
+
+  /**
+   * Converts Entity to Thread.
+   */
   private Thread entityToThread(Entity entity, String communityId) {
     String idString = entity.getKey().getName();
 
@@ -292,8 +357,37 @@ public class Datastore {
     String name = (String) entity.getProperty("name");
     String description = (String) entity.getProperty("description");
     String creator = (String) entity.getProperty("creator");
+    if (communityId == null) {
+      communityId = (String) entity.getProperty("communityId");
+    }
 
     Thread thread = new Thread(id, name, description, creator, communityId);
     return thread;
+  }
+
+  /**
+   * Converts Entity to Comment.
+   */
+  private Comment entityToComment(Entity entity) {
+    return entityToComment(entity, null);
+  }
+
+  /**
+   * Converts Entity to Comment.
+   */
+  private Comment entityToComment(Entity entity, String threadId) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String text = (String) entity.getProperty("text");
+    String user = (String) entity.getProperty("user");
+    long timestamp = (long) entity.getProperty("timestamp");
+    String parentId = (String) entity.getProperty("parentId");
+    if (threadId == null) {
+      threadId = (String) entity.getProperty("threadId");
+    }
+
+    Comment comment = new Comment(id, text, user, timestamp, parentId, threadId);
+    return comment;
   }
 }
