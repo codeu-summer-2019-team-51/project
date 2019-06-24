@@ -50,10 +50,10 @@ public class Datastore {
   }
 
   /**
-   * Gets messages posted by a specific user.
+   * Returns messages posted by a specific user.
    *
-   * @return a list of messages posted by the user, or empty list if user has never posted a
-   * message. List is sorted by time descending.
+   * @return a list of messages posted by the user, or empty list if user has
+   *     never posted a message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
     Query query =
@@ -66,7 +66,7 @@ public class Datastore {
   }
 
   /**
-   * Gets messages posted by all users.
+   * Returns messages posted by all users.
    *
    * @return a list of all messages posted. List is sorted by time descending.
    */
@@ -87,7 +87,7 @@ public class Datastore {
   }
 
   /**
-   * Gets the User owned by the email address, or
+   * Returns the User owned by the email address, or
    * null if no matching User was found.
    */
   public User getUser(String email) {
@@ -120,9 +120,7 @@ public class Datastore {
   }
 
   /**
-   * Gets all books.
-   *
-   * @return a list of books. List is sorted by title.
+   * Returns a list of books. List is sorted by title.
    */
   public List<Book> getAllBooks() {
     List<Book> books = new ArrayList<Book>();
@@ -163,7 +161,7 @@ public class Datastore {
   }
 
   /**
-   * Gets the Community with the specified {@code idString} or
+   * Returns the Community with the specified {@code idString} or
    * null if no matching Community was found.
    */
   public Community getCommunity(String idString) {
@@ -177,9 +175,7 @@ public class Datastore {
   }
 
   /**
-   * Gets all {@code community}s.
-   *
-   * @return a list of communities.
+   * Returns a list of all {@code community}s.
    */
   //TODO: decide how to sort communities
   public List<Community> getAllCommunities() {
@@ -215,7 +211,7 @@ public class Datastore {
   }
 
   /**
-   * Gets the Thread with the specified {@code idString} or
+   * Returns the Thread with the specified {@code idString} or
    * null if no matching Thread was found.
    */
   public Thread getThread(String idString) {
@@ -229,7 +225,7 @@ public class Datastore {
   }
 
   /**
-   * Gets a list of threads posted in a community, or empty list if the
+   * Returns a list of threads posted in a community, or empty list if the
    * community has no thread. List is sorted by name ascending.
    */
   //TODO: find a better way to sort threads
@@ -271,7 +267,7 @@ public class Datastore {
   }
 
   /**
-   * Gets a list of comments posted in a thread, or empty list if the
+   * Returns a list of comments posted in a thread, or empty list if the
    * thread has no comment. List is sorted by name ascending.
    */
   public Tree<Comment> getComments(String threadId) {
