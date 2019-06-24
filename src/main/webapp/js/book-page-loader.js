@@ -55,7 +55,7 @@ function fetchBookAuthors() {
 // }
 
 /** Fetches data and populates the UI of the page. */
-function buildUI() { //eslint-disable-line no-unused-vars
+function buildUI() { // eslint-disable-line no-unused-vars
   setPageTitle();
   fetchBookTitle();
   fetchBookAuthors();
