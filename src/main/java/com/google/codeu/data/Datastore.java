@@ -48,10 +48,10 @@ public class Datastore {
   }
 
   /**
-   * Gets messages posted by a specific user.
+   * Returns messages posted by a specific user.
    *
-   * @return a list of messages posted by the user, or empty list if user has never posted a
-   * message. List is sorted by time descending.
+   * @return a list of messages posted by the user, or empty list if user has
+   *     never posted a message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
     Query query =
@@ -64,7 +64,7 @@ public class Datastore {
   }
 
   /**
-   * Gets messages posted by all users.
+   * Returns messages posted by all users.
    *
    * @return a list of all messages posted. List is sorted by time descending.
    */
@@ -73,33 +73,6 @@ public class Datastore {
     PreparedQuery results = datastore.prepare(query);
 
     return createList(results, null);
-  }
-
-  /**
-   * Creates a list of messages either with user id or without.
-   *
-   * @return a list of all messages posted or by a specific user
-   */
-  public List<Message> createList(PreparedQuery results, String user) {
-    List<Message> messages = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String temp = user == null ? (String) entity.getProperty("user") : user;
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-
-        Message message = new Message(id, temp, text, timestamp);
-        messages.add(message);
-      } catch (Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
-    }
-
-    return messages;
   }
 
   /** Stores the User in Datastore. */
@@ -112,9 +85,9 @@ public class Datastore {
   }
 
   /**
-  * Returns the User owned by the email address, or
-  * null if no matching User was found.
-  */
+   * Returns the User owned by the email address, or
+   * null if no matching User was found.
+   */
   public User getUser(String email) {
     Query query = new Query("User")
         .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
@@ -144,9 +117,7 @@ public class Datastore {
   }
 
   /**
-   * Gets all books.
-   *
-   * @return a list of books. List is sorted by title.
+   * Returns a list of books. List is sorted by title.
    */
   public List<Book> getAllBooks() {
     List<Book> books = new ArrayList<Book>();
@@ -170,7 +141,6 @@ public class Datastore {
         e.printStackTrace();
       }
     }
-
     return books;
   }
 
@@ -187,9 +157,21 @@ public class Datastore {
   }
 
   /**
-   * Gets all {@code community}s.
-   *
-   * @return a list of communities.
+   * Returns the Community with the specified {@code idString} or
+   * null if no matching Community was found.
+   */
+  public Community getCommunity(String idString) {
+    Key key = KeyFactory.createKey("Community", idString);
+    try {
+      Entity communityEntity = datastore.get(key);
+      return entityToCommunity(communityEntity);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Returns a list of all {@code community}s.
    */
   //TODO: decide how to sort communities
   public List<Community> getAllCommunities() {
@@ -200,14 +182,7 @@ public class Datastore {
     List<Community> communities = new ArrayList<Community>();
     for (Entity entity : results.asIterable()) {
       try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String name = (String) entity.getProperty("name");
-        String description = (String) entity.getProperty("description");
-        List<String> members = (List<String>) entity.getProperty("members");
-
-        Community community = new Community(id, name, description, members);
-        communities.add(community);
+        communities.add(entityToCommunity(entity));
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
@@ -216,5 +191,103 @@ public class Datastore {
     }
 
     return communities;
+  }
+
+  /**
+   * Stores the {@code thread} in Datastore.
+   */
+  public void storeThread(Thread thread) {
+    Entity threadEntity = new Entity("Thread", thread.getId().toString());
+    threadEntity.setProperty("name", thread.getName());
+    threadEntity.setProperty("description", thread.getDescription());
+    threadEntity.setProperty("creator", thread.getCreator());
+    threadEntity.setProperty("communityId", thread.getCommunityId());
+
+    datastore.put(threadEntity);
+  }
+
+  /**
+   * Returns a list of threads posted in a community, or empty list if the
+   * community has no thread. List is sorted by name ascending.
+   */
+  //TODO: find a better way to sort threads
+  public List<Thread> getThreads(String communityId) {
+    List<Thread> threads = new ArrayList<Thread>();
+
+    Query query =
+        new Query("Thread")
+            .setFilter(new Query.FilterPredicate("communityId",
+                FilterOperator.EQUAL, communityId))
+            .addSort("name", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        threads.add(entityToThread(entity, communityId));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return threads;
+  }
+
+  /**
+   * Creates a list of messages either with user id or without.
+   *
+   * @return a list of all messages posted or by a specific user
+   */
+  private List<Message> createList(PreparedQuery results, String user) {
+    List<Message> messages = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      try {
+        String idString = entity.getKey().getName();
+        UUID id = UUID.fromString(idString);
+        String temp = user == null ? (String) entity.getProperty("user") : user;
+        String text = (String) entity.getProperty("text");
+        long timestamp = (long) entity.getProperty("timestamp");
+
+        Message message = new Message(id, temp, text, timestamp);
+        messages.add(message);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return messages;
+  }
+
+  /**
+   * Converts Entity to Community.
+   */
+  private Community entityToCommunity(Entity entity) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String name = (String) entity.getProperty("name");
+    String description = (String) entity.getProperty("description");
+    List<String> members = (List<String>) entity.getProperty("members");
+
+    Community community = new Community(id, name, description, members);
+    return community;
+  }
+
+  /**
+   * Converts Entity to Thread.
+   */
+  private Thread entityToThread(Entity entity, String communityId) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String name = (String) entity.getProperty("name");
+    String description = (String) entity.getProperty("description");
+    String creator = (String) entity.getProperty("creator");
+
+    Thread thread = new Thread(id, name, description, creator, communityId);
+    return thread;
   }
 }
