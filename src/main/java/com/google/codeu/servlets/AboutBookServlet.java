@@ -66,13 +66,12 @@ public class AboutBookServlet extends HttpServlet {
       throws IOException {
     String title = Jsoup.clean(request.getParameter("title"), Whitelist.none());
     List<String> authors = new ArrayList<String>();
-    authors.add("Stephen Hawking");
     authors.set(0, Jsoup.clean(request.getParameter("authors"),
         Whitelist.none()));
-//    while (request.getParameter("authors") != null) {
-//      authors.add(Jsoup.clean(request.getParameter("authors"),
-//          Whitelist.none()));
-//    }
+    while (request.getParameter("authors") != null) {
+      authors.add(Jsoup.clean(request.getParameter("authors"),
+          Whitelist.none()));
+    }
     Book book = new Book(title, authors);
     datastore.storeBook(book);
     response.sendRedirect("/aboutbook.html?id=" + book.getId().toString());
