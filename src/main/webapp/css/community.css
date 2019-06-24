@@ -1,5 +1,5 @@
-/* Give each community listing a rounded border. */
-.community-a {
+/* Give each thread listing a rounded border. */
+.thread-a {
   background-color: #f4f5f6;
   border-left: 5px solid #9b4dca;
   display: block;
@@ -7,20 +7,14 @@
   padding: 20px;
 }
 
-/* Add a bottom border to the community name. */
-.community-name {
+/* Add a bottom border to the thread name. */
+.thread-name {
   padding: 5px;
 }
 
-.community-member-count {
-  color: #606c76;
-  font-weight: bold;
-  padding: 5px;
-}
-
-/* Give the community description a margin so the text
+/* Give the thread description a margin so the text
    isn't too close to the border. */
-.community-description {
+.thread-description {
   color: #606c76;
   padding: 5px;
 }
