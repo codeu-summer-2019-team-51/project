@@ -25,17 +25,6 @@ public class ThreadServlet extends HttpServlet {
   @Override
   public void init() {
     datastore = new Datastore();
-    // for debugging:
-    // datastore.storeComment(new Comment("171aac3a-cd1c-4daf-a3fc-81053a3250ab",
-    //     "comment1", "kcelinef@codeustudents.com", System.currentTimeMillis(),
-    //     "", "7eaccda2-3cb1-4e7e-be3a-dcffb9060fbc"));
-    // datastore.storeComment(new Comment("comment2",
-    //     "kcelinef@codeustudents.com",
-    //     "171aac3a-cd1c-4daf-a3fc-81053a3250ab",
-    //     "7eaccda2-3cb1-4e7e-be3a-dcffb9060fbc"));
-    // datastore.storeComment(new Comment("4e04c591-d244-4cb2-a00b-5e78844f7f16",
-    //     "comment3", "kcelinef@codeustudents.com", System.currentTimeMillis(),
-    //     "", "7eaccda2-3cb1-4e7e-be3a-dcffb9060fbc"));
   }
 
   @Override
@@ -59,26 +48,4 @@ public class ThreadServlet extends HttpServlet {
 
     response.getOutputStream().println(resultJson);
   }
-
-  // @Override
-  // public void doPost(HttpServletRequest request, HttpServletResponse response)
-  //     throws IOException {
-  //
-  //   UserService userService = UserServiceFactory.getUserService();
-  //   if (!userService.isUserLoggedIn()) {
-  //     response.sendRedirect("/index.html");
-  //     return;
-  //   }
-  //
-  //   String userEmail = userService.getCurrentUser().getEmail();
-  //   String name = Jsoup.clean(request.getParameter("name"), Whitelist.none());
-  //   String description = Jsoup.clean(request.getParameter("description"),
-  //       Whitelist.none());
-  //   String communityId = request.getParameter("communityId");
-  //
-  //   Thread thread = new Thread(name, description, userEmail, communityId);
-  //   datastore.storeThread(thread);
-  //
-  //   response.sendRedirect("/community.html?id=" + communityId);
-  // }
 }
