@@ -11,9 +11,6 @@ public class Comment {
   private final String parentId;
   private final String threadId;
 
-  //TODO: allow comment to reply to another comment so that all the comments in
-  //a thread relate to each other in a tree structure
-
   /**
    * Constructs a new {@link Comment} commented by {@code user} with
    * {@code text} content. Generates a random ID and uses the current system
