@@ -117,7 +117,7 @@ public class Datastore {
 
   /**
    * Returns the Book with the specified {@code idString} or
-   * null if no matching Book was found
+   * null if no matching Book was found.
    */
   public Book getBook(String idString) {
     Key key = KeyFactory.createKey("Book", idString);
@@ -370,7 +370,7 @@ public class Datastore {
   }
 
   /**
-   * Calculate book's averageRating
+   * Calculate book's average rating.
    */
   private double getBookRating(String bookId) {
     Query query = new Query("Review")
@@ -394,6 +394,6 @@ public class Datastore {
     if (count == 0) {
       return 0;
     }
-    return totalRating/count;
+    return totalRating / count;
   }
 }
