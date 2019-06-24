@@ -2,8 +2,6 @@ package com.google.codeu.servlets;
 
 import com.google.codeu.data.Book;
 import com.google.codeu.data.Datastore;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 /**
  * Handles fetching and saving book data.
