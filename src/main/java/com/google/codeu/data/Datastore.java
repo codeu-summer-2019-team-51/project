@@ -375,8 +375,7 @@ public class Datastore {
   private double getBookRating(String bookId) {
     Query query = new Query("Review")
         .setFilter(new Query.FilterPredicate("bookId",
-            FilterOperator.EQUAL, bookId))
-        .addSort("timestamp", SortDirection.DESCENDING);
+            FilterOperator.EQUAL, bookId));
     PreparedQuery results = datastore.prepare(query);
 
     long totalRating = 0;
