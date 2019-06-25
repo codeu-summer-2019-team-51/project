@@ -40,7 +40,7 @@ public class BookPageServlet extends HttpServlet {
     // If the user is already logged in, redirect to their page
     if (userService.isUserLoggedIn()) {
       String user = userService.getCurrentUser().getEmail();
-      response.sendRedirect("/book-page.html?user=" + user);
+      response.sendRedirect("/book-page.html?book=" + user);
       return;
     }
 

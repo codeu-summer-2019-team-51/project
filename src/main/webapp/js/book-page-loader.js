@@ -16,7 +16,7 @@
 
 // Get ?user=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
-const parameterUsername = urlParams.get('user');
+const parameterUsername = urlParams.get('book');
 
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.
 if (!parameterUsername) {
@@ -26,7 +26,7 @@ if (!parameterUsername) {
 /** Sets the page title based on the URL parameter username. */
 function setPageTitle() {
   document.getElementById('page-title').innerText = parameterUsername;
-  document.title = parameterUsername + ' - User Page';
+  document.title = parameterUsername + ' - Book Page';
 }
 
 /**
@@ -111,7 +111,7 @@ function fetchReviews() {
     .then((reviews) => {
       const reviewsContainer = document.getElementById('review-container');
       if (reviews.length === 0) {
-        reviewsContainer.innerHTML = '<p>This user has no posts yet.</p>';
+        reviewsContainer.innerHTML = '<p>This book has no reviews yet.</p>';
       } else {
         reviewsContainer.innerHTML = '';
       }
@@ -131,7 +131,7 @@ function fetchAboutMe() {
       const aboutMeContainer = document.getElementById('about-me-container');
       let aboutMe = response;
       if (response === '') {
-        aboutMe = 'This user has not entered any information yet.';
+        aboutMe = 'This book has no information yet.';
       }
       aboutMeContainer.innerHTML = aboutMe;
     });
