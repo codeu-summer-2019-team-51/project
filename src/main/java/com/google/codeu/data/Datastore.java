@@ -111,10 +111,22 @@ public class Datastore {
     Entity bookEntity = new Entity("Book", book.getId().toString());
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
-    bookEntity.setProperty("reviews", book.getReviews());
-    bookEntity.setProperty("avgRating", book.getAvgRating());
 
     datastore.put(bookEntity);
+  }
+
+  /**
+   * Returns the Book with the specified {@code idString} or
+   * null if no matching Book was found.
+   */
+  public Book getBook(String idString) {
+    Key key = KeyFactory.createKey("Book", idString);
+    try {
+      Entity bookEntity = datastore.get(key);
+      return entityToBook(bookEntity);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
   }
 
   /**
@@ -128,15 +140,7 @@ public class Datastore {
 
     for (Entity entity : results.asIterable()) {
       try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String title = (String) entity.getProperty("title");
-        List<String> authors = (List<String>) entity.getProperty("authors");
-        List<Review> reviews = (List<Review>) entity.getProperty("reviews");
-        double avgRating = (double) entity.getProperty("avgRating");
-
-        Book book = new Book(id, title, authors, reviews, avgRating);
-        books.add(book);
+        books.add(entityToBook(entity));
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
@@ -144,6 +148,45 @@ public class Datastore {
       }
     }
     return books;
+  }
+
+  /**
+   * Stores the Review in Datastore.
+   */
+  public void storeReview(Review review) {
+    Entity reviewEntity = new Entity("Review", review.getId().toString());
+    reviewEntity.setProperty("timestamp", review.getTimestamp());
+    reviewEntity.setProperty("author", review.getAuthor());
+    reviewEntity.setProperty("rating", review.getRating());
+    reviewEntity.setProperty("comment", review.getComment());
+    reviewEntity.setProperty("pictures", review.getPictures());
+    reviewEntity.setProperty("bookId", review.getBookId());
+
+    datastore.put(reviewEntity);
+  }
+
+  /**
+   * Returns a list of books. List is sorted by title.
+   */
+  public List<Review> getReviewsForBook(String bookId) {
+    List<Review> reviews = new ArrayList<Review>();
+
+    Query query = new Query("Review")
+        .setFilter(new Query.FilterPredicate("bookId",
+            FilterOperator.EQUAL, bookId))
+        .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        reviews.add(entityToReview(entity, bookId));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return reviews;
   }
 
   /**
@@ -264,6 +307,39 @@ public class Datastore {
   }
 
   /**
+   * Converts Entity to Book.
+   */
+  private Book entityToBook(Entity entity) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String title = (String) entity.getProperty("title");
+    List<String> authors = (List<String>) entity.getProperty("authors");
+    double avgRating = (double) getBookRating(idString);
+
+    Book book = new Book(id, title, authors, avgRating);
+    return book;
+  }
+
+  /**
+   * Converts Entity to Review.
+   */
+  private Review entityToReview(Entity entity, String bookId) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    long timestamp = (long) entity.getProperty("timestamp");
+    String author = (String) entity.getProperty("author");
+    long rating = (long) entity.getProperty("rating");
+    String comment = (String) entity.getProperty("comment");
+    List<String> pictures = (List<String>) entity.getProperty("pictures");
+
+    Review review = new Review(id, timestamp, author, rating, comment, pictures,
+        bookId);
+    return review;
+  }
+
+  /**
    * Converts Entity to Community.
    */
   private Community entityToCommunity(Entity entity) {
@@ -291,5 +367,32 @@ public class Datastore {
 
     Thread thread = new Thread(id, name, description, creator, communityId);
     return thread;
+  }
+
+  /**
+   * Calculate book's average rating.
+   */
+  private double getBookRating(String bookId) {
+    Query query = new Query("Review")
+        .setFilter(new Query.FilterPredicate("bookId",
+            FilterOperator.EQUAL, bookId));
+    PreparedQuery results = datastore.prepare(query);
+
+    long totalRating = 0;
+    int count = 0;
+    for (Entity entity : results.asIterable()) {
+      try {
+        totalRating += (long) entity.getProperty("rating");
+        count++;
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    if (count == 0) {
+      return 0;
+    }
+    return totalRating / count;
   }
 }
