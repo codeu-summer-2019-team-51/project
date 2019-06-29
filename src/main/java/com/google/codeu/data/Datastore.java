@@ -327,9 +327,6 @@ public class Datastore {
         Comment comment = entityToComment(entity, threadId);
         String childId = entity.getKey().getName();
         String parentId = comment.getParentId();
-        if (parentId == "") {
-          comments.addRoot(childId, comment);
-        }
         System.out.println(comment.getText());
         comments.add(childId, comment, parentId);
       } catch (Exception e) {

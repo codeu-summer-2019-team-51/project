@@ -7,22 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Tree<E> {
-  List<Node<E>> roots;
+  Node<E> root;
   HashMap<String, Node<E>> contentToNodes;
+  // Maps node's id to the node in the Tree to optimise insertion
 
   public Tree() {
-    roots = new ArrayList<Node<E>>();
+    root = new Node<E>();
     contentToNodes = new HashMap<String, Node<E>>();
-  }
-
-  /**
-   * Adds a new root node to the tree.
-   */
-  public void addRoot(String id, E content) {
-    Node<E> root = new Node<E>();
-    root.setContent(content);
-    roots.add(root);
-    contentToNodes.put(id, root);
+    contentToNodes.put("", root);
   }
 
   /**
@@ -52,11 +44,8 @@ public class Tree<E> {
    * Gives a JSON representation of the {@link Tree}.
    */
   public String toJson() {
-    if (roots.size() == 0) {
-      return "";
-    }
     Gson gson = new Gson();
-    return gson.toJson(roots);
+    return gson.toJson(root.getChildren());
   }
 
   private class Node<E> {
@@ -74,6 +63,10 @@ public class Tree<E> {
 
     public void setContent(E content) {
       this.content = content;
+    }
+
+    public List<Node<E>> getChildren() {
+      return children;
     }
 
     public void addChild(Node<E> child) {
