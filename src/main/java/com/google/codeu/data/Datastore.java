@@ -310,8 +310,9 @@ public class Datastore {
   }
 
   /**
-   * Returns a list of comments posted in a thread, or empty list if the
-   * thread has no comment. List is sorted by name ascending.
+   * Returns a tree of comments posted in a thread, or empty tree if the
+   * thread has no comment. If a node in a tree has multiple children, the
+   * children are sorted by timestamp descending.
    */
   public Tree<Comment> getComments(String threadId) {
     Tree<Comment> comments = new Tree<Comment>();
@@ -319,7 +320,8 @@ public class Datastore {
     Query query =
         new Query("Comment")
             .setFilter(new Query.FilterPredicate("threadId",
-                FilterOperator.EQUAL, threadId));
+                FilterOperator.EQUAL, threadId))
+            .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
@@ -327,7 +329,6 @@ public class Datastore {
         Comment comment = entityToComment(entity, threadId);
         String childId = entity.getKey().getName();
         String parentId = comment.getParentId();
-        System.out.println(comment.getText());
         comments.add(childId, comment, parentId);
       } catch (Exception e) {
         System.err.println("Error reading message.");

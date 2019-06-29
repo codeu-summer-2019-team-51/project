@@ -1,0 +1,23 @@
+.comment-tree {
+  border-left: 4px solid #e4e5e6;
+  display: block;
+  margin-top: 30px;
+}
+
+.comment-div {
+  margin: 20px;
+}
+
+.reply-button {
+  margin: 0px;
+}
+
+.left-align {
+  margin: 5px;
+  text-align: left;
+}
+
+/* Use this to hide certain elements. */
+.hidden {
+  display: none;
+}
