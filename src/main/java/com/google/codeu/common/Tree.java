@@ -11,6 +11,9 @@ public class Tree<E> {
   HashMap<String, Node<E>> contentToNodes;
   // Maps node's id to the node in the Tree to optimise insertion
 
+  /**
+   * Constructs a new Tree by initialising its attributes.
+   */
   public Tree() {
     root = new Node<E>();
     contentToNodes = new HashMap<String, Node<E>>();
