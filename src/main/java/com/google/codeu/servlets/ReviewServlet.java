@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,15 +54,7 @@ public class ReviewServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
-
-    String user = request.getParameter("user");
-    if (user == null || user.equals("")) {
-      // Request is invalid, return empty array
-      response.getWriter().println("[]");
-      return;
-    }
-
-    List<Review> reviews = datastore.getReviews(user);
+    List<Review> reviews = datastore.getAllReviews();
     Gson gson = new Gson();
     String json = gson.toJson(reviews);
     response.getWriter().println(json);
@@ -82,7 +75,7 @@ public class ReviewServlet extends HttpServlet {
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
     long rating = Long.parseLong(Jsoup.clean(request.getParameter("rating"), Whitelist.none()));
 
-    Review review = new Review(user, rating, text, System.currentTimeMillis());
+    Review review = new Review(user, rating,text,"");
     datastore.storeReview(review);
 
     response.sendRedirect("/book-page.html?user=" + user);

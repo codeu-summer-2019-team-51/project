@@ -117,8 +117,11 @@ public class Datastore {
         long rating = (Long) entity.getProperty("rating");
         String text = (String) entity.getProperty("comment");
         long timestamp = (long) entity.getProperty("timestamp");
+        String bookId = (String) entity.getProperty("bookId");
+        List<String> pictures = (List<String>) entity.getProperty("pictures");
 
-        Review review = new Review(temp,rating,text,timestamp);
+
+        Review review = new Review(id,timestamp,temp,rating,text,pictures,bookId);
         reviews.add(review);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -176,7 +179,7 @@ public class Datastore {
    *
    * @return a list of reviews posted by the user, or empty list if user has never posted a review.
    */
-  public List<Review> getReviews(String user) {
+  public List<Review> getReviewsByUser(String user) {
     Query query =
             new Query("Review")
                     .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
