@@ -28,7 +28,7 @@ public class Review {
    */
   public Review(String author, long rating, String comment, String bookId) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
-      new ArrayList<String>(), bookId);
+        new ArrayList<String>(), bookId);
   }
 
   /**
@@ -38,7 +38,7 @@ public class Review {
   public Review(String author, long rating, String comment,
                 List<String> pictures, String bookId) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
-        pictures, bookId);
+            pictures, bookId);
 }
 
   /**
@@ -56,46 +56,52 @@ public class Review {
   }
 
   public UUID getId() {
-  return reviewId;
-}
+    return reviewId;
+  }
 
   public long getTimestamp() {
-  return timestamp;
-}
+    return timestamp;
+  }
 
   public String getAuthor() {
-  return author;
-}
+    return author;
+  }
 
   public void setAuthor(String author) {
-  this.author = author;
-}
+    this.author = author;
+  }
 
   public long getRating() {
-  return rating;
-}
+
+    return rating;
+  }
 
   public void setRating(long rating) {
-  this.rating = rating;
-}
+
+    this.rating = rating;
+  }
 
   public String getComment() {
-  return comment;
-}
+    return comment;
+  }
 
   public void setComment(String comment) {
-  this.comment = comment;
-}
+
+    this.comment = comment;
+  }
 
   public List<String> getPictures() {
-  return pictures;
-}
+
+    return pictures;
+  }
 
   public void setPictures(List<String> pictures) {
-  this.pictures = pictures;
-}
+
+    this.pictures = pictures;
+  }
 
   public String getBookId() {
-  return bookId;
-}
+
+    return bookId;
+  }
 }
