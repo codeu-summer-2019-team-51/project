@@ -17,6 +17,8 @@
 package com.google.codeu.data;
 
 import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
@@ -187,6 +189,55 @@ public class Datastore {
       }
     }
     return reviews;
+  }
+
+  /**
+   * Stores the {@code SavedBook} in Datastore.
+   */
+  public void storeSavedBook(SavedBook savedBook) {
+    Entity savedBookEntity =
+        new Entity("SavedBook", savedBook.getId().toString());
+    savedBookEntity.setProperty("bookId", savedBook.getBookId());
+    savedBookEntity.setProperty("user", savedBook.getUser());
+    savedBookEntity.setProperty("status", savedBook.getStatus());
+    savedBookEntity.setProperty("timestamp", savedBook.getTimestamp());
+
+    datastore.put(savedBookEntity);
+  }
+
+  /**
+   * Returns a list of {@link Book}s saved by {@code user} with {@code status}.
+   */
+  public List<Book> getSavedBooks(String user, String status) {
+    Filter userFilter =
+        new Query.FilterPredicate("user", FilterOperator.EQUAL, user);
+    Filter statusFilter =
+        new Query.FilterPredicate("status", FilterOperator.EQUAL, status);
+    Query savedBookQuery = new Query("SavedBook")
+        .setFilter(CompositeFilterOperator.and(userFilter, statusFilter));
+    PreparedQuery savedBookResults = datastore.prepare(savedBookQuery);
+
+    List<Key> bookKeys = new ArrayList<Key>();
+    for (Entity entity : savedBookResults.asIterable()) {
+      bookKeys.add(entity.getKey());
+    }
+
+    List<Book> books = new ArrayList<Book>();
+    Query bookQuery = new Query("Book")
+        .setFilter(new Query.FilterPredicate(
+            Entity.KEY_RESERVED_PROPERTY, FilterOperator.IN, bookKeys));
+    PreparedQuery bookResults = datastore.prepare(bookQuery);
+
+    for (Entity entity : bookResults.asIterable()) {
+      try {
+        books.add(entityToBook(entity));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return books;
   }
 
   /**
