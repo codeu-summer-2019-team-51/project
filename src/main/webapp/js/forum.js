@@ -17,13 +17,14 @@ function buildCommunityDiv(community) {
   descriptionDiv.classList.add('community-description');
   descriptionDiv.appendChild(document.createTextNode(community.description));
 
-  const communityDiv = document.createElement('div');
-  communityDiv.classList.add('community-div');
-  communityDiv.appendChild(nameDiv);
-  communityDiv.appendChild(memberCountDiv);
-  communityDiv.appendChild(descriptionDiv);
+  const communityA = document.createElement('a');
+  communityA.classList.add('community-a');
+  communityA.appendChild(nameDiv);
+  communityA.appendChild(memberCountDiv);
+  communityA.appendChild(descriptionDiv);
+  communityA.setAttribute('href', `/community.html?id=${community.id}`);
 
-  return communityDiv;
+  return communityA;
 }
 
 // Fetch communities and add them to the page.
@@ -38,8 +39,8 @@ function fetchCommunities() {
         communityContainer.innerHTML = '';
       }
       communities.forEach((community) => {
-        const communityDiv = buildCommunityDiv(community);
-        communityContainer.appendChild(communityDiv);
+        const communityA = buildCommunityDiv(community);
+        communityContainer.appendChild(communityA);
       });
     });
 }

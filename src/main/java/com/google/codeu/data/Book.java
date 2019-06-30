@@ -7,28 +7,23 @@ public class Book {
   private final UUID id;
   private String title;
   private List<String> authors;
-  private List<Review> reviews;
   private double avgRating;
 
   /**
-   * Creates a new Book object for every new book for cases when the user wants to provide
-   * only the title and author of the book.
+   * Creates a new Book object for every new book for cases when the user wants
+   * to provide only the title and author of the book.
    */
   public Book(String title, List<String> authors) {
-    this.id = UUID.randomUUID();
-    this.title = title;
-    this.authors = authors;
+    this(UUID.randomUUID(), title, authors, 0);
   }
 
   /**
-   * Creates a new Book object for every new book for cases when the user wants to provide
-   * the complete description of the book.
+   * Constructor method to retrieve existing data from datastore.
    */
-  public Book(UUID id, String title, List<String> authors, List<Review> reviews, double avgRating) {
+  public Book(UUID id, String title, List<String> authors, double avgRating) {
     this.id = id;
     this.title = title;
     this.authors = authors;
-    this.reviews = reviews;
     this.avgRating = avgRating;
   }
 
@@ -52,34 +47,11 @@ public class Book {
     this.authors = authors;
   }
 
-  public List<Review> getReviews() {
-    return reviews;
-  }
-
-  public void addReview(Review review) {
-    reviews.add(review);
-    this.avgRating = calcAvgRating(reviews);
-  }
-
   public double getAvgRating() {
     return avgRating;
   }
 
-  /**
-   * Calculates the average rating of a book.
-   */
-  public double calcAvgRating(List<Review> reviews) {
-    if (reviews.size() == 0) {
-      return 0;
-    }
-    double sum = 0.0;
-    for (Review review: reviews) {
-      sum += review.getRating();
-    }
-
-
-    return  sum / (reviews.size());
-
+  public void setAvgRating(double avgRating) {
+    this.avgRating = avgRating;
   }
-
 }
