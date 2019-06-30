@@ -39,7 +39,7 @@ public class Review {
                 List<String> pictures, String bookId) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
             pictures, bookId);
-}
+  }
 
   /**
    * Constructor method to retrieve existing data from datastore.
