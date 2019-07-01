@@ -16,6 +16,7 @@
 
 // Get ?user=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
+console.log(urlParams);
 const parameterUsername = urlParams.get('user');
 
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.

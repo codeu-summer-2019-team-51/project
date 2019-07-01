@@ -11,13 +11,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 /**
  * Handles fetching and saving book data.
  */
-@WebServlet("/aboutbook")
+@WebServlet("/about-book")
 public class AboutBookServlet extends HttpServlet {
 
   private Datastore datastore;
@@ -33,29 +35,22 @@ public class AboutBookServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
-    response.setContentType("text/html");
-    String book = request.getParameter("book");
-    if (book == null || book.equals("")) {
+    response.setContentType("application/json");
+    System.out.println("CHECK REQUEST: "+request.getQueryString());
+    String bookIdString = request.getParameter("book");
+    System.out.println("DEBUG 1: " + bookIdString);
+    if (bookIdString == null || bookIdString.equals("")) {
       //Request is invalid, return empty response.
       return;
     }
-    UUID bookId = UUID.fromString(book);
-    Book bookData = datastore.getBook(bookId);
+    Book bookData = datastore.getBook(bookIdString);
     if (bookData == null) {
       return;
     }
-    response.getOutputStream().println(bookData.getTitle());
-    for (int i = 0; i < bookData.getAuthors().size() - 1; i++) {
-      response.getOutputStream().print(bookData.getAuthors().get(i) + ", ");
-    }
-    response.getOutputStream().print(bookData.getAuthors()
-        .get(bookData.getAuthors().size() - 1));
-    response.getOutputStream().println(bookData.getAvgRating());
-    if (bookData.getReviews() != null) {
-      for (int i = 0; i < bookData.getReviews().size(); i++) {
-        response.getOutputStream().println("1. " + bookData.getReviews().get(i));
-      }
-    }
+    System.out.println("DEBUG 2: " + bookData);
+    Gson gson = new Gson();
+    String json = gson.toJson(bookData);
+    response.getWriter().println(json);
   }
 
   /**
@@ -66,14 +61,15 @@ public class AboutBookServlet extends HttpServlet {
       throws IOException {
     String title = Jsoup.clean(request.getParameter("title"), Whitelist.none());
     List<String> authors = new ArrayList<String>();
-    authors.set(0, Jsoup.clean(request.getParameter("authors"),
-        Whitelist.none()));
-    while (request.getParameter("authors") != null) {
-      authors.add(Jsoup.clean(request.getParameter("authors"),
-          Whitelist.none()));
+    if (request.getParameter("authors") != null) {
+      String input = Jsoup.clean(request.getParameter("authors"), Whitelist.none());
+      for (String s: input.split(",")) {
+        authors.add(s);
+      }
     }
+
     Book book = new Book(title, authors);
     datastore.storeBook(book);
-    response.sendRedirect("/aboutbook.html?id=" + book.getId().toString());
+    response.sendRedirect("/aboutbook.html?id=" + book.getId());
   }
 }

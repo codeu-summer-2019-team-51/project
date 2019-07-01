@@ -129,11 +129,12 @@ public class Datastore {
     User user = new User(email, aboutMe, profilePic);
 
     return user;
-  }  
-  
+  }
+
   /** Stores the Book in Datastore. */
   public void storeBook(Book book) {
     Entity bookEntity = new Entity("Book", book.getId().toString());
+    bookEntity.setProperty("id",book.getId().toString());
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
     bookEntity.setProperty("reviews", book.getReviews());
@@ -145,10 +146,9 @@ public class Datastore {
   * Returns the Book identified by the id, or
   * null if no matching Book was found.
   */
-  public Book getBook(UUID id) {
-
+  public Book getBook(String id) {
     Query query = new Query("Book")
-        .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
+        .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL,id));
     PreparedQuery results = datastore.prepare(query);
     Entity bookEntity = results.asSingleEntity();
     if (bookEntity == null) {
@@ -158,6 +158,6 @@ public class Datastore {
     List<String> authors = (List<String>) bookEntity.getProperty("authors");
     Book book = new Book(title, authors);
     return book;
-  }  
+  }
 }
 
