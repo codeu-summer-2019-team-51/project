@@ -105,31 +105,6 @@ public class Datastore {
   }
 
   /**
-   * Stores the Book in Datastore.
-   */
-  public void storeBook(Book book) {
-    Entity bookEntity = new Entity("Book", book.getId().toString());
-    bookEntity.setProperty("title", book.getTitle());
-    bookEntity.setProperty("authors", book.getAuthors());
-
-    datastore.put(bookEntity);
-  }
-
-  /**
-   * Returns the Book with the specified {@code idString} or
-   * null if no matching Book was found.
-   */
-  public Book getBook(String idString) {
-    Key key = KeyFactory.createKey("Book", idString);
-    try {
-      Entity bookEntity = datastore.get(key);
-      return entityToBook(bookEntity);
-    } catch (EntityNotFoundException e) {
-      return null;
-    }
-  }
-
-  /**
    * Returns a list of books. List is sorted by title.
    */
   public List<Book> getAllBooks() {
