@@ -377,7 +377,6 @@ public class Datastore {
     bookEntity.setProperty("id",book.getId().toString());
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
-    bookEntity.setProperty("reviews", book.getReviews());
     bookEntity.setProperty("avgRating", book.getAvgRating());
     datastore.put(bookEntity);
   }

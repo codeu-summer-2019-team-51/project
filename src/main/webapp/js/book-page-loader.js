@@ -7,9 +7,9 @@ const parameterBookId = urlParams.get('id');
 console.log(parameterBookId);
 
 // URL must include ?book=XYZ parameter. If not, redirect to homepage.
-//if (!parameterBookname) {
-//  window.location.replace('/');
-//}
+if (!parameterBookId) {
+  window.location.replace('/');
+}
 
 /** Sets the page title based on the URL parameter bookId. */
 function setPageTitle() {
