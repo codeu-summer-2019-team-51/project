@@ -54,7 +54,6 @@ public class MessageServlet extends HttpServlet {
     response.setContentType("application/json");
 
     String user = request.getParameter("user");
-    System.out.println("CHECK REQUEST message: "+request.getQueryString());
     if (user == null || user.equals("")) {
       // Request is invalid, return empty array
       response.getWriter().println("[]");
