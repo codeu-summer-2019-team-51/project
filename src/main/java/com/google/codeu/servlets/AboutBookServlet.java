@@ -2,17 +2,16 @@ package com.google.codeu.servlets;
 
 import com.google.codeu.data.Book;
 import com.google.codeu.data.Datastore;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -36,9 +35,7 @@ public class AboutBookServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     response.setContentType("application/json");
-    System.out.println("CHECK REQUEST: "+request.getQueryString());
     String bookIdString = request.getParameter("book");
-    System.out.println("DEBUG 1: " + bookIdString);
     if (bookIdString == null || bookIdString.equals("")) {
       //Request is invalid, return empty response.
       return;
@@ -47,7 +44,6 @@ public class AboutBookServlet extends HttpServlet {
     if (bookData == null) {
       return;
     }
-    System.out.println("DEBUG 2: " + bookData);
     Gson gson = new Gson();
     String json = gson.toJson(bookData);
     response.getWriter().println(json);
