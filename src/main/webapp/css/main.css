@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-/* Prevent the page from becoming too wide. */
-body {
-  max-width: 600px;
-}
-
 /* Remove bullet points from navigation bar. */
 nav ul {
   list-style-type: none;
-  padding-left: 0;
+  padding: 10px 10px 0 10px;
+  border-bottom: 2px solid #9b4dca;
 }
 
 /* Keep navigation menu on one line. */
 nav li {
   display: inline-block;
-  margin-right: 10px
+  margin-right: 10px;
 }

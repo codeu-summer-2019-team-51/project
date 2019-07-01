@@ -1,0 +1,32 @@
+/* Give each book-div a rounded border. */
+.book-div {
+  border: thin solid black;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+/* Add a bottom border to the book title. */
+.book-title {
+  border-bottom: thin solid black;
+  padding: 5px;
+}
+
+/* Give the list of book authors a margin so the text
+   isn't too close to the border. */
+.book-authors {
+  padding: 5px;
+}
+
+.left-align {
+  margin: 5px;
+  text-align: left;
+}
+
+.right-align {
+  margin: 5px;
+  text-align: right;
+}
+
+.hidden {
+  display: none;
+}

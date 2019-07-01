@@ -1,25 +1,37 @@
 function buildMessageDiv(message) {
   const usernameDiv = document.createElement('div');
-  usernameDiv.classList.add('left-align');
+  usernameDiv.classList.add('message-header');
+  usernameDiv.classList.add('column');
   usernameDiv.appendChild(document.createTextNode(message.user));
 
   const timeDiv = document.createElement('div');
-  timeDiv.classList.add('left-align');
+  timeDiv.classList.add('message-header');
+  timeDiv.classList.add('column');
+  timeDiv.classList.add('right-align');
   timeDiv.appendChild(document.createTextNode(new Date(message.timestamp)));
 
-  const headerDiv = document.createElement('div');
-  headerDiv.classList.add('message-header');
-  headerDiv.appendChild(usernameDiv);
-  headerDiv.appendChild(timeDiv);
+  const headerRow = document.createElement('div');
+  headerRow.classList.add('row');
+  headerRow.appendChild(usernameDiv);
+  headerRow.appendChild(timeDiv);
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
-  bodyDiv.appendChild(document.createTextNode(message.text));
+  bodyDiv.innerHTML = message.text;
+
+  const bodyColumn = document.createElement('div');
+  bodyColumn.classList.add('column');
+  bodyColumn.appendChild(bodyDiv);
+
+  const bodyRow = document.createElement('div');
+  bodyRow.classList.add('row');
+  bodyRow.appendChild(bodyColumn);
 
   const messageDiv = document.createElement('div');
+  messageDiv.classList.add('container');
   messageDiv.classList.add('message-div');
-  messageDiv.appendChild(headerDiv);
-  messageDiv.appendChild(bodyDiv);
+  messageDiv.appendChild(headerRow);
+  messageDiv.appendChild(bodyRow);
 
   return messageDiv;
 }

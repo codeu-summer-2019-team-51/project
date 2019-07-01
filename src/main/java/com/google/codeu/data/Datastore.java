@@ -48,10 +48,10 @@ public class Datastore {
   }
 
   /**
-   * Gets messages posted by a specific user.
+   * Returns messages posted by a specific user.
    *
-   * @return a list of messages posted by the user, or empty list if user has never posted a
-   * message. List is sorted by time descending.
+   * @return a list of messages posted by the user, or empty list if user has
+   *     never posted a message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
     Query query =
@@ -64,7 +64,7 @@ public class Datastore {
   }
 
   /**
-   * Gets messages posted by all users.
+   * Returns messages posted by all users.
    *
    * @return a list of all messages posted. List is sorted by time descending.
    */
@@ -75,12 +75,191 @@ public class Datastore {
     return createList(results, null);
   }
 
+  /** Stores the User in Datastore. */
+  public void storeUser(User user) {
+    Entity userEntity = new Entity("User", user.getEmail());
+    userEntity.setProperty("email", user.getEmail());
+    userEntity.setProperty("aboutMe", user.getAboutMe());
+    userEntity.setProperty("profilePic", user.getProfilePic());
+    datastore.put(userEntity);
+  }
+
+  /**
+   * Returns the User owned by the email address, or
+   * null if no matching User was found.
+   */
+  public User getUser(String email) {
+    Query query = new Query("User")
+        .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
+    PreparedQuery results = datastore.prepare(query);
+    Entity userEntity = results.asSingleEntity();
+    if (userEntity == null) {
+      return null;
+    }
+
+    String aboutMe = (String) userEntity.getProperty("aboutMe");
+    String profilePic = (String) userEntity.getProperty("profilePic");
+    User user = new User(email, aboutMe, profilePic);
+
+    return user;
+  }
+
+  /**
+   * Returns a list of books. List is sorted by title.
+   */
+  public List<Book> getAllBooks() {
+    List<Book> books = new ArrayList<Book>();
+
+    Query query = new Query("Book").addSort("title", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        books.add(entityToBook(entity));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return books;
+  }
+
+  /**
+   * Stores the Review in Datastore.
+   */
+  public void storeReview(Review review) {
+    Entity reviewEntity = new Entity("Review", review.getId().toString());
+    reviewEntity.setProperty("timestamp", review.getTimestamp());
+    reviewEntity.setProperty("author", review.getAuthor());
+    reviewEntity.setProperty("rating", review.getRating());
+    reviewEntity.setProperty("comment", review.getComment());
+    reviewEntity.setProperty("pictures", review.getPictures());
+    reviewEntity.setProperty("bookId", review.getBookId());
+
+    datastore.put(reviewEntity);
+  }
+
+  /**
+   * Returns a list of books. List is sorted by title.
+   */
+  public List<Review> getReviewsForBook(String bookId) {
+    List<Review> reviews = new ArrayList<Review>();
+
+    Query query = new Query("Review")
+        .setFilter(new Query.FilterPredicate("bookId",
+            FilterOperator.EQUAL, bookId))
+        .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        reviews.add(entityToReview(entity, bookId));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+    return reviews;
+  }
+
+  /**
+   * Stores the {@code community} in Datastore.
+   */
+  public void storeCommunity(Community community) {
+    Entity communityEntity = new Entity("Community", community.getId().toString());
+    communityEntity.setProperty("name", community.getName());
+    communityEntity.setProperty("description", community.getDescription());
+    communityEntity.setProperty("members", community.getMembers());
+
+    datastore.put(communityEntity);
+  }
+
+  /**
+   * Returns the Community with the specified {@code idString} or
+   * null if no matching Community was found.
+   */
+  public Community getCommunity(String idString) {
+    Key key = KeyFactory.createKey("Community", idString);
+    try {
+      Entity communityEntity = datastore.get(key);
+      return entityToCommunity(communityEntity);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Returns a list of all {@code community}s.
+   */
+  //TODO: decide how to sort communities
+  public List<Community> getAllCommunities() {
+    Query query = new Query("Community")
+        .addSort("name", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    List<Community> communities = new ArrayList<Community>();
+    for (Entity entity : results.asIterable()) {
+      try {
+        communities.add(entityToCommunity(entity));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return communities;
+  }
+
+  /**
+   * Stores the {@code thread} in Datastore.
+   */
+  public void storeThread(Thread thread) {
+    Entity threadEntity = new Entity("Thread", thread.getId().toString());
+    threadEntity.setProperty("name", thread.getName());
+    threadEntity.setProperty("description", thread.getDescription());
+    threadEntity.setProperty("creator", thread.getCreator());
+    threadEntity.setProperty("communityId", thread.getCommunityId());
+
+    datastore.put(threadEntity);
+  }
+
+  /**
+   * Returns a list of threads posted in a community, or empty list if the
+   * community has no thread. List is sorted by name ascending.
+   */
+  //TODO: find a better way to sort threads
+  public List<Thread> getThreads(String communityId) {
+    List<Thread> threads = new ArrayList<Thread>();
+
+    Query query =
+        new Query("Thread")
+            .setFilter(new Query.FilterPredicate("communityId",
+                FilterOperator.EQUAL, communityId))
+            .addSort("name", SortDirection.ASCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        threads.add(entityToThread(entity, communityId));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return threads;
+  }
+
   /**
    * Creates a list of messages either with user id or without.
    *
    * @return a list of all messages posted or by a specific user
    */
-  public List<Message> createList(PreparedQuery results, String user) {
+  private List<Message> createList(PreparedQuery results, String user) {
     List<Message> messages = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       try {
@@ -102,33 +281,94 @@ public class Datastore {
     return messages;
   }
 
-  /** Stores the User in Datastore. */
-  public void storeUser(User user) {
-    Entity userEntity = new Entity("User", user.getEmail());
-    userEntity.setProperty("email", user.getEmail());
-    userEntity.setProperty("aboutMe", user.getAboutMe());
-    userEntity.setProperty("profilePic", user.getProfilePic());
-    datastore.put(userEntity);
+  /**
+   * Converts Entity to Book.
+   */
+  private Book entityToBook(Entity entity) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String title = (String) entity.getProperty("title");
+    List<String> authors = (List<String>) entity.getProperty("authors");
+    double avgRating = (double) getBookRating(idString);
+
+    Book book = new Book(id, title, authors, avgRating);
+    return book;
   }
 
   /**
-  * Returns the User owned by the email address, or
-  * null if no matching User was found.
-  */
-  public User getUser(String email) {
-    Query query = new Query("User")
-        .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
+   * Converts Entity to Review.
+   */
+  private Review entityToReview(Entity entity, String bookId) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    long timestamp = (long) entity.getProperty("timestamp");
+    String author = (String) entity.getProperty("author");
+    long rating = (long) entity.getProperty("rating");
+    String comment = (String) entity.getProperty("comment");
+    List<String> pictures = (List<String>) entity.getProperty("pictures");
+
+    Review review = new Review(id, timestamp, author, rating, comment, pictures,
+        bookId);
+    return review;
+  }
+
+  /**
+   * Converts Entity to Community.
+   */
+  private Community entityToCommunity(Entity entity) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String name = (String) entity.getProperty("name");
+    String description = (String) entity.getProperty("description");
+    List<String> members = (List<String>) entity.getProperty("members");
+
+    Community community = new Community(id, name, description, members);
+    return community;
+  }
+
+  /**
+   * Converts Entity to Thread.
+   */
+  private Thread entityToThread(Entity entity, String communityId) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String name = (String) entity.getProperty("name");
+    String description = (String) entity.getProperty("description");
+    String creator = (String) entity.getProperty("creator");
+
+    Thread thread = new Thread(id, name, description, creator, communityId);
+    return thread;
+  }
+
+  /**
+   * Calculate book's average rating.
+   */
+  private double getBookRating(String bookId) {
+    Query query = new Query("Review")
+        .setFilter(new Query.FilterPredicate("bookId",
+            FilterOperator.EQUAL, bookId));
     PreparedQuery results = datastore.prepare(query);
-    Entity userEntity = results.asSingleEntity();
-    if (userEntity == null) {
-      return null;
+
+    long totalRating = 0;
+    int count = 0;
+    for (Entity entity : results.asIterable()) {
+      try {
+        totalRating += (long) entity.getProperty("rating");
+        count++;
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
     }
-
-    String aboutMe = (String) userEntity.getProperty("aboutMe");
-    String profilePic = (String) userEntity.getProperty("profilePic");
-    User user = new User(email, aboutMe, profilePic);
-
-    return user;
+    if (count == 0) {
+      return 0;
+    }
+    return totalRating / count;
   }
 
   /** Stores the Book in Datastore. */
