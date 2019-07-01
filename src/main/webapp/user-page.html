@@ -16,72 +16,85 @@ limitations under the License.
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>User Page</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/user-page.css">
-    <script src="/js/user-page-loader.js"></script>
-  </head>
-  <body onload="buildUI();">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li><a href="/aboutus.html">About Our Team</a></li>
-      </ul>
-    </nav>
 
-    <div id="my-profile" style="min-height: 250px; margin-bottom: 25px; margin: 25px; margin-left: 0;">
-      <div id="profile-pic-container" style="float: left; width: 200px; margin-right: 25px;">
-        <img id="profile-pic" alt="Profile Picture"
-            style="border-radius: 50%; height: 200px; width: 200px; overflow: hidden">
-        <div id="profile-pic-editor" style="text-align: center; color: grey;" class="hidden"
-            onclick="
-              show('profile-pic-form');
-              hide('profile-pic-editor');
-            ">
+<head>
+  <meta charset="UTF-8">
+  <title>User Page</title>
+
+  <!-- Milligram Dependencies -->
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/user-page.css">
+  <script src="/js/user-page-loader.js"></script>
+</head>
+
+<body onload="buildUI();">
+  <nav>
+    <ul id="navigation">
+      <li><a href="/">Home</a></li>
+      <li><a href="/aboutus.html">About Our Team</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="column column-20">
+        <img id="profile-pic" class="avatar" alt="Profile Picture">
+        <div id="profile-pic-editor" class="edit-btn text-center hidden" onclick="
+                  show('profile-pic-form');
+                  hide('profile-pic-editor');
+                ">
           Edit
         </div>
-        <form action="/profile-pic" method="POST" enctype="multipart/form-data"
-            id="profile-pic-form" class="hidden">
+        <form id="profile-pic-form" action="/profile-pic" method="POST" enctype="multipart/form-data" class="hidden">
           Upload new profile picture:
-          <br/>
+          <br />
           <input type="file" name="profile-pic" accept="image/png, image/jpeg" required>
-          <br/>
+          <br />
           <input type="submit" value="Upload">
         </form>
       </div>
-      <h1 id="page-title">User Page</h1>
 
-      <div id="about-me-container">Loading...</div>
-      <div id="about-me-editor" style="color: grey;" class="hidden"
-          onclick="
-            show('about-me-form');
-            hide('about-me-editor');
-          ">
-        Edit
+      <div class="column column-50">
+        <h1 id="page-title">User Page</h1>
+        <div id="about-me-container">Loading...</div>
+        <div id="about-me-editor" class="edit-btn hidden" onclick="
+                show('about-me-form');
+                hide('about-me-container');
+                hide('about-me-editor');
+              ">
+          Edit
+        </div>
+        <div id="about-me-form" class="hidden">
+          <form action="/about" method="POST">
+            <textarea name="about-me" placeholder="Enter your about me here." rows=4 required></textarea>
+            <br />
+            <input type="submit" value="Submit">
+          </form>
+        </div>
       </div>
-      <div id="about-me-form" class="hidden">
-        <form action="/about" method="POST">
-          <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
-          <br/>
+    </div>
+
+    <div class="row" style="margin-top: 25px;">
+      <div class="column">
+        <form id="message-form" action="/messages" method="POST" class="hidden">
+          Enter a new message:
+          <br />
+          <textarea name="text" class="message-input"></textarea>
+          <br />
           <input type="submit" value="Submit">
         </form>
       </div>
     </div>
+  </div>
 
-    <div id="my-posts">
-      <form id="message-form" action="/messages" method="POST" class="hidden">
-        Enter a new message:
-        <br/>
-        <textarea name="text" id="message-input"></textarea>
-        <br/>
-        <input type="submit" value="Submit">
-      </form>
-      <hr/>
+  <div id="message-container" class="container" style="margin-bottom: 20px;">
+    Loading...
+  </div>
 
-      <div id="message-container">Loading...</div>
-    </div>
+</body>
 
-  </body>
 </html>

@@ -43,14 +43,31 @@ function buildMessageDiv(message) {
     document.createTextNode(`${message.user} - ${messageDate}`)
   );
 
+  const headerColumn = document.createElement('div');
+  headerColumn.classList.add('column');
+  headerColumn.appendChild(headerDiv);
+
+  const headerRow = document.createElement('div');
+  headerRow.classList.add('row');
+  headerRow.appendChild(headerColumn);
+
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
 
+  const bodyColumn = document.createElement('div');
+  bodyColumn.classList.add('column');
+  bodyColumn.appendChild(bodyDiv);
+
+  const bodyRow = document.createElement('div');
+  bodyRow.classList.add('row');
+  bodyRow.appendChild(bodyColumn);
+
   const messageDiv = document.createElement('div');
+  messageDiv.classList.add('container');
   messageDiv.classList.add('message-div');
-  messageDiv.appendChild(headerDiv);
-  messageDiv.appendChild(bodyDiv);
+  messageDiv.appendChild(headerRow);
+  messageDiv.appendChild(bodyRow);
 
   return messageDiv;
 }
@@ -78,8 +95,8 @@ function showMessageFormIfViewingSelf() {
   fetch('/login-status')
     .then(response => response.json())
     .then((loginStatus) => {
-      if (loginStatus.isLoggedIn
-          && loginStatus.username === parameterUsername) {
+      if (loginStatus.isLoggedIn &&
+        loginStatus.username === parameterUsername) {
         show('message-form');
         show('profile-pic-editor');
         show('about-me-editor');
