@@ -30,9 +30,6 @@ public class CommunityServlet extends HttpServlet {
   @Override
   public void init() {
     datastore = new Datastore();
-    //for debugging: datastore.storeThread(new Thread("Thread name",
-    //    "Thread description", "kcelinef@codeustudents.com",
-    //    "c9f2fc95-4102-4e37-8d26-8bbbc418ac2b"));
   }
 
   @Override
