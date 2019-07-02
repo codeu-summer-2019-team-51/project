@@ -4,6 +4,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Book;
 import com.google.codeu.data.Datastore;
+import com.google.codeu.data.UserBook;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -51,5 +52,28 @@ public class UserBookServlet extends HttpServlet {
     String json = gson.toJson(books);
 
     response.getOutputStream().println(json);
+  }
+
+  /**
+  * Receives a JSON representation of a UserBook and stores it in the datastore.
+  */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/index.html");
+      return;
+    }
+
+    String user = userService.getCurrentUser().getEmail();
+    String bookId = request.getParameter("bookId");
+    String status = request.getParameter("status");
+
+    UserBook userBook = new UserBook(bookId, user, status);
+    datastore.storeUserBook(userBook);
+
+    // response.sendRedirect("/user-bookshelf.html?user=" + user);
   }
 }
