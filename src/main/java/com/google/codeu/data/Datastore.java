@@ -192,33 +192,33 @@ public class Datastore {
   }
 
   /**
-   * Stores the {@code SavedBook} in Datastore.
+   * Stores the {@code UserBook} in Datastore.
    */
-  public void storeSavedBook(SavedBook savedBook) {
-    Entity savedBookEntity =
-        new Entity("SavedBook", savedBook.getId().toString());
-    savedBookEntity.setProperty("bookId", savedBook.getBookId());
-    savedBookEntity.setProperty("user", savedBook.getUser());
-    savedBookEntity.setProperty("status", savedBook.getStatus());
-    savedBookEntity.setProperty("timestamp", savedBook.getTimestamp());
+  public void storeUserBook(UserBook userBook) {
+    Entity userBookEntity =
+        new Entity("UserBook", userBook.getId().toString());
+    userBookEntity.setProperty("bookId", userBook.getBookId());
+    userBookEntity.setProperty("user", userBook.getUser());
+    userBookEntity.setProperty("status", userBook.getStatus());
+    userBookEntity.setProperty("timestamp", userBook.getTimestamp());
 
-    datastore.put(savedBookEntity);
+    datastore.put(userBookEntity);
   }
 
   /**
    * Returns a list of {@link Book}s saved by {@code user} with {@code status}.
    */
-  public List<Book> getSavedBooks(String user, String status) {
+  public List<Book> getUserBooks(String user, String status) {
     Filter userFilter =
         new Query.FilterPredicate("user", FilterOperator.EQUAL, user);
     Filter statusFilter =
         new Query.FilterPredicate("status", FilterOperator.EQUAL, status);
-    Query savedBookQuery = new Query("SavedBook")
+    Query userBookQuery = new Query("UserBook")
         .setFilter(CompositeFilterOperator.and(userFilter, statusFilter));
-    PreparedQuery savedBookResults = datastore.prepare(savedBookQuery);
+    PreparedQuery userBookResults = datastore.prepare(userBookQuery);
 
     List<Key> bookKeys = new ArrayList<Key>();
-    for (Entity entity : savedBookResults.asIterable()) {
+    for (Entity entity : userBookResults.asIterable()) {
       bookKeys.add(entity.getKey());
     }
 

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class SavedBook {
+public class UserBook {
   private final UUID id;
   private final String bookId;
   private final String user;
@@ -12,18 +12,18 @@ public class SavedBook {
   private long timestamp;
 
   /**
-   * Constructs a new {@link SavedBook} object when a {@code user} saves a book
+   * Constructs a new {@link UserBook} object when a {@code user} saves a book
    * with {@code bookId}. Generates a random ID.
    */
-  public SavedBook(String bookId, String user, String status) {
+  public UserBook(String bookId, String user, String status) {
     this(UUID.randomUUID(), bookId, user, status, System.currentTimeMillis());
   }
 
   /**
-   * Constructs a new {@link SavedBook} with all its attributes filled based on
+   * Constructs a new {@link UserBook} with all its attributes filled based on
    * {@link Entity} stored in {@link Datastore}.
    */
-  public SavedBook(UUID id, String bookId, String user, String status,
+  public UserBook(UUID id, String bookId, String user, String status,
       long timestamp) {
     this.id = id;
     this.bookId = bookId;
