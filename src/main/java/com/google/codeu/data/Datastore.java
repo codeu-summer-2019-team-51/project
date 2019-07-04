@@ -80,7 +80,7 @@ public class Datastore {
    *
    * @return a list of all messages posted or by a specific user
    */
-  public List<Message> createListOfMessages(PreparedQuery results, String user) {
+  private List<Message> createListOfMessages(PreparedQuery results, String user) {
     List<Message> messages = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       try {
@@ -107,7 +107,7 @@ public class Datastore {
    *
    * @return a list of all reviews posted or by a specific user
    */
-  public List<Review> createListOfReviews(PreparedQuery results, String user) {
+  private List<Review> createListOfReviews(PreparedQuery results, String user) {
     List<Review> reviews = new ArrayList<>();
     for (Entity entity: results.asIterable()) {
       try {
