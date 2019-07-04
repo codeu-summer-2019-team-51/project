@@ -28,9 +28,6 @@ public class UserBookServlet extends HttpServlet {
   @Override
   public void init() {
     datastore = new Datastore();
-
-    UserBook userBook = new UserBook("test@example.com", "09c24253-45d6-41e9-924f-7227241ecb73", "READ");
-    datastore.storeUserBook(userBook);
   }
 
   /**
