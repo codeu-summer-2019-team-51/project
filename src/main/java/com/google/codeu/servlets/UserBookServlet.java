@@ -29,34 +29,27 @@ public class UserBookServlet extends HttpServlet {
   }
 
   /**
-  * Responds with a JSON representation of a list of Book objects saved by
-  * {@code user} with reading status {@code status}.
-  */
+   * Responds with a JSON representation of a list of Book objects saved by
+   * {@code user} with reading status {@code status}.
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
     response.setContentType("application/json");
 
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
-      return;
-    }
-
     String user = userService.getCurrentUser().getEmail();
-    String status = request.getParameter("status");
 
-    List<Book> books = datastore.getUserBooks(user, status);
+    Map<UserBook, Book> booksForUser = datastore.getBooksForUser(user);
     Gson gson = new Gson();
-    String json = gson.toJson(books);
+    String json = gson.toJson(booksForUser);
 
     response.getOutputStream().println(json);
   }
 
   /**
-  * Receives a JSON representation of a UserBook and stores it in the datastore.
-  */
+   * Receives a JSON representation of a UserBook and stores it in the datastore.
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
@@ -71,7 +64,7 @@ public class UserBookServlet extends HttpServlet {
     String bookId = request.getParameter("bookId");
     String status = request.getParameter("status");
 
-    UserBook userBook = new UserBook(bookId, user, status);
+    UserBook userBook = new UserBook(user, bookId, status);
     datastore.storeUserBook(userBook);
 
     // response.sendRedirect("/user-bookshelf.html?user=" + user);
