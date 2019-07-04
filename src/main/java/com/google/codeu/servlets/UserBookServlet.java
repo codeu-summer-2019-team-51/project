@@ -8,7 +8,9 @@ import com.google.codeu.data.UserBook;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,6 +28,9 @@ public class UserBookServlet extends HttpServlet {
   @Override
   public void init() {
     datastore = new Datastore();
+
+    UserBook userBook = new UserBook("test@example.com", "09c24253-45d6-41e9-924f-7227241ecb73", "READ");
+    datastore.storeUserBook(userBook);
   }
 
   /**
@@ -38,11 +43,11 @@ public class UserBookServlet extends HttpServlet {
 
     response.setContentType("application/json");
 
-    String user = userService.getCurrentUser().getEmail();
+    String user = request.getParameter("user");
 
-    Map<UserBook, Book> booksForUser = datastore.getBooksForUser(user);
+    List<UserBook> userBooks = datastore.getUserBooks(user);
     Gson gson = new Gson();
-    String json = gson.toJson(booksForUser);
+    String json = gson.toJson(userBooks);
 
     response.getOutputStream().println(json);
   }

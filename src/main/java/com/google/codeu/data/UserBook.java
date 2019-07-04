@@ -12,13 +12,14 @@ public class UserBook {
   private final String bookId;
   private ReadingStatus status;
   private long timestamp;
+  private Book book;
 
   /**
    * Constructs a new {@link UserBook} object when a {@code user} saves a book
    * with {@code bookId}. Generates ID by concatenating user and bookId.
    */
   public UserBook(String user, String bookId, String status) {
-    this(user + bookId, bookId, user, status, System.currentTimeMillis());
+    this(user + bookId, user, bookId, status, System.currentTimeMillis());
   }
 
   /**
@@ -60,6 +61,14 @@ public class UserBook {
 
   public void setTimestamp(long timestamp) {
     this.timestamp = timestamp;
+  }
+
+  public Book getBook() {
+    return book;
+  }
+
+  public void setBook(Book book) {
+    this.book = book;
   }
 
   // Ensures that reading status is nothing but one of the predefined statuses

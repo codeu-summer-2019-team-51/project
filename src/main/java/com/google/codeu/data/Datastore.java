@@ -23,7 +23,9 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -153,26 +155,6 @@ public class Datastore {
   }
 
   /**
-   * Returns a list of books saved by {@code user}. List is sorted by timestamp
-   * when book was saved.
-   */
-  public Map<UserBook, Book> getBooksForUser(String user) {
-    Map<UserBook, Book> booksForUser = new HashMap<UserBook, Book>();
-
-    List<UserBook> userBooks = getUserBooks(user);
-    for (UserBook userBook : userBooks) {
-      try {
-        Key bookKey = KeyFactory.createKey("Book", userBook.getBookId());
-        Book book = entityToBook(datastore.get(bookKey));
-        booksForUser.put(userBook, book);
-      } catch (EntityNotFoundException e) {
-        continue;
-      }
-    }
-    return booksForUser;
-  }
-
-  /**
    * Stores the Review in Datastore.
    */
   public void storeReview(Review review) {
@@ -231,14 +213,20 @@ public class Datastore {
   public List<UserBook> getUserBooks(String user) {
     List<UserBook> userBooks = new ArrayList<UserBook>();
 
-    Query query = new Query("UserBook")
-        .setFilter(new Query.FilterPredicate("user",
-            FilterOperator.EQUAL, user));
+    Query query = new Query("UserBook");
+        // .setFilter(new Query.FilterPredicate("user",
+        //     FilterOperator.EQUAL, user));
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
       try {
-        userBooks.add(entityToUserBook(entity));
+        UserBook userBook = entityToUserBook(entity);
+
+        Key bookKey = KeyFactory.createKey("Book", userBook.getBookId());
+        Book book = entityToBook(datastore.get(bookKey));
+        userBook.setBook(book);
+
+        userBooks.add(userBook);
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
