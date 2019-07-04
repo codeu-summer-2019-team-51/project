@@ -73,10 +73,10 @@ public class UserBook {
 
   // Ensures that reading status is nothing but one of the predefined statuses
   private enum ReadingStatus {
-    READ           ("READ"),
-    READING        ("READING"),
-    WANT_TO_READ   ("WANT_TO_READ"),
-    DID_NOT_FINISH ("DID_NOT_FINISH");
+    READ("READ"),
+    READING("READING"),
+    WANT_TO_READ("WANT_TO_READ"),
+    DID_NOT_FINISH("DID_NOT_FINISH");
 
     private final String string;
     private static Map<String, ReadingStatus> map =
