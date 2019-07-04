@@ -72,12 +72,10 @@ public class Review {
   }
 
   public long getRating() {
-
     return rating;
   }
 
   public void setRating(long rating) {
-
     this.rating = rating;
   }
 
@@ -86,22 +84,18 @@ public class Review {
   }
 
   public void setComment(String comment) {
-
     this.comment = comment;
   }
 
   public List<String> getPictures() {
-
     return pictures;
   }
 
   public void setPictures(List<String> pictures) {
-
     this.pictures = pictures;
   }
 
   public String getBookId() {
-
     return bookId;
   }
 }
