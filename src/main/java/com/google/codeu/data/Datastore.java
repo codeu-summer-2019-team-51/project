@@ -213,9 +213,10 @@ public class Datastore {
   public List<UserBook> getUserBooks(String user) {
     List<UserBook> userBooks = new ArrayList<UserBook>();
 
-    Query query = new Query("UserBook");
-        // .setFilter(new Query.FilterPredicate("user",
-        //     FilterOperator.EQUAL, user));
+    Query query = new Query("UserBook")
+        .setFilter(new Query.FilterPredicate("user",
+            FilterOperator.EQUAL, user))
+        .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
