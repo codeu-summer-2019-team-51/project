@@ -73,7 +73,7 @@ public class ReviewServlet extends HttpServlet {
 
     String user = userService.getCurrentUser().getEmail();
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
-    long rating = Long.parseLong(Jsoup.clean(request.getParameter("rating"), Whitelist.none()));
+    long rating = Long.parseLong(request.getParameter("rating"));
 
     Review review = new Review(user, rating,text,"");
     datastore.storeReview(review);
