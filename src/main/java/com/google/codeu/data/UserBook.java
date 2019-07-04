@@ -2,38 +2,40 @@ package com.google.codeu.data;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class UserBook {
-  private final UUID id;
-  private final String bookId;
+  private final String idString;
+  // idString is concatenated from user and bookId to create a composite ID.
+  // This is to prevent duplicate UserBook entities in datastore having the same
+  // combination of user and bookId
   private final String user;
+  private final String bookId;
   private ReadingStatus status;
   private long timestamp;
 
   /**
    * Constructs a new {@link UserBook} object when a {@code user} saves a book
-   * with {@code bookId}. Generates a random ID.
+   * with {@code bookId}. Generates ID by concatenating user and bookId.
    */
-  public UserBook(String bookId, String user, String status) {
-    this(UUID.randomUUID(), bookId, user, status, System.currentTimeMillis());
+  public UserBook(String user, String bookId, String status) {
+    this(user + bookId, bookId, user, status, System.currentTimeMillis());
   }
 
   /**
    * Constructs a new {@link UserBook} with all its attributes filled based on
    * {@link Entity} stored in {@link Datastore}.
    */
-  public UserBook(UUID id, String bookId, String user, String status,
+  public UserBook(String idString, String user, String bookId, String status,
       long timestamp) {
-    this.id = id;
+    this.idString = idString;
     this.bookId = bookId;
     this.user = user;
     this.status = ReadingStatus.fromString(status);
     this.timestamp = timestamp;
   }
 
-  public UUID getId() {
-    return id;
+  public String getIdString() {
+    return idString;
   }
 
   public String getBookId() {

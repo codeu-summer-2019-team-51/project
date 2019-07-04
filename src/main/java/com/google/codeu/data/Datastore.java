@@ -153,6 +153,26 @@ public class Datastore {
   }
 
   /**
+   * Returns a list of books saved by {@code user}. List is sorted by timestamp
+   * when book was saved.
+   */
+  public Map<UserBook, Book> getBooksForUser(String user) {
+    Map<UserBook, Book> booksForUser = new HashMap<UserBook, Book>();
+
+    List<UserBook> userBooks = getUserBooks(user);
+    for (UserBook userBook : userBooks) {
+      try {
+        Key bookKey = KeyFactory.createKey("Book", userBook.getBookId());
+        Book book = entityToBook(datastore.get(bookKey));
+        booksForUser.put(userBook, book);
+      } catch (EntityNotFoundException e) {
+        continue;
+      }
+    }
+    return booksForUser;
+  }
+
+  /**
    * Stores the Review in Datastore.
    */
   public void storeReview(Review review) {
@@ -192,13 +212,13 @@ public class Datastore {
   }
 
   /**
-   * Stores the {@code UserBook} in Datastore.
+   * Stores the {@link UserBook} in Datastore.
    */
   public void storeUserBook(UserBook userBook) {
     Entity userBookEntity =
-        new Entity("UserBook", userBook.getId().toString());
-    userBookEntity.setProperty("bookId", userBook.getBookId());
+        new Entity("UserBook", userBook.getIdString());
     userBookEntity.setProperty("user", userBook.getUser());
+    userBookEntity.setProperty("bookId", userBook.getBookId());
     userBookEntity.setProperty("status", userBook.getStatus());
     userBookEntity.setProperty("timestamp", userBook.getTimestamp());
 
@@ -206,38 +226,27 @@ public class Datastore {
   }
 
   /**
-   * Returns a list of {@link Book}s saved by {@code user} with {@code status}.
+   * Returns a list of {@link UserBook}s.
    */
-  public List<Book> getUserBooks(String user, String status) {
-    Filter userFilter =
-        new Query.FilterPredicate("user", FilterOperator.EQUAL, user);
-    Filter statusFilter =
-        new Query.FilterPredicate("status", FilterOperator.EQUAL, status);
-    Query userBookQuery = new Query("UserBook")
-        .setFilter(CompositeFilterOperator.and(userFilter, statusFilter));
-    PreparedQuery userBookResults = datastore.prepare(userBookQuery);
+  public List<UserBook> getUserBooks(String user) {
+    List<UserBook> userBooks = new ArrayList<UserBook>();
 
-    List<Key> bookKeys = new ArrayList<Key>();
-    for (Entity entity : userBookResults.asIterable()) {
-      bookKeys.add(entity.getKey());
-    }
+    Query query = new Query("UserBook")
+        .setFilter(new Query.FilterPredicate("user",
+            FilterOperator.EQUAL, user));
+    PreparedQuery results = datastore.prepare(query);
 
-    List<Book> books = new ArrayList<Book>();
-    Query bookQuery = new Query("Book")
-        .setFilter(new Query.FilterPredicate(
-            Entity.KEY_RESERVED_PROPERTY, FilterOperator.IN, bookKeys));
-    PreparedQuery bookResults = datastore.prepare(bookQuery);
-
-    for (Entity entity : bookResults.asIterable()) {
+    for (Entity entity : results.asIterable()) {
       try {
-        books.add(entityToBook(entity));
+        userBooks.add(entityToUserBook(entity));
       } catch (Exception e) {
         System.err.println("Error reading message.");
         System.err.println(entity.toString());
         e.printStackTrace();
       }
     }
-    return books;
+
+    return userBooks;
   }
 
   /**
@@ -388,6 +397,21 @@ public class Datastore {
     Review review = new Review(id, timestamp, author, rating, comment, pictures,
         bookId);
     return review;
+  }
+
+  /**
+   * Converts Entity to UserBook.
+   */
+  private UserBook entityToUserBook(Entity entity) {
+    String idString = entity.getKey().getName();
+
+    String user = (String) entity.getProperty("user");
+    String bookId = (String) entity.getProperty("bookId");
+    String status = (String) entity.getProperty("status");
+    long timestamp = (long) entity.getProperty("timestamp");
+
+    UserBook userBook = new UserBook(idString, user, bookId, status, timestamp);
+    return userBook;
   }
 
   /**
