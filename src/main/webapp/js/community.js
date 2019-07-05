@@ -25,7 +25,8 @@ function buildThreadDiv(thread) {
   threadA.classList.add('thread-a');
   threadA.appendChild(nameDiv);
   threadA.appendChild(descriptionDiv);
-  
+  threadA.setAttribute('href', `/thread.html?id=${thread.id}`);
+
   return threadA;
 }
 
