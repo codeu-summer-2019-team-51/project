@@ -3,14 +3,15 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Community</title>
+  <title>Thread</title>
+
   <!-- Milligram Dependencies -->
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/community.css">
+  <link rel="stylesheet" href="/css/thread.css">
   <link rel="stylesheet" href=
       "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href=
@@ -21,7 +22,7 @@
   <script src=
       "https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js">
   </script>
-  <script src="js/community.js"></script>
+  <script src="js/thread.js"></script>
 </head>
 
 <body onload="buildUI();">
@@ -36,44 +37,21 @@
   <div class="container">
     <div class="row">
       <div class="column">
-        <h1 id="header">Loading community name...</h1>
-        <p id="members">Loading members...</p>
-        <p id="description">Loading description...</p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="column">
-        <a id="create-button" class="hidden button" href="#create-new-thread"
-            rel="modal:open">
-          <i class="fa fa-plus" style="margin-right: 5px;"></i>
-          Create new thread
-        </a>
+        <h3 id="header">Loading title...</h3>
+        <div id="creator" style="font-weight: bold;">Loading creator...</div>
+        <div id="description">Loading content...</div>
+        <form action="/thread" method="POST" style="margin-top: 2.5rem;">
+          <textarea name="text" placeholder="Enter your comment" rows="4"
+              required=""></textarea>
+          <input type="hidden" name="parentId" value="">
+          <input type="hidden" name="threadId" id="thread-id-input">
+          <input type="submit" value="Reply" class="button">
+        </form>
       </div>
     </div>
   </div>
 
-  <div id="create-new-thread" class="modal">
-    <h1>Create new thread</h1>
-    <hr />
-    <form action="/community" method="POST">
-      <input type="hidden" id="community-id-param" name="communityId">
-      <label for="name"><b>Title</b></label>
-      <br/>
-      <input type="text" name="name" placeholder="Enter thread title"
-          required>
-      <br/>
-      <label for="description"><b>Content</b></label>
-      <br/>
-      <textarea name="description" placeholder="Enter content" rows=4
-          required></textarea>
-      <br/>
-      <br/>
-      <input type="submit" value="Create new thread">
-    </form>
-  </div>
-
-  <div id="thread-container" class="container" style="margin-bottom: 20px;">
+  <div id="comment-container" class="container" style="margin-bottom: 20px;">
     Loading...
   </div>
 
