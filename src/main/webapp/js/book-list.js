@@ -10,12 +10,21 @@ function buildBookDiv(book) {
   authorsDiv.appendChild(document.createTextNode(book.authors.join()));
 
   const ratingDiv = document.createElement('div');
+  ratingDiv.classList.add('left-align');
+  ratingDiv.classList.add('book-rating');
   const rating = book.avgRating;
   for (i = 0; i < 5; i++) {
     const starDiv = document.createElement('div');
     starDiv.classList.add('star');
 
-    const starFill = Math.floor((Math.min(rating, i + 1) - i) * 2);
+    let starFill = rating - i;
+    if (starFill < 0.5) {
+      starFill = 0;
+    } else if (starFill < 1) {
+      starFill = 5;
+    } else {
+      starFill = 10;
+    }
     starDiv.classList.add(`star-${starFill}`);
     ratingDiv.appendChild(starDiv);
   }
