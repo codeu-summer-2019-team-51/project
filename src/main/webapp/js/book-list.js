@@ -9,10 +9,22 @@ function buildBookDiv(book) {
   authorsDiv.classList.add('book-authors');
   authorsDiv.appendChild(document.createTextNode(book.authors.join()));
 
+  const ratingDiv = document.createElement('div');
+  const rating = book.avgRating;
+  for (i = 0; i < 5; i++) {
+    const starDiv = document.createElement('div');
+    starDiv.classList.add('star');
+
+    const starFill = Math.floor((Math.min(rating, i + 1) - i) * 2);
+    starDiv.classList.add(`star-${starFill}`);
+    ratingDiv.appendChild(starDiv);
+  }
+
   const bookDiv = document.createElement('div');
   bookDiv.classList.add('book-div');
   bookDiv.appendChild(titleDiv);
   bookDiv.appendChild(authorsDiv);
+  bookDiv.appendChild(ratingDiv);
 
   return bookDiv;
 }
