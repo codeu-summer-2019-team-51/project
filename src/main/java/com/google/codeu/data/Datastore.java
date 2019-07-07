@@ -388,7 +388,7 @@ public class Datastore {
   public Book getBook(String id) {
 
     Key key = KeyFactory.createKey("Book", id);
-    try{
+    try {
       Entity bookEntity = datastore.get(key);
       return entityToBook(bookEntity);
     } catch (EntityNotFoundException e) {
