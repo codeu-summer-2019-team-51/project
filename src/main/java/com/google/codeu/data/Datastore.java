@@ -386,17 +386,14 @@ public class Datastore {
   * null if no matching Book was found.
   */
   public Book getBook(String id) {
-    Query query = new Query("Book")
-        .setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL,id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity bookEntity = results.asSingleEntity();
-    if (bookEntity == null) {
+
+    Key key = KeyFactory.createKey("Book", id);
+    try{
+      Entity bookEntity = datastore.get(key);
+      return entityToBook(bookEntity);
+    } catch (EntityNotFoundException e) {
       return null;
     }
-    String title = (String) bookEntity.getProperty("title");
-    List<String> authors = (List<String>) bookEntity.getProperty("authors");
-    Book book = new Book(title, authors);
-    return book;
   }
 }
 
