@@ -4,7 +4,8 @@
 */
 function buildUserListItem(user) {
   const userLink = document.createElement('a');
-  userLink.setAttribute('href', '/user-page.html?user='+user); 
+  const temp = `/user-page.html?user=${user}`;
+  userLink.setAttribute('href',temp); 
   userLink.appendChild(document.createTextNode(user));
   const userListItem = document.createElement('li');
   userListItem.appendChild(userLink);
