@@ -35,8 +35,9 @@
   width: 150px;
 }
 
-button.reading-status-set {
+.reading-status-set {
   background-color: #404951;
+  border: none;
   border-radius: 0;
   color: white;
   pointer-events: none;

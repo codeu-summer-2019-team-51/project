@@ -26,13 +26,13 @@ const readingStatusText = {
 
 function buildReadingStatusButton(userBook, readingStatus) {
   const button = document.createElement('button');
-  button.classList.add('button-clear');
   button.classList.add('reading-status');
   button.innerText = readingStatusText[readingStatus];
 
   if (userBook.status === readingStatus) {
     button.classList.add('reading-status-set');
   } else {
+    button.classList.add('button-clear');
     button.onclick = () => {
       $.ajax({
         type: 'POST',
