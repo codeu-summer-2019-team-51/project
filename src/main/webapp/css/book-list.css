@@ -36,9 +36,9 @@
 }
 
 .reading-status-set {
-  background-color: #404951 !important; // eslint-disable-line important
+  background-color: #404951 !important; /* eslint-disable-line important */
   border-radius: 0;
-  color: white !important; // eslint-disable-line important
+  color: white !important; /* eslint-disable-line important */
 }
 
 .left-align {
