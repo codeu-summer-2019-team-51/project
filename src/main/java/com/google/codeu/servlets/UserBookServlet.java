@@ -69,6 +69,6 @@ public class UserBookServlet extends HttpServlet {
     UserBook userBook = new UserBook(user, bookId, status);
     datastore.storeUserBook(userBook);
 
-    // response.sendRedirect("/user-bookshelf.html?user=" + user);
+    response.sendRedirect("/user-bookshelf.html?user=" + user);
   }
 }

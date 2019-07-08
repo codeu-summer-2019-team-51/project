@@ -17,6 +17,23 @@
   padding: 5px;
 }
 
+.add-to-shelf-button {
+  margin: 0 10px 10px 10px;
+  width: 150px;
+}
+
+.dropdown {
+  background-color: #e4e5e6;
+  margin: -10px 10px 10px 10px;
+  position: absolute;
+  width: 150px;
+}
+
+.reading-status {
+  margin: 0;
+  width: 150px;
+}
+
 .left-align {
   margin: 5px;
   text-align: left;
