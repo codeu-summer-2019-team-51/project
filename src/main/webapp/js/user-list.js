@@ -16,7 +16,7 @@ function buildUserListItem(user) {
 */
 function fetchUserList() {
   const url = '/user-list';
-  fetch(url).then((response) => response.json();
+  fetch(url).then((response) => response.json()
   ).then((users) => {
     const list = document.getElementById('list');
     list.innerHTML = '';
