@@ -19,6 +19,7 @@
 
 .add-to-shelf-button {
   margin: 0 10px 10px 10px;
+  padding: 0;
   width: 150px;
 }
 
@@ -32,6 +33,12 @@
 .reading-status {
   margin: 0;
   width: 150px;
+}
+
+.reading-status-set {
+  background-color: #404951 ! important;
+  border-radius: 0;
+  color: white ! important;
 }
 
 .left-align {

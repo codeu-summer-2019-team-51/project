@@ -27,20 +27,26 @@ const readingStatusText = {
 function buildReadingStatusButton(userBook, readingStatus) {
   const button = document.createElement('button');
   button.classList.add('button-clear');
-  button.onclick = () => {
-    $.ajax({
-      type: 'POST',
-      url: '/user-book',
-      data: {
-        bookId: userBook.bookId,
-        status: readingStatus
-      },
-      success: () => {
-        window.location = 'book-list.html';
-      }
-    });
-  };
+  button.classList.add('reading-status');
   button.innerText = readingStatusText[readingStatus];
+
+  if (userBook.status === readingStatus) {
+    button.classList.add('reading-status-set');
+  } else {
+    button.onclick = () => {
+      $.ajax({
+        type: 'POST',
+        url: '/user-book',
+        data: {
+          bookId: userBook.bookId,
+          status: readingStatus
+        },
+        success: () => {
+          window.location = 'book-list.html';
+        }
+      });
+    };
+  }
 
   return button;
 }
@@ -55,7 +61,12 @@ function buildAddToShelfDiv(userBook) {
     const dropdown = document.getElementById(`dropdown-${userBook.bookId}`)
     dropdown.classList.toggle('hidden');
   };
-  button.innerText = 'Add to shelf';
+  if (userBook.user) {
+    button.classList.add('added-to-shelf-button');
+    button.innerText = 'Move to shelf';
+  } else {
+    button.innerText = 'Add to shelf';
+  }
 
   const dropdown = document.createElement('div');
   dropdown.id = `dropdown-${userBook.bookId}`;
@@ -111,6 +122,15 @@ function fetchBooks() {
         bookContainer.appendChild(bookDiv);
         return bookDiv;
       });
+
+      window.onclick = (event) => {
+        if (!event.target.matches('.add-to-shelf-button')) {
+          const dropdowns = document.getElementsByClassName("dropdown");
+          for (const dropdown of dropdowns) {
+            dropdown.classList.add('hidden');
+          }
+        }
+      }
     });
 }
 
