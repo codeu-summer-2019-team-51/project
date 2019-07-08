@@ -35,10 +35,11 @@
   width: 150px;
 }
 
-.reading-status-set {
-  background-color: #404951 !important; /* csslint-disable-line important */
+button.reading-status-set {
+  background-color: #404951;
   border-radius: 0;
-  color: white !important; /* csslint-disable-line important */
+  color: white;
+  pointer-events: none;
 }
 
 .left-align {
