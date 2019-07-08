@@ -4,7 +4,7 @@
 */
 function buildUserListItem(user) {
   const userLink = document.createElement('a');
-  userLink.setAttribute('href', '/user-page.html?user=' + user); // eslint-disable-line prefer-template
+  userLink.setAttribute('href', '/user-page.html?user=${user}'); 
   userLink.appendChild(document.createTextNode(user));
   const userListItem = document.createElement('li');
   userListItem.appendChild(userLink);
@@ -16,9 +16,8 @@ function buildUserListItem(user) {
 */
 function fetchUserList() {
   const url = '/user-list';
-  fetch(url).then((response) => { // eslint-disable-line arrow-body-style
-    return response.json();
-  }).then((users) => {
+  fetch(url).then((response) => response.json();
+  ).then((users) => {
     const list = document.getElementById('list');
     list.innerHTML = '';
     users.forEach((user) => {
