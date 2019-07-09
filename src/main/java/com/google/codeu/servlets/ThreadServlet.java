@@ -2,13 +2,13 @@ package com.google.codeu.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.codeu.data.Community;
+import com.google.codeu.common.Tree;
+import com.google.codeu.data.Comment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Thread;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +20,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
 /**
-* Handles fetching community threads.
+* Handles fetching thread comments.
 */
-@WebServlet("/community")
-public class CommunityServlet extends HttpServlet {
+@WebServlet("/thread")
+public class ThreadServlet extends HttpServlet {
 
   private Datastore datastore;
 
@@ -38,25 +38,25 @@ public class CommunityServlet extends HttpServlet {
 
     response.setContentType("application/json");
 
-    String communityId = request.getParameter("id");
-    Community community = datastore.getCommunity(communityId);
-    List<Thread> threads = datastore.getThreads(communityId);
+    String threadId = request.getParameter("id");
+    Thread thread = datastore.getThread(threadId);
+    Tree<Comment> comments = datastore.getComments(threadId);
 
     Gson gson = new Gson();
-    String communityJson = gson.toJson(community);
-    String threadsJson = gson.toJson(threads);
+    String threadJson = gson.toJson(thread);
+    String commentsJson = comments.toJson();
 
     String resultJson = String.format(
-        "{\"community\":%s,\"threads\":%s}",
-        communityJson,
-        threadsJson);
+        "{\"thread\":%s,\"comments\":%s}",
+        threadJson,
+        commentsJson);
 
     response.getOutputStream().println(resultJson);
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+      throws IOException, IllegalArgumentException {
 
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
@@ -64,15 +64,14 @@ public class CommunityServlet extends HttpServlet {
       return;
     }
 
-    String userEmail = userService.getCurrentUser().getEmail();
-    String name = Jsoup.clean(request.getParameter("name"), Whitelist.none());
-    String description = Jsoup.clean(request.getParameter("description"),
-        Whitelist.none());
-    String communityId = request.getParameter("communityId");
+    String user = userService.getCurrentUser().getEmail();
+    String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String parentId = request.getParameter("parentId");
+    String threadId = request.getParameter("threadId");
 
-    Thread thread = new Thread(name, description, userEmail, communityId);
-    datastore.storeThread(thread);
+    Comment comment = new Comment(text, user, parentId, threadId);
+    datastore.storeComment(comment);
 
-    response.sendRedirect("/community.html?id=" + communityId);
+    response.sendRedirect("/thread.html?id=" + threadId);
   }
 }

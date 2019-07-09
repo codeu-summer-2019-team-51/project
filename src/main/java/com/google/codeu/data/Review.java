@@ -1,42 +1,61 @@
 package com.google.codeu.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class Review {
   private final UUID reviewId; //This is the ID of the review
-  private long timestamp;
+  private final long timestamp;
   private String author; //The user posting the review
-  private int rating;
+  private long rating;
   private String comment;
   private List<String> pictures;
+  private final String bookId;
 
   /**
    * Creates a new Review object for every new review for cases when
    * the user wants to provide only a rating.
    */
-  public Review(String author, int rating) {
-    this.reviewId = UUID.randomUUID();
-    this.author = author;
-    this.rating = rating;
-    this.timestamp = System.currentTimeMillis();
+  public Review(String author, long rating, String bookId) {
+    this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, "",
+            new ArrayList<String>(), bookId);
+  }
+
+  /**
+   * Creates a new Review object for every new review for cases when
+   * the user wants to provide a review without any pictures.
+   */
+  public Review(String author, long rating, String comment, String bookId) {
+    this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
+            new ArrayList<String>(), bookId);
   }
 
   /**
    * Creates a new Review object for every new review for cases when
    * the user wants to provide a complete review.
    */
-  public Review(String author, int rating, String comment,
-                List<String> pictures) {
-    this.reviewId = UUID.randomUUID();
+  public Review(String author, long rating, String comment,
+                List<String> pictures, String bookId) {
+    this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
+            pictures, bookId);
+  }
+
+  /**
+   * Constructor method to retrieve existing data from datastore.
+   */
+  public Review(UUID reviewId, long timestamp, String author, long rating,
+          String comment, List<String> pictures, String bookId) {
+    this.reviewId = reviewId;
     this.author = author;
     this.rating = rating;
     this.comment = comment;
     this.pictures = pictures;
-    this.timestamp = System.currentTimeMillis();
+    this.timestamp = timestamp;
+    this.bookId = bookId;
   }
 
-  public UUID getReviewId() {
+  public UUID getId() {
     return reviewId;
   }
 
@@ -52,11 +71,11 @@ public class Review {
     this.author = author;
   }
 
-  public int getRating() {
+  public long getRating() {
     return rating;
   }
 
-  public void setRating(int rating) {
+  public void setRating(long rating) {
     this.rating = rating;
   }
 
@@ -76,4 +95,7 @@ public class Review {
     this.pictures = pictures;
   }
 
+  public String getBookId() {
+    return bookId;
+  }
 }
