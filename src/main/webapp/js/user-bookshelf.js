@@ -12,7 +12,6 @@ function fetchContent() {
   fetch(url)
     .then(response => response.json())
     .then((result) => {
-      console.log(result);
       loadUserBooks(result);
     });
 }
@@ -31,28 +30,25 @@ function loadUserBooks(userBooks) {
 }
 
 function buildUserBookDiv(userBook) {
-  const titleDiv = document.createElement('div');
+  const titleDiv = document.createElement('h3');
   titleDiv.classList.add('book-title');
-  titleDiv.appendChild(document.createTextNode(userBook.book.title));
+  titleDiv.innerText = userBook.book.title;
 
   const authorsDiv = document.createElement('div');
   authorsDiv.classList.add('book-authors');
-  authorsDiv.appendChild(document.createTextNode(userBook.book.authors.join()));
+  authorsDiv.innerText = userBook.book.authors.join();
 
-  const readingStatusDiv = document.createElement('div');
+  const readingStatusDiv = document.createElement('button');
   readingStatusDiv.classList.add('reading-status');
-  readingStatusDiv.appendChild(document.createTextNode(userBook.status));
-
-  const timestampDiv = document.createElement('div');
-  timestampDiv.classList.add('timestamp');
-  timestampDiv.appendChild(document.createTextNode(userBook.timestamp));
+  readingStatusDiv.classList.add(`reading-status-${userBook.status}`);
+  readingStatusDiv.innerText = readingStatusText[userBook.status];
 
   const bookDiv = document.createElement('div');
   bookDiv.classList.add('book-div');
+  bookDiv.classList.add(`book-${userBook.status}`);
   bookDiv.appendChild(titleDiv);
   bookDiv.appendChild(authorsDiv);
   bookDiv.appendChild(readingStatusDiv);
-  bookDiv.appendChild(timestampDiv);
 
   return bookDiv;
 }
