@@ -13,11 +13,23 @@
 }
 
 .reading-status {
+  border-radius: 5px 0 0 5px;
   height: 20px;
   line-height: 1.0rem;
   margin-bottom: 0;
   padding: 0;
+  pointer-events: none;
   width: 110px;
+}
+
+.reading-status-arrow {
+  border-radius: 0 5px 5px 0;
+  height: 20px;
+  line-height: 1.0rem;
+  margin-bottom: 0;
+  margin-left: 1px;
+  padding: 0;
+  width: 20px;
 }
 
 .book-WANT_TO_READ {
@@ -55,4 +67,21 @@
 .reading-status-DID_NOT_FINISH {
   background-color: #cc92ef;
   border: none;
+}
+
+.dropdown {
+  background-color: #e4e5e6;
+  position: absolute;
+  width: 110px;
+}
+
+.reading-status-option {
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  width: 110px;
+}
+
+.hidden {
+  display: none;
 }

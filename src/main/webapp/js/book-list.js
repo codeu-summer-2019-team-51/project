@@ -66,10 +66,9 @@ function buildAddToShelfDiv(userBook) {
   dropdown.classList.add('dropdown');
   dropdown.classList.add('hidden');
 
-  dropdown.appendChild(buildReadingStatusButton(userBook, 'WANT_TO_READ'));
-  dropdown.appendChild(buildReadingStatusButton(userBook, 'READING'));
-  dropdown.appendChild(buildReadingStatusButton(userBook, 'READ'));
-  dropdown.appendChild(buildReadingStatusButton(userBook, 'DID_NOT_FINISH'));
+  Object.keys(readingStatusText).forEach((readingStatus) => {
+    dropdown.appendChild(buildReadingStatusButton(userBook, readingStatus));
+  });
 
   addToShelfDiv.appendChild(button);
   addToShelfDiv.appendChild(dropdown);
