@@ -23,7 +23,9 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.codeu.common.Tree;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -491,6 +493,19 @@ public class Datastore {
     } catch (EntityNotFoundException e) {
       return null;
     }
+  }
+
+  /**
+  *Returns the list of Users who have posted messages.
+  */
+  public Set<String> getUsers() {
+    Set<String> users = new HashSet<>();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity:results.asIterable()) {
+      users.add((String) entity.getProperty("user"));
+    }
+    return users;
   }
 }
 
