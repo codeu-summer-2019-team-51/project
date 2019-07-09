@@ -4,8 +4,12 @@ const user = urlParams.get('user');
 // Fetch data and populate the UI of the page.
 function buildUI() { // eslint-disable-line no-unused-vars
   fetchContent();
+
+  document.getElementById('description').innerText = `Books saved by ${user}`;
+
   window.onclick = (event) => {
-    if (!event.target.matches('.reading-status-arrow') && !event.target.matches('.reading-status-arrow > *')) {
+    if (!event.target.matches('.reading-status-arrow')
+        && !event.target.matches('.reading-status-arrow > *')) {
       const dropdowns = document.getElementsByClassName("dropdown");
       for (const dropdown of dropdowns) {
         dropdown.classList.add('hidden');
@@ -14,7 +18,7 @@ function buildUI() { // eslint-disable-line no-unused-vars
   }
 }
 
-// Fetch community and threads and add them to the page.
+// Fetch userBooks and add them to the page.
 function fetchContent() {
   const url = `/user-book?user=${user}`;
   fetch(url)
@@ -24,6 +28,7 @@ function fetchContent() {
     });
 }
 
+// Load userBookContainer with userBook data fetched from servlet
 function loadUserBooks(userBooks) {
   const userBookContainer = document.getElementById('user-book-container');
   if (userBooks.length === 0) {
@@ -37,28 +42,7 @@ function loadUserBooks(userBooks) {
   });
 }
 
-function buildReadingStatusOption(userBook, readingStatus) {
-  const button = document.createElement('button');
-  button.classList.add('reading-status-option');
-  button.classList.add(`reading-status-${userBook.status}`);
-  button.innerText = readingStatusText[readingStatus];
-  button.onclick = () => {
-    $.ajax({
-      type: 'POST',
-      url: '/user-book',
-      data: {
-        bookId: userBook.bookId,
-        status: readingStatus
-      },
-      success: () => {
-        window.location = `/user-bookshelf.html?user=${userBook.user}`;
-      }
-    });
-  };
-
-  return button;
-}
-
+// Build div displaying data of a userBook
 function buildUserBookDiv(userBook) {
   const titleDiv = document.createElement('h3');
   titleDiv.classList.add('book-title');
@@ -103,4 +87,29 @@ function buildUserBookDiv(userBook) {
   bookDiv.appendChild(dropdown);
 
   return bookDiv;
+}
+
+// Build button to change status of a userBook to readingStatus by posting
+// updated data to servlet. This button is part of a dropdown menu, shown only
+// after the dropdown arrow is clicked.
+function buildReadingStatusOption(userBook, readingStatus) {
+  const button = document.createElement('button');
+  button.classList.add('reading-status-option');
+  button.classList.add(`reading-status-${userBook.status}`);
+  button.innerText = readingStatusText[readingStatus];
+  button.onclick = () => {
+    $.ajax({
+      type: 'POST',
+      url: '/user-book',
+      data: {
+        bookId: userBook.bookId,
+        status: readingStatus
+      },
+      success: () => {
+        window.location = `/user-bookshelf.html?user=${userBook.user}`;
+      }
+    });
+  };
+
+  return button;
 }
