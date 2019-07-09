@@ -18,6 +18,7 @@ package com.google.codeu.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.codeu.data.Book;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Review;
 import com.google.gson.Gson;
@@ -65,6 +66,10 @@ public class ReviewServlet extends HttpServlet {
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json");
+    String bookIdString = request.getParameter("book");
+    System.out.println("BOOK ID IS : "+bookIdString);
+
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
@@ -75,9 +80,8 @@ public class ReviewServlet extends HttpServlet {
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
     long rating = Long.parseLong(request.getParameter("rating"));
 
-    Review review = new Review(user, rating,text,"");
+    Review review = new Review(user, rating,text,bookIdString);
     datastore.storeReview(review);
-
-    response.sendRedirect("/book-page.html?user=" + user);
+    response.sendRedirect("/review-feed.html?user="+ user);
   }
 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
  * Copyright 2019 Google Inc.
  *
@@ -113,7 +112,7 @@ function showReviewFormIfViewingSelf() {
 
 /** Fetches messages and adds them to the page. */
 function fetchReviews() {
-  const url = `/reviews?user=${parameterUsername}`;
+  const url = `/reviews?book=${parameterBookId}`;
   fetch(url)
     .then(response => response.json())
     .then((reviews) => {

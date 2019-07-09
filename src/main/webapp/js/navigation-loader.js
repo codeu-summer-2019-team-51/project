@@ -47,7 +47,7 @@ function addBookPageButton() {
 
   navigationElement.appendChild(
    createListItem(
-        createLink(`/book-page.html?book=`)
+        createLink(`/aboutbook.html?id=`)
     )
   )
 
