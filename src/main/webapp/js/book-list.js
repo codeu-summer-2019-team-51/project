@@ -1,16 +1,18 @@
 function buildBookDiv(book) {
-  const titleDiv = document.createElement('div');
-  titleDiv.classList.add('left-align');
+  const bookLink = document.createElement('a');
+  bookLink.href = `/aboutbook.html?id=${book.id}`;
+
+  const titleDiv = document.createElement('h3');
   titleDiv.classList.add('book-title');
   titleDiv.appendChild(document.createTextNode(book.title));
 
+  bookLink.appendChild(titleDiv);
+
   const authorsDiv = document.createElement('div');
-  authorsDiv.classList.add('left-align');
   authorsDiv.classList.add('book-authors');
   authorsDiv.appendChild(document.createTextNode(book.authors.join()));
 
   const ratingDiv = document.createElement('div');
-  ratingDiv.classList.add('left-align');
   ratingDiv.classList.add('book-rating');
   const rating = book.avgRating;
   for (i = 0; i < 5; i++) {
@@ -31,7 +33,7 @@ function buildBookDiv(book) {
 
   const bookDiv = document.createElement('div');
   bookDiv.classList.add('book-div');
-  bookDiv.appendChild(titleDiv);
+  bookDiv.appendChild(bookLink);
   bookDiv.appendChild(authorsDiv);
   bookDiv.appendChild(ratingDiv);
 
