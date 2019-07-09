@@ -41,6 +41,30 @@
   border-radius: 0;
   color: white;
   pointer-events: none;
+
+.book-rating {
+  height: 20px;
+  padding: 0 5px;
+}
+
+.star {
+  background-repeat: no-repeat;
+  background-size: 15px;
+  float: left;
+  height: 15px;
+  width: 15px;
+}
+
+.star-0 {
+  background-image: url('../image/star-0.png');
+}
+
+.star-5 {
+  background-image: url('../image/star-5.png');
+}
+
+.star-10 {
+  background-image: url('../image/star-10.png');
 }
 
 .left-align {
