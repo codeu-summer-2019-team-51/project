@@ -54,7 +54,6 @@ public class MessageServlet extends HttpServlet {
     response.setContentType("application/json");
 
     String user = request.getParameter("user");
-
     if (user == null || user.equals("")) {
       // Request is invalid, return empty array
       response.getWriter().println("[]");
@@ -64,7 +63,6 @@ public class MessageServlet extends HttpServlet {
     List<Message> messages = datastore.getMessages(user);
     Gson gson = new Gson();
     String json = gson.toJson(messages);
-
     response.getWriter().println(json);
   }
 

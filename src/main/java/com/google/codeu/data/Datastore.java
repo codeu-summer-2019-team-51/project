@@ -20,8 +20,12 @@ import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
+import com.google.codeu.common.Tree;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -190,31 +194,7 @@ public class Datastore {
   }
 
   /**
-   * Stores the Book in Datastore.
-   */
-  public void storeBook(Book book) {
-    Entity bookEntity = new Entity("Book", book.getId().toString());
-    bookEntity.setProperty("title", book.getTitle());
-    bookEntity.setProperty("authors", book.getAuthors());
 
-    datastore.put(bookEntity);
-  }
-
-  /**
-   * Returns the Book with the specified {@code idString} or
-   * null if no matching Book was found.
-   */
-  public Book getBook(String idString) {
-    Key key = KeyFactory.createKey("Book", idString);
-    try {
-      Entity bookEntity = datastore.get(key);
-      return entityToBook(bookEntity);
-    } catch (EntityNotFoundException e) {
-      return null;
-    }
-  }
-
-  /**
    * Returns a list of books. List is sorted by title.
    */
   public List<Book> getAllBooks() {
@@ -337,6 +317,20 @@ public class Datastore {
   }
 
   /**
+   * Returns the Thread with the specified {@code idString} or
+   * null if no matching Thread was found.
+   */
+  public Thread getThread(String idString) {
+    Key key = KeyFactory.createKey("Thread", idString);
+    try {
+      Entity threadEntity = datastore.get(key);
+      return entityToThread(threadEntity);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+  }
+
+  /**
    * Returns a list of threads posted in a community, or empty list if the
    * community has no thread. List is sorted by name ascending.
    */
@@ -362,6 +356,51 @@ public class Datastore {
     }
 
     return threads;
+  }
+
+  /**
+   * Stores the {@code comment} in Datastore.
+   */
+  public void storeComment(Comment comment) {
+    Entity commentEntity = new Entity("Comment", comment.getId().toString());
+    commentEntity.setProperty("text", comment.getText());
+    commentEntity.setProperty("user", comment.getUser());
+    commentEntity.setProperty("timestamp", comment.getTimestamp());
+    commentEntity.setProperty("parentId", comment.getParentId());
+    commentEntity.setProperty("threadId", comment.getThreadId());
+
+    datastore.put(commentEntity);
+  }
+
+  /**
+   * Returns a tree of comments posted in a thread, or empty tree if the
+   * thread has no comment. If a node in a tree has multiple children, the
+   * children are sorted by timestamp descending.
+   */
+  public Tree<Comment> getComments(String threadId) {
+    Tree<Comment> comments = new Tree<Comment>();
+
+    Query query =
+        new Query("Comment")
+            .setFilter(new Query.FilterPredicate("threadId",
+                FilterOperator.EQUAL, threadId))
+            .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        Comment comment = entityToComment(entity, threadId);
+        String childId = entity.getKey().getName();
+        String parentId = comment.getParentId();
+        comments.add(childId, comment, parentId);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return comments;
   }
 
   /**
@@ -442,6 +481,13 @@ public class Datastore {
   /**
    * Converts Entity to Thread.
    */
+  private Thread entityToThread(Entity entity) {
+    return entityToThread(entity, null);
+  }
+
+  /**
+   * Converts Entity to Thread.
+   */
   private Thread entityToThread(Entity entity, String communityId) {
     String idString = entity.getKey().getName();
 
@@ -449,9 +495,38 @@ public class Datastore {
     String name = (String) entity.getProperty("name");
     String description = (String) entity.getProperty("description");
     String creator = (String) entity.getProperty("creator");
+    if (communityId == null) {
+      communityId = (String) entity.getProperty("communityId");
+    }
 
     Thread thread = new Thread(id, name, description, creator, communityId);
     return thread;
+  }
+
+  /**
+   * Converts Entity to Comment.
+   */
+  private Comment entityToComment(Entity entity) {
+    return entityToComment(entity, null);
+  }
+
+  /**
+   * Converts Entity to Comment.
+   */
+  private Comment entityToComment(Entity entity, String threadId) {
+    String idString = entity.getKey().getName();
+
+    UUID id = UUID.fromString(idString);
+    String text = (String) entity.getProperty("text");
+    String user = (String) entity.getProperty("user");
+    long timestamp = (long) entity.getProperty("timestamp");
+    String parentId = (String) entity.getProperty("parentId");
+    if (threadId == null) {
+      threadId = (String) entity.getProperty("threadId");
+    }
+
+    Comment comment = new Comment(id, text, user, timestamp, parentId, threadId);
+    return comment;
   }
 
   /**
@@ -480,4 +555,43 @@ public class Datastore {
     }
     return totalRating / count;
   }
+
+  /** Stores the Book in Datastore. */
+  public void storeBook(Book book) {
+    Entity bookEntity = new Entity("Book", book.getId().toString());
+    bookEntity.setProperty("id",book.getId().toString());
+    bookEntity.setProperty("title", book.getTitle());
+    bookEntity.setProperty("authors", book.getAuthors());
+    bookEntity.setProperty("avgRating", book.getAvgRating());
+    datastore.put(bookEntity);
+  }
+
+  /**
+  * Returns the Book identified by the id, or
+  * null if no matching Book was found.
+  */
+  public Book getBook(String id) {
+
+    Key key = KeyFactory.createKey("Book", id);
+    try {
+      Entity bookEntity = datastore.get(key);
+      return entityToBook(bookEntity);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+  }
+
+  /**
+  *Returns the list of Users who have posted messages.
+  */
+  public Set<String> getUsers() {
+    Set<String> users = new HashSet<>();
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity:results.asIterable()) {
+      users.add((String) entity.getProperty("user"));
+    }
+    return users;
+  }
 }
+

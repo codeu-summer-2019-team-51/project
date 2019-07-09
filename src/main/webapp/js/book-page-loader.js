@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * Copyright 2019 Google Inc.
  *
@@ -14,20 +15,28 @@
  * limitations under the License.
  */
 
-// Get ?user=XYZ parameter value
+// Get ?book=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
-const parameterUsername = urlParams.get('book');
+console.log(urlParams);
+const parameterBookId = urlParams.get('id');
+console.log(parameterBookId);
 
-// URL must include ?user=XYZ parameter. If not, redirect to homepage.
-if (!parameterUsername) {
+// URL must include ?book=XYZ parameter. If not, redirect to homepage.
+if (!parameterBookId) {
   window.location.replace('/');
 }
 
-/** Sets the page title based on the URL parameter username. */
+/** Sets the page title based on the URL parameter bookId. */
 function setPageTitle() {
-  document.getElementById('page-title').innerText = parameterUsername;
-  document.title = parameterUsername + ' - Book Page';
+ const url = `/about-book?book=${parameterBookId}`;
+  fetch(url)
+    .then(response => response.json())
+    .then((bookData) => {
+        document.getElementById('page-title').innerText = bookData.title;
+        document.title = bookData.title + ' - Book Page'; // eslint-disable-line prefer-template
+    });
 }
+
 
 /**
  * Builds an element that displays the message.
@@ -98,7 +107,6 @@ function showReviewFormIfViewingSelf() {
         loginStatus.username === parameterUsername) {
         show('review-form');
         show('profile-pic-editor');
-        show('about-me-editor');
       }
     });
 }
@@ -122,41 +130,49 @@ function fetchReviews() {
     });
 }
 
-/** Fetches about me data and adds them to the page. */
-function fetchAboutMe() {
-  const url = `/about?user=${parameterUsername}`;
+/** Fetches book title and adds it to the page. */
+function fetchBookTitle() {
+  const url = `/about-book?book=${parameterBookId}`;
   fetch(url)
-    .then(response => response.text())
-    .then((response) => {
-      const aboutMeContainer = document.getElementById('about-me-container');
-      let aboutMe = response;
-      if (response === '') {
-        aboutMe = 'This book has no information yet.';
+    .then(response => response.json())
+    .then((bookData) => {
+      const bookContainer = document.getElementById('book-title');
+      if (bookData === '') {
+        bookContainer.innerHTML='No information yet.';
       }
-      aboutMeContainer.innerHTML = aboutMe;
+      else{
+        bookContainer.innerHTML=bookData.title;
+      }
     });
 }
 
-/** Fetches profile picture and adds it to the page. */
-function fetchProfilePic() {
-  const url = `/profile-pic?user=${parameterUsername}`;
+/** Fetches book author(s) and adds them to the page. */
+function fetchBookAuthors() {
+  const url = `/about-book?book=${parameterBookId}`;
   fetch(url)
-    .then(response => response.text())
-    .then((response) => {
-      const profilePic = document.getElementById('profile-pic');
-      let filePath = response;
-      if (response === '') {
-        filePath = 'image/profile-pic.png';
+    .then(response => response.json())
+    .then((bookData) => {
+      const bookContainer = document.getElementById('book-authors');
+      if (bookData === '') {
+         bookContainer.innerHTML = 'No information yet.';
       }
-      profilePic.src = filePath;
+      const authorDiv = buildAuthorDiv(bookData);
+      bookContainer.innerHTML = bookData.authors;
     });
+}
+
+function buildAuthorDiv(aboutBook) {
+const authorDiv = document.createElement('div');
+  authorDiv.classList.add('message-div');
+  authorDiv.innerHTML = aboutBook.authors;
+
+  return authorDiv;
 }
 
 /** Fetches data and populates the UI of the page. */
-function buildUI() {
+function buildUI() { // eslint-disable-line no-unused-vars
   setPageTitle();
-  showReviewFormIfViewingSelf();
-  fetchProfilePic();
-  fetchAboutMe();
+  fetchBookTitle();
+  fetchBookAuthors();
   fetchReviews();
 }
