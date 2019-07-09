@@ -1,8 +1,8 @@
 package com.google.codeu.data;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class Community {
@@ -10,7 +10,7 @@ public class Community {
   private final UUID id;
   private String name;
   private String description;
-  private List<String> members;
+  private Set<String> members;
   //TODO: add moderators with more permissions than members
 
   /**
@@ -19,7 +19,7 @@ public class Community {
    */
   public Community(String name, String description, String creator) {
     this(UUID.randomUUID(), name, description,
-        (List<String>) Arrays.asList(creator));
+        (new HashSet<String>(Arrays.asList(creator))));
   }
 
   /**
@@ -28,7 +28,7 @@ public class Community {
    * {@link Datastore}.
    */
   public Community(UUID id, String name, String description,
-      List<String> members) {
+      Set<String> members) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -55,12 +55,12 @@ public class Community {
     this.description = description;
   }
 
-  public List<String> getMembers() {
+  public Set<String> getMembers() {
     return members;
   }
 
   // Should we have a setMembers method or addMember and deleteMember methods?
-  public void setMembers(List<String> members) {
+  public void setMembers(Set<String> members) {
     this.members = members;
   }
 

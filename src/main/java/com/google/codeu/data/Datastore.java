@@ -386,7 +386,9 @@ public class Datastore {
     UUID id = UUID.fromString(idString);
     String name = (String) entity.getProperty("name");
     String description = (String) entity.getProperty("description");
-    List<String> members = (List<String>) entity.getProperty("members");
+    Set<String> members =
+        new HashSet<String>((List<String>) entity.getProperty("members"));
+    // Note that members retrieved from datastore is of instance type List
 
     Community community = new Community(id, name, description, members);
     return community;
