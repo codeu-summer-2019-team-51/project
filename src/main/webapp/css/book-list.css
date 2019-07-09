@@ -41,6 +41,7 @@
   border-radius: 0;
   color: white;
   pointer-events: none;
+}
 
 .book-rating {
   height: 20px;
