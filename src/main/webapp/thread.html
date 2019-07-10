@@ -23,14 +23,20 @@
       "https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js">
   </script>
   <script src="js/thread.js"></script>
+  <script src="js/navigation-loader.js"></script>
 </head>
 
-<body onload="buildUI();">
+<body onload="buildUI(); addLoginOrLogoutLinkToNavigation();">
   <nav>
     <ul id="navigation">
+      <!-- TODO: show only the main features with dropdown menu for related pages -->
       <li><a href="/">Home</a></li>
-      <li><a href="/aboutus.html">About Our Team</a></li>
+      <li><a href="/book-list.html">All Books</a></li>
+      <li><a href="/review-feed.html">All Reviews</a></li>
+      <li><a href="/addbook.html">Add a New Book</a></li>
+      <li><a class="user-bookshelf">Your Bookshelf</a></li>
       <li><a href="/forum.html">Forum</a></li>
+      <li><a href="/aboutus.html">About Us</a></li>
     </ul>
   </nav>
 
