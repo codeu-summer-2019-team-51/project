@@ -1,14 +1,6 @@
-function getCommunityId() {
-  let params = window.location.search.substr(1);
-  params = params.split('&');
-  for (const element of params) { // eslint-disable-line no-restricted-syntax
-    const param = element.split('=');
-    if (param[0] === 'id') {
-      return param[1];
-    }
-  }
-  return '';
-}
+// Get ?id=XYZ parameter value
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
 
 function buildThreadDiv(thread) {
   const nameDiv = document.createElement('h3');
@@ -61,37 +53,49 @@ function loadThreads(threads) {
 }
 
 // Fetch community and threads and add them to the page.
-function fetchContent(id) {
+function fetchContent() {
   const url = `/community?id=${id}`;
-  fetch(url).then(response => response.json())
+  return fetch(url).then(response => response.json())
     .then((result) => {
       loadCommunityDetails(result.community);
       loadThreads(result.threads);
+      return result;
     });
 }
 
-/**
- * Shows if the user is logged in.
- */
-function showIfLoggedIn() {
+// Disable 'create new thread' button if the user is not logged in or not a
+// member of the community
+function disableIfUnauthorized(community) {
   fetch('/login-status')
     .then(response => response.json())
     .then((loginStatus) => {
-      if (loginStatus.isLoggedIn) {
-        document.getElementById('create-button').classList.remove('hidden');
+      if (!loginStatus.isLoggedIn
+          || community.members.indexOf(loginStatus.username) == -1) {
+        const createButton = document.getElementById('create-button');
+        createButton.classList.add('disabled');
+        createButton.href = null;
+        if (!loginStatus.isLoggedIn) {
+          createButton.onclick = () => {
+            window.location = '/login';
+          }
+        } else {
+          createButton.onclick = () => {
+            alert(`You need to have joined community <b>${community.name}</b>`
+                + ` to create a new thread`);
+          }
+        }
       }
     });
 }
 
-function setPostParam(id) {
+function setPostParam() {
   const communityIdParam = document.getElementById('community-id-param');
   communityIdParam.setAttribute('value', id);
 }
 
 // Fetch data and populate the UI of the page.
 function buildUI() { // eslint-disable-line no-unused-vars
-  const id = getCommunityId();
-  showIfLoggedIn();
-  fetchContent(id);
-  setPostParam(id);
+  fetchContent()
+    .then(result => disableIfUnauthorized(result.community));
+  setPostParam();
 }
