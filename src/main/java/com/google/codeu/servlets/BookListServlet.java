@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Handles fetching of all books for the book list.
  */
-
 @WebServlet("/book-list")
 public class BookListServlet extends HttpServlet {
 

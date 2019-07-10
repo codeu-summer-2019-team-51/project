@@ -17,6 +17,32 @@
   padding: 5px;
 }
 
+.add-to-shelf-button {
+  margin: 0 10px 10px 10px;
+  padding: 0;
+  width: 150px;
+}
+
+.dropdown {
+  background-color: #e4e5e6;
+  margin: -10px 10px 10px 10px;
+  position: absolute;
+  width: 150px;
+}
+
+.reading-status {
+  margin: 0;
+  width: 150px;
+}
+
+.reading-status-set {
+  background-color: #404951;
+  border: none;
+  border-radius: 0;
+  color: white;
+  pointer-events: none;
+}
+
 .book-rating {
   height: 20px;
   padding: 0 5px;
