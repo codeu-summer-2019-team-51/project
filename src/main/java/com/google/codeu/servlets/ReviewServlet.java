@@ -55,7 +55,10 @@ public class ReviewServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
-    List<Review> reviews = datastore.getAllReviews();
+
+    String bookId = request.getParameter("bookId");
+
+    List<Review> reviews = datastore.getReviewsForBook(bookId);
     Gson gson = new Gson();
     String json = gson.toJson(reviews);
     response.getWriter().println(json);
