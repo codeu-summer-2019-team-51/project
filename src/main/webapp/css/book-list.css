@@ -1,25 +1,49 @@
 /* Give each book-div a rounded border. */
 .book-div {
-  border: thin solid black;
-  border-radius: 5px;
-  margin-top: 20px;
+  border-left: solid 10px;
+  margin: 30px 0;
+  padding: 0 20px;
 }
 
 /* Add a bottom border to the book title. */
 .book-title {
-  border-bottom: thin solid black;
-  padding: 5px;
+  margin-bottom: 0;
 }
 
 /* Give the list of book authors a margin so the text
    isn't too close to the border. */
 .book-authors {
-  padding: 5px;
+  margin: 5px 0;
+}
+
+.add-to-shelf-button {
+  margin: 0 10px 10px 10px;
+  padding: 0;
+  width: 150px;
+}
+
+.dropdown {
+  background-color: #e4e5e6;
+  margin: -10px 10px 10px 10px;
+  position: absolute;
+  width: 150px;
+}
+
+.reading-status {
+  margin: 0;
+  width: 150px;
+}
+
+.reading-status-set {
+  background-color: #404951;
+  border: none;
+  border-radius: 0;
+  color: white;
+  pointer-events: none;
 }
 
 .book-rating {
   height: 20px;
-  padding: 0 5px;
 }
 
 .star {
@@ -40,16 +64,6 @@
 
 .star-10 {
   background-image: url('../image/star-10.png');
-}
-
-.left-align {
-  margin: 5px;
-  text-align: left;
-}
-
-.right-align {
-  margin: 5px;
-  text-align: right;
 }
 
 .hidden {

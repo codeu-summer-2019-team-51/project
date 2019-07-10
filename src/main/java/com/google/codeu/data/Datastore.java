@@ -17,14 +17,18 @@
 package com.google.codeu.data;
 
 import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
 import com.google.codeu.common.Tree;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -255,6 +259,51 @@ public class Datastore {
   }
 
   /**
+   * Stores the {@link UserBook} in Datastore.
+   */
+  public void storeUserBook(UserBook userBook) {
+    Entity userBookEntity =
+        new Entity("UserBook", userBook.getIdString());
+    userBookEntity.setProperty("user", userBook.getUser());
+    userBookEntity.setProperty("bookId", userBook.getBookId());
+    userBookEntity.setProperty("status", userBook.getStatus());
+    userBookEntity.setProperty("timestamp", userBook.getTimestamp());
+
+    datastore.put(userBookEntity);
+  }
+
+  /**
+   * Returns a list of {@link UserBook}s.
+   */
+  public List<UserBook> getUserBooks(String user) {
+    List<UserBook> userBooks = new ArrayList<UserBook>();
+
+    Query query = new Query("UserBook")
+        .setFilter(new Query.FilterPredicate("user",
+            FilterOperator.EQUAL, user))
+        .addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      try {
+        UserBook userBook = entityToUserBook(entity);
+
+        Key bookKey = KeyFactory.createKey("Book", userBook.getBookId());
+        Book book = entityToBook(datastore.get(bookKey));
+        userBook.setBook(book);
+
+        userBooks.add(userBook);
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return userBooks;
+  }
+
+  /**
    * Stores the {@code community} in Datastore.
    */
   public void storeCommunity(Community community) {
@@ -464,6 +513,21 @@ public class Datastore {
   }
 
   /**
+   * Converts Entity to UserBook.
+   */
+  private UserBook entityToUserBook(Entity entity) {
+    String idString = entity.getKey().getName();
+
+    String user = (String) entity.getProperty("user");
+    String bookId = (String) entity.getProperty("bookId");
+    String status = (String) entity.getProperty("status");
+    long timestamp = (long) entity.getProperty("timestamp");
+
+    UserBook userBook = new UserBook(idString, user, bookId, status, timestamp);
+    return userBook;
+  }
+
+  /**
    * Converts Entity to Community.
    */
   private Community entityToCommunity(Entity entity) {
@@ -472,7 +536,9 @@ public class Datastore {
     UUID id = UUID.fromString(idString);
     String name = (String) entity.getProperty("name");
     String description = (String) entity.getProperty("description");
-    List<String> members = (List<String>) entity.getProperty("members");
+    Set<String> members =
+        new HashSet<String>((List<String>) entity.getProperty("members"));
+    // Note that members retrieved from datastore is of instance type List
 
     Community community = new Community(id, name, description, members);
     return community;

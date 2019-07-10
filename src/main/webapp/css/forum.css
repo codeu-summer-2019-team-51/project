@@ -25,6 +25,10 @@
   padding: 5px;
 }
 
+.community-join {
+  margin: 10px;
+}
+
 .left-align {
   margin: 5px;
   text-align: left;
@@ -33,4 +37,9 @@
 /* Use this to hide certain elements. */
 .hidden {
   display: none;
+}
+
+.disabled {
+  background-color: #7b858e;
+  border: none;
 }
