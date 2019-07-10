@@ -553,7 +553,8 @@ public class Datastore {
     if (count == 0) {
       return 0;
     }
-    return totalRating / count;
+    return (new Long(totalRating)).doubleValue()
+        / (new Integer(count)).doubleValue();
   }
 
   /** Stores the Book in Datastore. */
@@ -594,4 +595,3 @@ public class Datastore {
     return users;
   }
 }
-

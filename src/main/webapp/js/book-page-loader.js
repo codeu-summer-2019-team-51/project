@@ -30,51 +30,40 @@ function setPageTitle() {
  const url = `/about-book?book=${parameterBookId}`;
   fetch(url)
     .then(response => response.json())
-    .then((bookData) => {
-        document.getElementById('page-title').innerText = bookData.title;
-        document.title = bookData.title + ' - Book Page'; // eslint-disable-line prefer-template
+    .then((book) => {
+        document.title = `${book.title} - Book Page`;
     });
 }
 
 
 /**
- * Builds an element that displays the message.
- * @param {Message} message
+ * Builds an element that displays the review.
+ * @param {Review} review
  * @return {Element}
  */
 function buildReviewDiv(review) {
+  let date = new Date(review.timestamp)
+  const options = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit'
+  };
+  date = date.toLocaleDateString('default', options);
+
   const headerDiv = document.createElement('div');
-  const reviewDate = new Date(review.timestamp);
   headerDiv.classList.add('review-header');
-  headerDiv.appendChild(
-    document.createTextNode(`${review.author} - ${messageDate}`)
-  );
-
-  const headerColumn = document.createElement('div');
-  headerColumn.classList.add('column');
-  headerColumn.appendChild(headerDiv);
-
-  const headerRow = document.createElement('div');
-  headerRow.classList.add('row');
-  headerRow.appendChild(headerColumn);
+  headerDiv.innerHTML = `<b>${review.author}</b> ${date}`;
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('review-body');
-  bodyDiv.innerHTML = review.comment;
-
-  const bodyColumn = document.createElement('div');
-  bodyColumn.classList.add('column');
-  bodyColumn.appendChild(bodyDiv);
-
-  const bodyRow = document.createElement('div');
-  bodyRow.classList.add('row');
-  bodyRow.appendChild(bodyColumn);
+  bodyDiv.innerHTML = `<i>(${review.rating}/5)</i> ${review.comment}`;
 
   const reviewDiv = document.createElement('div');
-  reviewDiv.classList.add('container');
   reviewDiv.classList.add('review-div');
-  reviewDiv.appendChild(headerRow);
-  reviewDiv.appendChild(bodyRow);
+  reviewDiv.appendChild(headerDiv);
+  reviewDiv.appendChild(bodyDiv);
 
   return reviewDiv;
 }
@@ -98,14 +87,12 @@ function hide(elementId) { // eslint-disable-line no-unused-vars
 /**
  * Shows the message form if the user is logged in and viewing their own page.
  */
-function showReviewFormIfViewingSelf() {
+function showReviewFormIfLoggedIn() {
   fetch('/login-status')
     .then(response => response.json())
     .then((loginStatus) => {
-      if (loginStatus.isLoggedIn &&
-        loginStatus.username === parameterUsername) {
+      if (loginStatus.isLoggedIn) {
         show('review-form');
-        show('profile-pic-editor');
       }
     });
 }
@@ -122,56 +109,61 @@ function fetchReviews() {
       } else {
         reviewsContainer.innerHTML = '';
       }
-      reviews.forEach((message) => {
-        const reviewsDiv = buildReviewDiv(message);
+      reviews.forEach((review) => {
+        const reviewDiv = buildReviewDiv(review);
         reviewsContainer.appendChild(reviewDiv);
       });
     });
 }
 
-/** Fetches book title and adds it to the page. */
-function fetchBookTitle() {
+/** Fetches book title and authors and adds it to the page. */
+function fetchBook() {
   const url = `/about-book?book=${parameterBookId}`;
   fetch(url)
     .then(response => response.json())
-    .then((bookData) => {
-      const bookContainer = document.getElementById('book-title');
-      if (bookData === '') {
-        bookContainer.innerHTML='No information yet.';
-      }
-      else{
-        bookContainer.innerHTML=bookData.title;
+    // throws SyntaxError: Unexpected end of JSON input
+    // when parameterBookId does not belong to any book
+    // TODO: handle such cases gracefully
+    .then((book) => {
+      const titleDiv = document.getElementById('book-title');
+      titleDiv.innerText = book.title;
+
+      const authorsDiv = document.getElementById('book-authors');
+      authorsDiv.innerText = `by ${book.authors}`;
+
+      const ratingDiv = document.getElementById('book-rating');
+      ratingDiv.innerText = '';
+      ratingDiv.classList.add('book-rating');
+      const rating = book.avgRating;
+      for (i = 0; i < 5; i++) {
+        const starDiv = document.createElement('div');
+        starDiv.classList.add('star');
+
+        let starFill = rating - i;
+        if (starFill < 0.5) {
+          starFill = 0;
+        } else if (starFill < 1) {
+          starFill = 5;
+        } else {
+          starFill = 10;
+        }
+        starDiv.classList.add(`star-${starFill}`);
+        ratingDiv.appendChild(starDiv);
       }
     });
 }
 
-/** Fetches book author(s) and adds them to the page. */
-function fetchBookAuthors() {
-  const url = `/about-book?book=${parameterBookId}`;
-  fetch(url)
-    .then(response => response.json())
-    .then((bookData) => {
-      const bookContainer = document.getElementById('book-authors');
-      if (bookData === '') {
-         bookContainer.innerHTML = 'No information yet.';
-      }
-      const authorDiv = buildAuthorDiv(bookData);
-      bookContainer.innerHTML = bookData.authors;
-    });
-}
 
-function buildAuthorDiv(aboutBook) {
-const authorDiv = document.createElement('div');
-  authorDiv.classList.add('message-div');
-  authorDiv.innerHTML = aboutBook.authors;
-
-  return authorDiv;
+function setReviewFormBookInput() {
+  const reviewBook = document.getElementById('review-book');
+  reviewBook.value = parameterBookId;
 }
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() { // eslint-disable-line no-unused-vars
+  showReviewFormIfLoggedIn();
   setPageTitle();
-  fetchBookTitle();
-  fetchBookAuthors();
+  setReviewFormBookInput();
+  fetchBook();
   fetchReviews();
 }
