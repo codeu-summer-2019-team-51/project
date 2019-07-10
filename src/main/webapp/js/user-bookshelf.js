@@ -44,9 +44,14 @@ function loadUserBooks(userBooks) {
 
 // Build div displaying data of a userBook
 function buildUserBookDiv(userBook) {
+  const bookLink = document.createElement('a');
+  bookLink.href = `/aboutbook.html?id=${userBook.bookId}`;
+
   const titleDiv = document.createElement('h3');
   titleDiv.classList.add('book-title');
   titleDiv.innerText = userBook.book.title;
+
+  bookLink.appendChild(titleDiv);
 
   const authorsDiv = document.createElement('div');
   authorsDiv.classList.add('book-authors');
@@ -80,7 +85,7 @@ function buildUserBookDiv(userBook) {
   const bookDiv = document.createElement('div');
   bookDiv.classList.add('book-div');
   bookDiv.classList.add(`book-${userBook.status}`);
-  bookDiv.appendChild(titleDiv);
+  bookDiv.appendChild(bookLink);
   bookDiv.appendChild(authorsDiv);
   bookDiv.appendChild(readingStatusDiv);
   bookDiv.appendChild(downButton);
