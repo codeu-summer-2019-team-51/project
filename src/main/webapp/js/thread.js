@@ -1,14 +1,6 @@
-function getThreadId() {
-  let params = window.location.search.substr(1);
-  params = params.split('&');
-  for (const element of params) { // eslint-disable-line no-restricted-syntax
-    const param = element.split('=');
-    if (param[0] === 'id') {
-      return param[1];
-    }
-  }
-  return '';
-}
+// Get ?id=XYZ parameter value
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
 
 function loadThreadDetails(thread) {
   const title = document.getElementsByTagName('title')[0];
@@ -143,17 +135,55 @@ function loadComments(comments) {
 }
 
 // Fetch thread and comments and add them to the page.
-function fetchContent(id) {
+function fetchContent() {
   const url = `/thread?id=${id}`;
-  fetch(url).then(response => response.json())
+  return fetch(url).then(response => response.json())
     .then((result) => {
       loadThreadDetails(result.thread);
       loadComments(result.comments);
+      return result;
+    });
+}
+
+
+// Disable 'reply' buttons if the user is not logged in or not a
+// member of the community
+function disableIfUnauthorized(thread) {
+  const loginStatus = fetch('/login-status').then(response => response.json());
+  const communityData = fetch(`/community?id=${thread.communityId}`)
+      .then(response => response.json());
+  // TODO: create another servlet query to fetch only community data without its
+  // threads for optimization
+
+  Promise.all([loginStatus, communityData])
+    .then((response) => {
+      const [loginStatus, communityData] = response;
+      const community = communityData.community;
+      if (!loginStatus.isLoggedIn
+          || community.members.indexOf(loginStatus.username) == -1) {
+        const submitButtons =
+            Array.from(document.getElementsByClassName('button'));
+        const buttons = Array.from(document.getElementsByTagName('button'));
+        buttons.concat(submitButtons).forEach((button) => {
+          button.classList.add('disabled');
+          button.href = null;
+          if (!loginStatus.isLoggedIn) {
+            button.onclick = () => {
+              window.location = '/login';
+            }
+          } else {
+            button.onclick = () => {
+              alert(`You need to have joined community `
+                  + `${community.name} to reply to this thread`);
+            }
+          }
+        });
+      }
     });
 }
 
 // Fetch data and populate the UI of the page.
 function buildUI() { // eslint-disable-line no-unused-vars
-  const id = getThreadId();
-  fetchContent(id);
+  fetchContent()
+    .then((result) => disableIfUnauthorized(result.thread));
 }

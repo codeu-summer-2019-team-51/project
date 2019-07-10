@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Book List</title>
+  <title>Bookshelf</title>
 
   <!-- Milligram Dependencies -->
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -11,12 +11,19 @@
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/book-list.css">
-  <link rel="stylesheet" href="
-      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/user-bookshelf.css">
+  <link rel="stylesheet" href=
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+  <script src=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js">
+  </script>
+  <script src=
+      "https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js">
+  </script>
   <script src="js/constants/reading-status.js"></script>
-  <script src="js/book-list.js"></script>
+  <script src="js/user-bookshelf.js"></script>
 </head>
 
 <body onload="buildUI();">
@@ -24,6 +31,7 @@
     <ul id="navigation">
       <li><a href="/">Home</a></li>
       <li><a href="/aboutus.html">About Our Team</a></li>
+      <li><a href="/addbook.html">Add a New Book</a></li>
       <li><a href="/forum.html">Forum</a></li>
     </ul>
   </nav>
@@ -31,24 +39,15 @@
   <div class="container">
     <div class="row">
       <div class="column">
-        <h1>Book List</h1>
-      </div>
-    </div>
-
-    <div class="row" style="margin-top: 25px;">
-      <div class="column">
-        <div id="book-search-container">
-          <input type="text" id="book-search" placeholder="Search books">
-          <button onclick="searchBooks()"><i class="fa fa-search"></i></button>
-        </div>
+        <h1>Bookshelf</h1>
+        <p id="description"></p>
       </div>
     </div>
   </div>
 
-
-  <div id="book-container" class="container" style="margin-bottom: 20px;">
-    Loading..
-  .</div>
+  <div id="user-book-container" class="container" style="margin-bottom: 20px;">
+    Loading...
+  </div>
 </body>
 
 </html>

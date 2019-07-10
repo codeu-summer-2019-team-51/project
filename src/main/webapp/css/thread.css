@@ -21,3 +21,8 @@
 .hidden {
   display: none;
 }
+
+.disabled {
+  background-color: #7b858e;
+  border: none;
+}
