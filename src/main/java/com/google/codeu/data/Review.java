@@ -19,7 +19,7 @@ public class Review {
    */
   public Review(String author, long rating, String bookId) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, "",
-            new ArrayList<String>(), bookId);
+        new ArrayList<String>(), bookId);
   }
 
   /**
@@ -28,7 +28,7 @@ public class Review {
    */
   public Review(String author, long rating, String comment, String bookId) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
-            new ArrayList<String>(), bookId);
+        new ArrayList<String>(), bookId);
   }
 
   /**
@@ -45,7 +45,7 @@ public class Review {
    * Constructor method to retrieve existing data from datastore.
    */
   public Review(UUID reviewId, long timestamp, String author, long rating,
-          String comment, List<String> pictures, String bookId) {
+                String comment, List<String> pictures, String bookId) {
     this.reviewId = reviewId;
     this.author = author;
     this.rating = rating;

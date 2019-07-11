@@ -38,6 +38,22 @@ function createLink(url, text) {
   return linkElement;
 }
 
+function addBookPageButton() {
+  const navigationElement = document.getElementById('navigation');
+  if (!navigationElement) {
+    console.warn('Navigation element not found!');
+    return;
+  }
+
+  navigationElement.appendChild(
+   createListItem(
+        createLink(`/aboutbook.html?id=`)
+    )
+  )
+
+
+}
+
 /**
  * Adds a login or logout link to the page, depending on whether the user is
  * already logged in.

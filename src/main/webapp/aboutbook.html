@@ -1,23 +1,55 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Book Page</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/main.css">
-    <script src="js/book-page-loader.js"></script>
+  <title>Book Page</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/book-page.css">
+
+  <script src="js/book-page-loader.js"></script>
 </head>
+
 <body onload="buildUI();">
-<!--<body>-->
-<div id="content">
-    <h1 id="page-title">Some Cool Name</h1>
-    <h2>All you need to know about the book: </h2>
-    <hr/>
-    <h4> Title</h4>
-    <div id="book-title">Loading...</div>
-    <hr/>
-    <h4> Author(s)</h4>
-    <div id="book-authors">Loading...</div>
-    <hr/>
-</div>
+  <!--<body>-->
+  <div class="container">
+    <div class="row">
+      <div class="column">
+        <h1 id="book-title">Loading...</h1>
+        <h3 id="book-authors">Loading...</h3>
+        <div id="book-rating">Loading...</div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 25px;">
+      <div class="column">
+        <form id="review-form" action="/reviews" method="POST" class="hidden">
+          Enter a new review:
+          <br />
+          <textarea name="text" class="review-input"></textarea>
+          <br />
+          Enter a rating:
+          <br />
+          <!-- TODO: replace rating radio input with stars -->
+          <input type="radio" name="rating" value="1"> <i>(1/5)</i> Terrible<br/>
+          <input type="radio" name="rating" value="2"> <i>(2/5)</i> Poor<br/>
+          <input type="radio" name="rating" value="3"> <i>(3/5)</i> Average<br/>
+          <input type="radio" name="rating" value="4"> <i>(4/5)</i> Good<br/>
+          <input type="radio" name="rating" value="5"> <i>(5/5)</i> Amazing<br/>
+          <br />
+          <input type="hidden" name="book" id="review-book">
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="review-container" class="container" style="margin-bottom: 20px;">
+    Loading...
+  </div>
 </body>
+
 </html>
