@@ -27,14 +27,20 @@ limitations under the License.
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 
   <link rel="stylesheet" href="/css/main.css">
+  <script src="js/navigation-loader.js"></script>
 </head>
 
-<body>
+<body onload="addLoginOrLogoutLinkToNavigation();">
   <nav>
     <ul id="navigation">
+      <!-- TODO: show only the main features with dropdown menu for related pages -->
       <li><a href="/">Home</a></li>
-      <li><a href="/aboutus.html">About Our Team</a></li>
+      <li><a href="/book-list.html">All Books</a></li>
+      <li><a href="/review-feed.html">All Reviews</a></li>
+      <li><a href="/addbook.html">Add a New Book</a></li>
+      <li><a class="user-bookshelf">Your Bookshelf</a></li>
       <li><a href="/forum.html">Forum</a></li>
+      <li><a href="/aboutus.html">About Us</a></li>
     </ul>
   </nav>
 

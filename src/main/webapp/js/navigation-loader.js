@@ -79,12 +79,20 @@ function addLoginOrLogoutLinkToNavigation() { // eslint-disable-line no-unused-v
             createLink('/logout', 'Logout')
           )
         );
+        const linksToBookshelf = document.getElementsByClassName('user-bookshelf')
+        for (const link of linksToBookshelf) {
+          link.href = `/user-bookshelf.html?user=${loginStatus.username}`;
+        }
       } else {
         navigationElement.appendChild(
           createListItem(
             createLink('/login', 'Login')
           )
         );
+        const linksToBookshelf = document.getElementsByClassName('user-bookshelf')
+        for (const link of linksToBookshelf) {
+          link.href = `/login`;
+        }
       }
     });
 }

@@ -18,7 +18,7 @@ limitations under the License.
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>CodeU 2019 Starter Project</title>
+  <title>Read.Sleep.Repeat</title>
 
   <!-- Milligram Dependencies -->
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -26,34 +26,46 @@ limitations under the License.
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 
   <link rel="stylesheet" href="/css/main.css">
-  <script src="/js/navigation-loader.js"></script>
+  <script src="js/navigation-loader.js"></script>
 </head>
 
 <body onload="addLoginOrLogoutLinkToNavigation();">
   <nav>
     <ul id="navigation">
+      <!-- TODO: show only the main features with dropdown menu for related pages -->
       <li><a href="/">Home</a></li>
-      <li><a href="/aboutus.html">About Our Team</a></li>
-      <li><a href="/feed.html">Public Feed</a></li>
-      <li><a href="/review-feed.html">Review Feed</a> </li>
+      <li><a href="/book-list.html">All Books</a></li>
+      <li><a href="/review-feed.html">All Reviews</a></li>
       <li><a href="/addbook.html">Add a New Book</a></li>
+      <li><a class="user-bookshelf">Your Bookshelf</a></li>
       <li><a href="/forum.html">Forum</a></li>
+      <li><a href="/aboutus.html">About Us</a></li>
     </ul>
   </nav>
   <div class="container">
     <div class="row">
       <div class="column column-50 column-offset-25">
-        <h1>CodeU Starter Project</h1>
+        <h1>Read.Sleep.Repeat</h1>
       </div>
     </div>
 
     <div class="row">
       <div class="column column-50 column-offset-25">
-        <p>This is the CodeU starter project. Click the links above to login and visit your page.
-          You can post messages on your page, and you can visit other user pages if you have
-          their URL.</p>
-        <p>This is your code now! Feel free to make changes, and don't be afraid to get creative!
-          You could start by modifying this page to tell the world more about your team.</p>
+        <p>
+          We created this web application as part of Google CodeU program. We
+          chose this project to spread our love of books and allow any of you to
+          read and write reviews for <a href="/book-list.html">books</a>,
+          save books to <a class="user-bookshelf">your bookshelf</a> and
+          discuss the books you love (or hate) with others in the
+          <a href="/forum.html">forum</a>.
+        </p>
+        <p>
+          We hope this web application helps you find books you love and
+          people who love the same books you do! If you have any feedback, feel
+          free to let us know
+          <a href="https://docs.google.com/forms/d/16udzOBA-1G01c8z25vPsPwZ__5M9yB023ZbjQ9Zb9Do/edit">
+          here</a>.
+        </p>
       </div>
     </div>
   </div>
