@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Community Page</title>
 
     <!-- Milligram Dependencies -->
@@ -26,12 +27,24 @@
         <li><a href="/aboutus.html">About Us</a></li>
     </ul>
   </nav>
-<div id="content">
-    <h1>Community Page</h1>
-    <p>Here is a list of every user who has posted a message:</p>
-    <hr/>
-    <ul id="list">Loading...</ul>
-</div>
+
+  <div class="container">
+    <div class="row">
+      <div class="column">
+        <h1>User List</h1>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 25px;">
+      <div class="column">
+        <p>Here is a list of every user who has posted a message:</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="users-container" class="container" style="margin-bottom: 20px;">
+    Loading...
+  </div>
 </body>
 </html>
 

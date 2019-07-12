@@ -19,7 +19,7 @@ function fetchUserList() {
   const url = '/user-list';
   fetch(url).then(response => response.json())
     .then((users) => {
-      const list = document.getElementById('list');
+      const list = document.getElementById('users-container');
       list.innerHTML = '';
       users.forEach((user) => {
         const userListItem = buildUserListItem(user);
