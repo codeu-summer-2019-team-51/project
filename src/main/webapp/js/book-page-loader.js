@@ -41,7 +41,7 @@ function setPageTitle() {
  * @param {Review} review
  * @return {Element}
  */
-function buildReviewDiv(review) {
+function buildReviewDiv(review, bookTitle) {
   let date = new Date(review.timestamp)
   const options = {
     year: 'numeric',
@@ -55,6 +55,7 @@ function buildReviewDiv(review) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('review-header');
   headerDiv.innerHTML = `<b>${review.author}</b> ${date}`;
+
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('review-body');
@@ -98,7 +99,7 @@ function showReviewFormIfLoggedIn() {
 }
 
 /** Fetches messages and adds them to the page. */
-function fetchReviews() {
+function fetchReviews(bookTitle) {
   const url = `/reviews?bookId=${parameterBookId}`;
   fetch(url)
     .then(response => response.json())
@@ -110,7 +111,7 @@ function fetchReviews() {
         reviewsContainer.innerHTML = '';
       }
       reviews.forEach((review) => {
-        const reviewDiv = buildReviewDiv(review);
+        const reviewDiv = buildReviewDiv(review, bookTitle);
         reviewsContainer.appendChild(reviewDiv);
       });
     });
@@ -135,6 +136,7 @@ function fetchBook() {
       ratingDiv.innerText = '';
       ratingDiv.classList.add('book-rating');
       const rating = book.avgRating;
+      const title = book.title;
       for (i = 0; i < 5; i++) {
         const starDiv = document.createElement('div');
         starDiv.classList.add('star');
@@ -150,6 +152,7 @@ function fetchBook() {
         starDiv.classList.add(`star-${starFill}`);
         ratingDiv.appendChild(starDiv);
       }
+      return title;
     });
 }
 
@@ -164,6 +167,7 @@ function buildUI() { // eslint-disable-line no-unused-vars
   showReviewFormIfLoggedIn();
   setPageTitle();
   setReviewFormBookInput();
-  fetchBook();
-  fetchReviews();
+  const bookTitle = fetchBook();
+  console.log(bookTitle);
+  fetchReviews(bookTitle);
 }

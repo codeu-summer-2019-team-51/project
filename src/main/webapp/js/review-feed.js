@@ -11,8 +11,13 @@ function buildReviewDiv(review) {
   ratingDiv.classList.add('left-align');
   ratingDiv.appendChild(document.createTextNode(review.rating));
 
+  const titleDiv = document.createElement('div');
+  titleDiv.classList.add('left-align');
+  titleDiv.appendChild(document.createTextNode(review.bookName));
+
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('review-header');
+  headerDiv.appendChild(titleDiv);
   headerDiv.appendChild(usernameDiv);
   headerDiv.appendChild(timeDiv);
   headerDiv.appendChild(ratingDiv);

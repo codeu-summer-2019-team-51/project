@@ -55,9 +55,7 @@ public class ReviewServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
-
     String bookId = request.getParameter("bookId");
-
     List<Review> reviews = datastore.getReviewsForBook(bookId);
     Gson gson = new Gson();
     String json = gson.toJson(reviews);
@@ -71,7 +69,7 @@ public class ReviewServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
     String bookIdString = request.getParameter("book");
-
+    String bookTitle = datastore.getBook(bookIdString).getTitle();
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
@@ -82,7 +80,7 @@ public class ReviewServlet extends HttpServlet {
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
     long rating = Long.parseLong(request.getParameter("rating"));
 
-    Review review = new Review(user, rating, text, bookIdString);
+    Review review = new Review(user, rating, text, bookIdString, bookTitle);
     datastore.storeReview(review);
     response.sendRedirect("/aboutbook.html?id=" + bookIdString);
   }
