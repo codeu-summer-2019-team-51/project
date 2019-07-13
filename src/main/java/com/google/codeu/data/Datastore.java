@@ -127,9 +127,10 @@ public class Datastore {
         long timestamp = (long) entity.getProperty("timestamp");
         String bookId = (String) entity.getProperty("bookId");
         List<String> pictures = (List<String>) entity.getProperty("pictures");
+        String bookName = (String) entity.getProperty("bookName");
 
 
-        Review review = new Review(id,timestamp,temp,rating,text,pictures,bookId);
+        Review review = new Review(id,timestamp,temp,rating,text,pictures,bookId, bookName);
         reviews.add(review);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -230,6 +231,7 @@ public class Datastore {
     reviewEntity.setProperty("comment", review.getComment());
     reviewEntity.setProperty("pictures", review.getPictures());
     reviewEntity.setProperty("bookId", review.getBookId());
+    reviewEntity.setProperty("bookName", review.getBookName());
 
     datastore.put(reviewEntity);
   }
@@ -506,9 +508,10 @@ public class Datastore {
     long rating = (long) entity.getProperty("rating");
     String comment = (String) entity.getProperty("comment");
     List<String> pictures = (List<String>) entity.getProperty("pictures");
+    String bookName = (String) entity.getProperty("bookName");
 
     Review review = new Review(id, timestamp, author, rating, comment, pictures,
-        bookId);
+        bookId, bookName);
     return review;
   }
 
