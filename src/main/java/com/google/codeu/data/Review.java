@@ -12,23 +12,24 @@ public class Review {
   private String comment;
   private List<String> pictures;
   private final String bookId;
+  private String bookName;
 
   /**
    * Creates a new Review object for every new review for cases when
    * the user wants to provide only a rating.
    */
-  public Review(String author, long rating, String bookId) {
+  public Review(String author, long rating, String bookId, String bookName) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, "",
-        new ArrayList<String>(), bookId);
+        new ArrayList<String>(), bookId, bookName);
   }
 
   /**
    * Creates a new Review object for every new review for cases when
    * the user wants to provide a review without any pictures.
    */
-  public Review(String author, long rating, String comment, String bookId) {
+  public Review(String author, long rating, String comment, String bookId, String bookName) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
-        new ArrayList<String>(), bookId);
+        new ArrayList<String>(), bookId, bookName);
   }
 
   /**
@@ -36,16 +37,16 @@ public class Review {
    * the user wants to provide a complete review.
    */
   public Review(String author, long rating, String comment,
-                List<String> pictures, String bookId) {
+                List<String> pictures, String bookId, String bookName) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
-            pictures, bookId);
+            pictures, bookId, bookName);
   }
 
   /**
    * Constructor method to retrieve existing data from datastore.
    */
   public Review(UUID reviewId, long timestamp, String author, long rating,
-                String comment, List<String> pictures, String bookId) {
+                String comment, List<String> pictures, String bookId, String bookName) {
     this.reviewId = reviewId;
     this.author = author;
     this.rating = rating;
@@ -53,6 +54,7 @@ public class Review {
     this.pictures = pictures;
     this.timestamp = timestamp;
     this.bookId = bookId;
+    this.bookName = bookName;
   }
 
   public UUID getId() {
@@ -97,5 +99,9 @@ public class Review {
 
   public String getBookId() {
     return bookId;
+  }
+
+  public String getBookName() {
+    return bookName;
   }
 }
