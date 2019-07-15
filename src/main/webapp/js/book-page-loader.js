@@ -41,7 +41,7 @@ function setPageTitle() {
  * @param {Review} review
  * @return {Element}
  */
-function buildReviewDiv(review, bookTitle) {
+function buildReviewDiv(review) {
   let date = new Date(review.timestamp)
   const options = {
     year: 'numeric',
@@ -99,7 +99,7 @@ function showReviewFormIfLoggedIn() {
 }
 
 /** Fetches messages and adds them to the page. */
-function fetchReviews(bookTitle) {
+function fetchReviews() {
   const url = `/reviews?bookId=${parameterBookId}`;
   fetch(url)
     .then(response => response.json())
@@ -111,7 +111,7 @@ function fetchReviews(bookTitle) {
         reviewsContainer.innerHTML = '';
       }
       reviews.forEach((review) => {
-        const reviewDiv = buildReviewDiv(review, bookTitle);
+        const reviewDiv = buildReviewDiv(review);
         reviewsContainer.appendChild(reviewDiv);
       });
     });
@@ -152,7 +152,6 @@ function fetchBook() {
         starDiv.classList.add(`star-${starFill}`);
         ratingDiv.appendChild(starDiv);
       }
-      return title;
     });
 }
 
@@ -167,7 +166,6 @@ function buildUI() { // eslint-disable-line no-unused-vars
   showReviewFormIfLoggedIn();
   setPageTitle();
   setReviewFormBookInput();
-  const bookTitle = fetchBook();
-  console.log(bookTitle);
-  fetchReviews(bookTitle);
+  fetchBook();
+  fetchReviews();
 }

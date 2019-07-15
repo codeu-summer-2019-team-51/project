@@ -1,18 +1,22 @@
 function buildReviewDiv(review) {
   const usernameDiv = document.createElement('div');
   usernameDiv.classList.add('left-align');
+  usernameDiv.appendChild(document.createTextNode(new String("Review Author:")));
   usernameDiv.appendChild(document.createTextNode(review.author));
 
   const timeDiv = document.createElement('div');
   timeDiv.classList.add('left-align');
+  timeDiv.appendChild(document.createTextNode(new String("On:")));
   timeDiv.appendChild(document.createTextNode(new Date(review.timestamp)));
 
   const ratingDiv = document.createElement('div');
   ratingDiv.classList.add('left-align');
+  ratingDiv.appendChild(document.createTextNode(new String("Rating:")));
   ratingDiv.appendChild(document.createTextNode(review.rating));
 
   const titleDiv = document.createElement('div');
   titleDiv.classList.add('left-align');
+  titleDiv.appendChild(document.createTextNode(new String("Book Title:")));
   titleDiv.appendChild(document.createTextNode(review.bookName));
 
   const headerDiv = document.createElement('div');
