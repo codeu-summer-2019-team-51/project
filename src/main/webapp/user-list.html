@@ -1,17 +1,53 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Community Page</title>
+    <meta charset="UTF-8">
+    <title>User List</title>
+
+    <!-- Milligram Dependencies -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
     <link rel="stylesheet" href="/css/main.css">
+
     <script src="js/user-list.js"></script>
+    <script src="js/navigation-loader.js"></script>
 </head>
-<body onload="buildUI()">
-<div id="content">
-    <h1>Community Page</h1>
-    <p>Here is a list of every user who has posted a message:</p>
-    <hr/>
-    <ul id="list">Loading...</ul>
-</div>
+
+<body onload="buildUI(); addLoginOrLogoutLinkToNavigation();">
+  <nav>
+      <ul id="navigation">
+        <!-- TODO: show only the main features with dropdown menu for related pages -->
+        <li><a href="/">Home</a></li>
+        <li><a href="/book-list.html">All Books</a></li>
+        <li><a href="/review-feed.html">All Reviews</a></li>
+        <li><a href="/addbook.html">Add a New Book</a></li>
+        <li><a class="user-bookshelf">Your Bookshelf</a></li>
+        <li><a href="/forum.html">Forum</a></li>
+        <li><a href="/user-list.html">User List</a></li>
+        <li><a href="/aboutus.html">About Us</a></li>
+      </ul>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="column">
+        <h1>User List</h1>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 25px;">
+      <div class="column">
+        <p>Here is a list of every user who has posted a message:</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="users-container" class="container" style="margin-bottom: 20px;">
+    Loading...
+  </div>
 </body>
 </html>
 
