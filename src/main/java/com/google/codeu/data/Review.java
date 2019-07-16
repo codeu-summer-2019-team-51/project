@@ -27,7 +27,7 @@ public class Review {
    * Creates a new Review object for every new review for cases when
    * the user wants to provide a review without any pictures.
    */
-  public Review(String author, long rating, String comment, String bookId, String bookName) {
+  public Review(String author, long rating, String comment, String bookId,String bookName) {
     this(UUID.randomUUID(), System.currentTimeMillis(), author, rating, comment,
         new ArrayList<String>(), bookId, bookName);
   }

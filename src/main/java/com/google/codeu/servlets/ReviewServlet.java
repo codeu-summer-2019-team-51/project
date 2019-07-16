@@ -69,7 +69,6 @@ public class ReviewServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
     String bookIdString = request.getParameter("book");
-    String bookTitle = datastore.getBook(bookIdString).getTitle();
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
@@ -80,7 +79,7 @@ public class ReviewServlet extends HttpServlet {
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
     long rating = Long.parseLong(request.getParameter("rating"));
 
-    Review review = new Review(user, rating, text, bookIdString, bookTitle);
+    Review review = new Review(user, rating, text, bookIdString,null);
     datastore.storeReview(review);
     response.sendRedirect("/aboutbook.html?id=" + bookIdString);
   }
