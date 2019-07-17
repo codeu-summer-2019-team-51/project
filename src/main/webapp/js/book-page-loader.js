@@ -56,6 +56,7 @@ function buildReviewDiv(review) {
   headerDiv.classList.add('review-header');
   headerDiv.innerHTML = `<b>${review.author}</b> ${date}`;
 
+
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('review-body');
   bodyDiv.innerHTML = `<i>(${review.rating}/5)</i> ${review.comment}`;
@@ -135,6 +136,7 @@ function fetchBook() {
       ratingDiv.innerText = '';
       ratingDiv.classList.add('book-rating');
       const rating = book.avgRating;
+      const title = book.title;
       for (i = 0; i < 5; i++) {
         const starDiv = document.createElement('div');
         starDiv.classList.add('star');

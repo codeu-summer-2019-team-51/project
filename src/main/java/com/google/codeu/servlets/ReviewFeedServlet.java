@@ -27,7 +27,6 @@ public class ReviewFeedServlet extends HttpServlet {
     res.setContentType("application/json");
 
     List<Review> reviewsList = datastore.getAllReviews();
-
     Gson gson = new Gson();
     String json = gson.toJson(reviewsList);
     res.getOutputStream().println(json);
