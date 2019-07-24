@@ -1,11 +1,10 @@
-const urlParams = new URLSearchParams(window.location.search);
-const user = urlParams.get('user');
+// The following 2 lines are called in user-page.js which should be loaded before this file
+// const urlParams = new URLSearchParams(window.location.search);
+// const user = urlParams.get('user');
 
 // Fetch data and populate the UI of the page.
-function buildUI() { // eslint-disable-line no-unused-vars
+function buildBookshelfUI() { // eslint-disable-line no-unused-vars
   fetchContent();
-
-  document.getElementById('description').innerText = `Books saved by ${user}`;
 
   window.onclick = (event) => {
     if (!event.target.matches('.reading-status-arrow')
@@ -111,7 +110,8 @@ function buildReadingStatusOption(userBook, readingStatus) {
         status: readingStatus
       },
       success: () => {
-        window.location = `/user-bookshelf.html?user=${userBook.user}`;
+        window.location = `/user-page.html?user=${userBook.user}#user-book-container`;
+        location.reload(true);
       }
     });
   };

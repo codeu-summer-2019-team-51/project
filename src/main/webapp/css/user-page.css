@@ -31,12 +31,45 @@ textarea {
   resize: none;
 }
 
+.tab-selector {
+  border-bottom: 2px solid #9b4dca;
+  list-style-type: none;
+  padding: 10px 10px 0 10px;
+}
+
+.tab {
+  background-color: #7b858e;
+  border-radius: 5px 5px 0 0;
+  border-style: none;
+  display: inline-block;
+  margin-bottom: 0;
+  pointer-events: none;
+  width: 150px;
+}
+
+.tab-link {
+  color: #fff;
+  pointer-events: all;
+}
+
+.ui-tabs-active {
+  background-color: #9b4dca;
+}
+
+.tab-link:hover {
+  color: #fff;
+}
+
+.tab-link:visited {
+  color: #fff;
+}
+
 .review-div {
-    background-color: #f4f5f6;
-    border-left: 5px solid #9b4dca;
-    display: block;
-    margin-top: 20px;
-    padding: 20px;
+  background-color: #f4f5f6;
+  border-left: 5px solid #9b4dca;
+  display: block;
+  margin-top: 20px;
+  padding: 20px;
 }
 
 .review-header {
