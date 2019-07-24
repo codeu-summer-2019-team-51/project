@@ -24,35 +24,31 @@
 
 .avatar {
   border-radius: 50%;
-  max-width: 200px;
+  max-width: 90px;
 }
 
 textarea {
   resize: none;
 }
 
-.message-input {
-  height: 100px;
-  width: 100%;
+.review-div {
+    background-color: #f4f5f6;
+    border-left: 5px solid #9b4dca;
+    display: block;
+    margin-top: 20px;
+    padding: 20px;
 }
 
-.message-div {
-  border: thin solid black;
-  border-radius: 5px;
-  margin-top: 20px;
+.review-header {
+  border-bottom: thin grey;
+  font-size: 12px;
+  padding-bottom: 2px;
+  padding-top: 2px;
 }
 
-.message-header {
-  font-size: 14px;
-  font-weight: bold;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-bottom: thin solid black;
-}
-
-.message-body {
-  margin-top: 5px;
+.review-body {
   margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .hidden {

@@ -26,9 +26,14 @@ limitations under the License.
   <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 
+  <!-- Modal Dependencies -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/user-page.css">
-  <script src="js/user-page-loader.js"></script>
+  <script src="js/user-page.js"></script>
   <script src="js/navigation-loader.js"></script>
 </head>
 
@@ -48,57 +53,46 @@ limitations under the License.
 
   <div class="container">
     <div class="row">
-      <div class="column column-20">
+      <div class="column column-10">
         <img id="profile-pic" class="avatar" alt="Profile Picture">
-        <div id="profile-pic-editor" class="edit-btn text-center hidden" onclick="
-                  show('profile-pic-form');
-                  hide('profile-pic-editor');
-                ">
+        <a id="profile-pic-editor" class="button button-clear hidden" href="#edit-profile-pic"
+            rel="modal:open">
           Edit
-        </div>
-        <form id="profile-pic-form" action="/profile-pic" method="POST" enctype="multipart/form-data" class="hidden">
-          Upload new profile picture:
-          <br />
-          <input type="file" name="profile-pic" accept="image/png, image/jpeg" required>
-          <br />
-          <input type="submit" value="Upload">
-        </form>
+        </a>
       </div>
 
       <div class="column column-50">
         <h1 id="page-title">User Page</h1>
         <div id="about-me-container">Loading...</div>
-        <div id="about-me-editor" class="edit-btn hidden" onclick="
-                show('about-me-form');
-                hide('about-me-container');
-                hide('about-me-editor');
-              ">
+        <a id="about-me-editor" class="button button-clear hidden" class="button" href="#edit-about-me"
+            rel="modal:open">
           Edit
-        </div>
-        <div id="about-me-form" class="hidden">
-          <form action="/about" method="POST">
-            <textarea name="about-me" placeholder="Enter your about me here." rows=4 required></textarea>
-            <br />
-            <input type="submit" value="Submit">
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="row" style="margin-top: 25px;">
-      <div class="column">
-        <form id="message-form" action="/messages" method="POST" class="hidden">
-          Enter a new message:
-          <br />
-          <textarea name="text" class="message-input"></textarea>
-          <br />
-          <input type="submit" value="Submit">
-        </form>
+        </a>
       </div>
     </div>
   </div>
 
-  <div id="message-container" class="container" style="margin-bottom: 20px;">
+  <div id="edit-profile-pic" class="modal">
+    <h1>Change profile picture</h1>
+    <hr />
+    <form action="/profile-pic" method="POST" enctype="multipart/form-data">
+      <input type="file" name="profile-pic" accept="image/png, image/jpeg" required>
+      <br />
+      <input type="submit" value="Upload">
+    </form>
+  </div>
+
+  <div id="edit-about-me" class="modal">
+    <h1>Edit bio</h1>
+    <hr />
+    <form action="/about" method="POST">
+      <textarea name="about-me" placeholder="Enter your bio here." rows=4 required></textarea>
+      <br />
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <div id="review-container" class="container" style="margin-bottom: 20px;">
     Loading...
   </div>
 

@@ -190,7 +190,7 @@ public class Datastore {
   public List<Review> getReviewsByUser(String user) {
     Query query =
             new Query("Review")
-                    .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+                    .setFilter(new Query.FilterPredicate("author", FilterOperator.EQUAL, user))
                     .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
