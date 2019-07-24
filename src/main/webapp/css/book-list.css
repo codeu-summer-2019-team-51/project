@@ -17,14 +17,19 @@
 }
 
 .add-to-shelf-button {
-  margin: 0 10px 10px 10px;
+  margin: 5px 0 0 0;
   padding: 0;
   width: 150px;
 }
 
+.move-to-shelf-button {
+  background-color: #e4e5e6;
+  border: none;
+  color: #9b4dca;
+}
+
 .dropdown {
   background-color: #e4e5e6;
-  margin: -10px 10px 10px 10px;
   position: absolute;
   width: 150px;
 }
@@ -68,4 +73,9 @@
 
 .hidden {
   display: none;
+}
+
+.disabled {
+  background-color: #7b858e;
+  border: none;
 }
