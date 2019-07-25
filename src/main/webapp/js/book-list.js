@@ -1,12 +1,12 @@
 function buildBookDiv(book) {
-  const bookLink = document.createElement('a');
-  bookLink.href = `/aboutbook.html?id=${book.id}`;
-
   const titleDiv = document.createElement('h3');
   titleDiv.classList.add('book-title');
-  titleDiv.appendChild(document.createTextNode(book.title));
 
-  bookLink.appendChild(titleDiv);
+  const bookLink = document.createElement('a');
+  bookLink.href = `/aboutbook.html?id=${book.id}`;
+  bookLink.appendChild(document.createTextNode(book.title));
+
+  titleDiv.appendChild(bookLink);
 
   const authorsDiv = document.createElement('div');
   authorsDiv.classList.add('book-authors');
@@ -33,7 +33,7 @@ function buildBookDiv(book) {
 
   const bookDiv = document.createElement('div');
   bookDiv.classList.add('book-div');
-  bookDiv.appendChild(bookLink);
+  bookDiv.appendChild(titleDiv);
   bookDiv.appendChild(authorsDiv);
   bookDiv.appendChild(ratingDiv);
 
@@ -58,7 +58,7 @@ function buildReadingStatusButton(userBook, readingStatus) {
           status: readingStatus
         },
         success: () => {
-          window.location = 'book-list.html';
+          window.location.href = `/user-bookshelf.html?user=${userBook.user}`;
         }
       });
     };
@@ -67,22 +67,35 @@ function buildReadingStatusButton(userBook, readingStatus) {
   return button;
 }
 
-function buildAddToShelfDiv(userBook) {
+function buildAddToShelfDiv(userBook, isLoggedIn) {
   const addToShelfDiv = document.createElement('div');
   addToShelfDiv.id = `add-to-shelf-${userBook.bookId}`;
 
   const button = document.createElement('button');
   button.classList.add('add-to-shelf-button');
+  button.innerText = 'Add to shelf';
+
+  if (!isLoggedIn) {
+    // Disable 'add to shelf button' if the user is not logged in
+    button.classList.add('disabled');
+    button.onclick = () => {
+      window.location = '/login';
+    }
+    addToShelfDiv.appendChild(button);
+    return addToShelfDiv;
+  }
+
+  if (userBook.user) {
+    button.classList.add('move-to-shelf-button');
+    button.innerText = 'Move to shelf';
+  } else {
+    button.classList.add('button-outline');
+  }
+
   button.onclick = () => {
     const dropdown = document.getElementById(`dropdown-${userBook.bookId}`)
     dropdown.classList.toggle('hidden');
   };
-  if (userBook.user) {
-    button.classList.add('added-to-shelf-button');
-    button.innerText = 'Move to shelf';
-  } else {
-    button.innerText = 'Add to shelf';
-  }
 
   const dropdown = document.createElement('div');
   dropdown.id = `dropdown-${userBook.bookId}`;
@@ -119,9 +132,9 @@ function fetchBooks() {
     }
   });
 
-  Promise.all([allBooks, userBooks])
+  Promise.all([allBooks, userBooks, loginStatus])
     .then(response => {
-      const [allBooks, userBooks] = response;
+      const [allBooks, userBooks, loginStatus] = response;
       const bookContainer = document.getElementById('book-container');
       if (allBooks.length === 0) {
         bookContainer.innerHTML = '<p>There are no books yet.</p>';
@@ -132,7 +145,8 @@ function fetchBooks() {
       allBooks.forEach((book) => {
         const bookDiv = buildBookDiv(book);
         const userBook = userBooks[book.id] || {bookId: book.id};
-        const addToShelfDiv = buildAddToShelfDiv(userBook);
+        const addToShelfDiv = buildAddToShelfDiv(userBook, loginStatus.isLoggedIn);
+
         bookDiv.appendChild(addToShelfDiv);
         bookContainer.appendChild(bookDiv);
         return bookDiv;
@@ -160,17 +174,22 @@ function searchBooks() { // eslint-disable-line no-unused-vars
   const bookContainer = document.getElementById('book-container');
   const books = bookContainer.getElementsByClassName('book-div');
 
+  const areBooksFound = false;
   Array.from(books).forEach((bookDiv) => {
     const title = bookDiv.getElementsByClassName('book-title')[0].innerText;
     const authors = bookDiv.getElementsByClassName('book-authors')[0].innerText;
-    console.log(title);
-    console.log(title.toUpperCase().indexOf(filter));
-    console.log(authors.toUpperCase().indexOf(filter));
     if (title.toUpperCase().indexOf(filter) < 0
         && authors.toUpperCase().indexOf(filter) < 0) {
       bookDiv.classList.add('hidden');
     } else {
       bookDiv.classList.remove('hidden');
+      areBooksFound = true;
     }
   });
+
+  if (!areBooksFound) {
+    bookContainer.innerText = `There are no books with title or author containing ${input.value}.`;
+  } else {
+    bookContainer.innerText = '';
+  }
 }

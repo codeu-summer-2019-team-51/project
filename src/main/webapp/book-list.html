@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Book List</title>
+  <title>Books</title>
 
   <!-- Milligram Dependencies -->
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -12,9 +12,11 @@
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/book-list.css">
-  <link rel="stylesheet" href="
-      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <script src="js/constants/reading-status.js"></script>
   <script src="js/book-list.js"></script>
   <script src="js/navigation-loader.js"></script>
@@ -25,9 +27,8 @@
     <ul id="navigation">
       <!-- TODO: show only the main features with dropdown menu for related pages -->
       <li><a href="/">Home</a></li>
-      <li><a href="/book-list.html">All Books</a></li>
+      <li><a href="/book-list.html">Books</a></li>
       <li><a href="/review-feed.html">All Reviews</a></li>
-      <li><a href="/addbook.html">Add a New Book</a></li>
       <li><a class="user-bookshelf">Your Bookshelf</a></li>
       <li><a href="/forum.html">Forum</a></li>
       <li><a href="/user-list.html">User List</a></li>
@@ -38,20 +39,45 @@
   <div class="container">
     <div class="row">
       <div class="column">
-        <h1>Book List</h1>
+        <h1>Books</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <a id="add-button" class="button" href="#add-a-new-book"
+            rel="modal:open">
+          <i class="fa fa-plus" style="margin-right: 5px;"></i>
+          Add a new book
+        </a>
       </div>
     </div>
 
     <div class="row" style="margin-top: 25px;">
       <div class="column">
-        <div id="book-search-container">
-          <input type="text" id="book-search" placeholder="Search books">
-          <button onclick="searchBooks()"><i class="fa fa-search"></i></button>
+        <div id="book-search-container" style="display: flex;">
+          <input type="text" id="book-search" placeholder="Search books by title or author">
+          <button onclick="searchBooks()" style="margin-left: 5px"><i class="fa fa-search"></i></button>
         </div>
       </div>
     </div>
   </div>
 
+  <div id="add-a-new-book" class="modal">
+    <h1>Add a new book</h1>
+    <hr />
+    <form id="about-book-form" action="/about-book" method="POST">
+      <label for="title"><b>Title</b></label>
+      <br />
+      <textarea name="title" placeholder="Enter book title" rows=1 required></textarea>
+      <br />
+      <label for="authors"><b>Authors</b></label>
+      <br/>
+      <textarea name="authors" placeholder="Enter author name(s) separated by comma" rows=1 required></textarea>
+      <br />
+      <input type="submit" value="Add a new book">
+    </form>
+  </div>
 
   <div id="book-container" class="container" style="margin-bottom: 20px;">
     Loading...
