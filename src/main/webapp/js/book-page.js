@@ -16,9 +16,7 @@
 
 // Get ?book=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
-console.log(urlParams);
 const parameterBookId = urlParams.get('id');
-console.log(parameterBookId);
 
 // URL must include ?book=XYZ parameter. If not, redirect to homepage.
 if (!parameterBookId) {
@@ -161,11 +159,37 @@ function setReviewFormBookInput() {
   reviewBook.value = parameterBookId;
 }
 
+function setStarRating(rating) {
+  for(let i = 1; i <= 5; i++) {
+    if (i <= rating) {
+      document.getElementById(`star-input-${i}`).classList.add("star-on");
+    } else {
+      document.getElementById(`star-input-${i}`).classList.remove("star-on");
+    }
+  }
+}
+
+function setRatingInputAnimation() {
+  for(let i = 1; i <= 5; i++) {
+    const starInput = document.getElementById(`star-input-${i}`);
+    starInput.onmouseover = () => setStarRating(i);
+    starInput.onmouseout = () => {
+      const selectedRating = document.getElementById('review-rating').value || 0;
+      setStarRating(selectedRating);
+    };
+    starInput.onclick = () => {
+      document.getElementById('review-rating').value = i;
+      setStarRating(i);
+    };
+  }
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() { // eslint-disable-line no-unused-vars
   showReviewFormIfLoggedIn();
   setPageTitle();
   setReviewFormBookInput();
+  setRatingInputAnimation();
   fetchBook();
   fetchReviews();
 }

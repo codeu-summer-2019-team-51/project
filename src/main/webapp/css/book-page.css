@@ -87,6 +87,24 @@ textarea {
   background-image: url('../image/star-10.png');
 }
 
+.review-star-container {
+  height: 20px;
+  padding: 0 5px;
+}
+
+.star-input {
+  background-image: url('../image/star-0-input.png');
+  background-repeat: no-repeat;
+  background-size: 15px;
+  float: left;
+  height: 15px;
+  width: 15px;
+}
+
+.star-on {
+  background-image: url('../image/star-10-input.png');
+}
+
 .hidden {
   display: none;
 }
