@@ -188,7 +188,7 @@ function searchBooks() { // eslint-disable-line no-unused-vars
   });
 
   if (!areBooksFound) {
-    bookContainer.innerText = `There are no books with title or author containing ${input.value}.`;
+    bookContainer.innerText = `There are no books with title or author containing '${input.value}'.`;
   } else {
     bookContainer.innerText = '';
   }
