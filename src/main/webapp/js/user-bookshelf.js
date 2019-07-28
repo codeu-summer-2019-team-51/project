@@ -110,7 +110,7 @@ function buildReadingStatusOption(userBook, readingStatus) {
         status: readingStatus
       },
       success: () => {
-        window.location = `/user-page.html?user=${userBook.user}#user-book-container`;
+        window.location.href = `/user-page.html?user=${userBook.user}#user-book-container`;
         location.reload(true);
       }
     });

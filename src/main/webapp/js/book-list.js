@@ -58,11 +58,7 @@ function buildReadingStatusButton(userBook, readingStatus) {
           status: readingStatus
         },
         success: () => {
-<<<<<<< HEAD
           window.location.href = `/user-page.html?user=${userBook.user}#user-book-container`;
-=======
-          window.location.href = `/user-bookshelf.html?user=${userBook.user}`;
->>>>>>> 9546667a48c00f0a071be237120a0de43343d767
         }
       });
     };
