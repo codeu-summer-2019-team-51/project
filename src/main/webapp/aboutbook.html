@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/book-page.css">
 
-  <script src="js/book-page-loader.js"></script>
+  <script src="js/book-page.js"></script>
   <script src="js/navigation-loader.js"></script>
 </head>
 
@@ -20,7 +20,7 @@
       <!-- TODO: show only the main features with dropdown menu for related pages -->
       <li><a href="/">Home</a></li>
       <li><a href="/book-list.html">Books</a></li>
-      <li><a href="/review-feed.html">All Reviews</a></li>
+      <li><a href="/review-feed.html">Reviews</a></li>
       <li><a href="/forum.html">Forum</a></li>
       <li><a href="/user-list.html">User List</a></li>
       <li><a href="/aboutus.html">About Us</a></li>
@@ -45,13 +45,15 @@
           <br />
           Enter a rating:
           <br />
-          <!-- TODO: replace rating radio input with stars -->
-          <input type="radio" name="rating" value="1"> <i>(1/5)</i> Terrible<br/>
-          <input type="radio" name="rating" value="2"> <i>(2/5)</i> Poor<br/>
-          <input type="radio" name="rating" value="3"> <i>(3/5)</i> Average<br/>
-          <input type="radio" name="rating" value="4"> <i>(4/5)</i> Good<br/>
-          <input type="radio" name="rating" value="5"> <i>(5/5)</i> Amazing<br/>
+          <div class="star-rating">
+            <a id="star-input-1" class="star-input"></a>
+            <a id="star-input-2" class="star-input"></a>
+            <a id="star-input-3" class="star-input"></a>
+            <a id="star-input-4" class="star-input"></a>
+            <a id="star-input-5" class="star-input"></a>
+          </div>
           <br />
+          <input type="hidden" name="rating" id="review-rating">
           <input type="hidden" name="book" id="review-book">
           <input type="submit" value="Submit">
         </form>

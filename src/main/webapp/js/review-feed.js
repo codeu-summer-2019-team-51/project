@@ -1,38 +1,57 @@
+function buildRatingDivContent(ratingDiv, rating) {
+  ratingDiv.innerText = '';
+  ratingDiv.classList.add('star-rating');
+  for (i = 0; i < 5; i++) {
+    const starDiv = document.createElement('div');
+    starDiv.classList.add('star');
+
+    let starFill = rating - i;
+    if (starFill < 0.5) {
+      starFill = 0;
+    } else if (starFill < 1) {
+      starFill = 5;
+    } else {
+      starFill = 10;
+    }
+    starDiv.classList.add(`star-${starFill}`);
+    ratingDiv.appendChild(starDiv);
+  }
+}
+
 function buildReviewDiv(review) {
-  const usernameDiv = document.createElement('div');
-  usernameDiv.classList.add('left-align');
-  usernameDiv.appendChild(document.createTextNode(new String("Review Author:")));
-  usernameDiv.appendChild(document.createTextNode(review.author));
+  const reviewDiv = document.createElement('div');
+  reviewDiv.classList.add('review-div');
 
-  const timeDiv = document.createElement('div');
-  timeDiv.classList.add('left-align');
-  timeDiv.appendChild(document.createTextNode(new String("On:")));
-  timeDiv.appendChild(document.createTextNode(new Date(review.timestamp)));
+  let date = new Date(review.timestamp)
+  const options = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit'
+  };
+  date = date.toLocaleDateString('default', options);
 
-  const ratingDiv = document.createElement('div');
-  ratingDiv.classList.add('left-align');
-  ratingDiv.appendChild(document.createTextNode(new String("Rating:")));
-  ratingDiv.appendChild(document.createTextNode(review.rating));
+  const dateDiv = document.createElement('div');
+  dateDiv.classList.add('review-date');
+  dateDiv.innerHTML = date;
+  reviewDiv.appendChild(dateDiv);
 
-  const titleDiv = document.createElement('div');
-  titleDiv.classList.add('left-align');
-  titleDiv.appendChild(document.createTextNode(new String("Book Title:")));
-  titleDiv.appendChild(document.createTextNode(review.bookName));
+  const userLink = `<a href="/user-page.html?user=${review.author}" style="color: #626e78;">${review.author}</a>`;
+  const bookLink = `<a href="/aboutbook.html?id=${review.bookId}" style="color: #626e78;">${review.bookName}</a>`;
 
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('review-header');
-  headerDiv.appendChild(titleDiv);
-  headerDiv.appendChild(usernameDiv);
-  headerDiv.appendChild(timeDiv);
-  headerDiv.appendChild(ratingDiv);
+  headerDiv.innerHTML = `<b>${userLink}</b> reviewed <h4>${bookLink}</h4>`;
+  reviewDiv.appendChild(headerDiv);
+
+  const ratingDiv = document.createElement('div');
+  buildRatingDivContent(ratingDiv, review.rating);
+  reviewDiv.appendChild(ratingDiv);
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('review-body');
   bodyDiv.appendChild(document.createTextNode(review.comment));
-
-  const reviewDiv = document.createElement('div');
-  reviewDiv.classList.add('review-div');
-  reviewDiv.appendChild(headerDiv);
   reviewDiv.appendChild(bodyDiv);
 
   return reviewDiv;

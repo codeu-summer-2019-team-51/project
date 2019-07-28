@@ -13,11 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.edit-btn {
-  color: grey;
-  font-size: small;
-}
-
 .text-center {
   text-align: center;
 }
@@ -37,11 +32,20 @@ textarea {
 }
 
 .review-div {
-    background-color: #f4f5f6;
-    border-left: 5px solid #9b4dca;
-    display: block;
-    margin-top: 20px;
-    padding: 20px;
+  background-color: #f4f5f6;
+  border-left: 5px solid #9b4dca;
+  display: block;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.review-date {
+  font-size: small;
+  font-style: italic;
+}
+
+.review-header {
+  margin-bottom: 0;
 }
 
 .review-body {
