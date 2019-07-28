@@ -16,9 +16,7 @@
 
 // Get ?book=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
-console.log(urlParams);
 const parameterBookId = urlParams.get('id');
-console.log(parameterBookId);
 
 // URL must include ?book=XYZ parameter. If not, redirect to homepage.
 if (!parameterBookId) {
@@ -35,6 +33,25 @@ function setPageTitle() {
     });
 }
 
+function buildRatingDivContent(ratingDiv, rating) {
+  ratingDiv.innerText = '';
+  ratingDiv.classList.add('star-rating');
+  for (i = 0; i < 5; i++) {
+    const starDiv = document.createElement('div');
+    starDiv.classList.add('star');
+
+    let starFill = rating - i;
+    if (starFill < 0.5) {
+      starFill = 0;
+    } else if (starFill < 1) {
+      starFill = 5;
+    } else {
+      starFill = 10;
+    }
+    starDiv.classList.add(`star-${starFill}`);
+    ratingDiv.appendChild(starDiv);
+  }
+}
 
 /**
  * Builds an element that displays the review.
@@ -56,14 +73,18 @@ function buildReviewDiv(review) {
   headerDiv.classList.add('review-header');
   headerDiv.innerHTML = `<b>${review.author}</b> ${date}`;
 
+  const ratingDiv = document.createElement('div');
+  const rating = review.rating;
+  buildRatingDivContent(ratingDiv, rating);
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('review-body');
-  bodyDiv.innerHTML = `<i>(${review.rating}/5)</i> ${review.comment}`;
+  bodyDiv.innerHTML = review.comment;
 
   const reviewDiv = document.createElement('div');
   reviewDiv.classList.add('review-div');
   reviewDiv.appendChild(headerDiv);
+  reviewDiv.appendChild(ratingDiv);
   reviewDiv.appendChild(bodyDiv);
 
   return reviewDiv;
@@ -133,25 +154,9 @@ function fetchBook() {
       authorsDiv.innerText = `by ${book.authors}`;
 
       const ratingDiv = document.getElementById('book-rating');
-      ratingDiv.innerText = '';
-      ratingDiv.classList.add('book-rating');
       const rating = book.avgRating;
-      const title = book.title;
-      for (i = 0; i < 5; i++) {
-        const starDiv = document.createElement('div');
-        starDiv.classList.add('star');
 
-        let starFill = rating - i;
-        if (starFill < 0.5) {
-          starFill = 0;
-        } else if (starFill < 1) {
-          starFill = 5;
-        } else {
-          starFill = 10;
-        }
-        starDiv.classList.add(`star-${starFill}`);
-        ratingDiv.appendChild(starDiv);
-      }
+      buildRatingDivContent(ratingDiv, rating);
     });
 }
 
@@ -161,11 +166,37 @@ function setReviewFormBookInput() {
   reviewBook.value = parameterBookId;
 }
 
+function setStarRating(rating) {
+  for(let i = 1; i <= 5; i++) {
+    if (i <= rating) {
+      document.getElementById(`star-input-${i}`).classList.add("star-on");
+    } else {
+      document.getElementById(`star-input-${i}`).classList.remove("star-on");
+    }
+  }
+}
+
+function setRatingInputAnimation() {
+  for(let i = 1; i <= 5; i++) {
+    const starInput = document.getElementById(`star-input-${i}`);
+    starInput.onmouseover = () => setStarRating(i);
+    starInput.onmouseout = () => {
+      const selectedRating = document.getElementById('review-rating').value || 0;
+      setStarRating(selectedRating);
+    };
+    starInput.onclick = () => {
+      document.getElementById('review-rating').value = i;
+      setStarRating(i);
+    };
+  }
+}
+
 /** Fetches data and populates the UI of the page. */
 function buildUI() { // eslint-disable-line no-unused-vars
   showReviewFormIfLoggedIn();
   setPageTitle();
   setReviewFormBookInput();
+  setRatingInputAnimation();
   fetchBook();
   fetchReviews();
 }
