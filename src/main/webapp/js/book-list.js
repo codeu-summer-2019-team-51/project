@@ -40,7 +40,7 @@ function buildBookDiv(book) {
   return bookDiv;
 }
 
-function buildReadingStatusButton(userBook, readingStatus) {
+function buildReadingStatusButton(userBook, readingStatus, username) {
   const button = document.createElement('button');
   button.classList.add('reading-status');
   button.innerText = readingStatusText[readingStatus];
@@ -58,7 +58,7 @@ function buildReadingStatusButton(userBook, readingStatus) {
           status: readingStatus
         },
         success: () => {
-          window.location.href = `/user-bookshelf.html?user=${userBook.user}`;
+          window.location.href = `/user-bookshelf.html?user=${username}`;
         }
       });
     };
@@ -67,7 +67,7 @@ function buildReadingStatusButton(userBook, readingStatus) {
   return button;
 }
 
-function buildAddToShelfDiv(userBook, isLoggedIn) {
+function buildAddToShelfDiv(userBook, loginStatus) {
   const addToShelfDiv = document.createElement('div');
   addToShelfDiv.id = `add-to-shelf-${userBook.bookId}`;
 
@@ -75,7 +75,7 @@ function buildAddToShelfDiv(userBook, isLoggedIn) {
   button.classList.add('add-to-shelf-button');
   button.innerText = 'Add to shelf';
 
-  if (!isLoggedIn) {
+  if (!loginStatus.isLoggedIn) {
     // Disable 'add to shelf button' if the user is not logged in
     button.classList.add('disabled');
     button.onclick = () => {
@@ -103,7 +103,7 @@ function buildAddToShelfDiv(userBook, isLoggedIn) {
   dropdown.classList.add('hidden');
 
   Object.keys(readingStatusText).forEach((readingStatus) => {
-    dropdown.appendChild(buildReadingStatusButton(userBook, readingStatus));
+    dropdown.appendChild(buildReadingStatusButton(userBook, readingStatus, loginStatus.username));
   });
 
   addToShelfDiv.appendChild(button);
@@ -145,7 +145,7 @@ function fetchBooks() {
       allBooks.forEach((book) => {
         const bookDiv = buildBookDiv(book);
         const userBook = userBooks[book.id] || {bookId: book.id};
-        const addToShelfDiv = buildAddToShelfDiv(userBook, loginStatus.isLoggedIn);
+        const addToShelfDiv = buildAddToShelfDiv(userBook, loginStatus);
 
         bookDiv.appendChild(addToShelfDiv);
         bookContainer.appendChild(bookDiv);
