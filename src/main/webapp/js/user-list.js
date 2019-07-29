@@ -3,11 +3,20 @@
 *<li><a href="/user-page.html?user=test@example.com">test@example.com</a></li>.
 */
 function buildUserListItem(user) {
+  // const profilePic = document.createElement('img');
+  // let filePath = user.profilePic;
+  // if (!filePath) {
+  //   filePath = 'image/profile-pic.png';
+  // }
+  // profilePic.src = filePath;
+
   const userLink = document.createElement('a');
-  const temp = `/user-page.html?user=${user}`;
+  const temp = `/user-page.html?user=${user.email}`;
   userLink.setAttribute('href', temp);
-  userLink.appendChild(document.createTextNode(user));
+  userLink.appendChild(document.createTextNode(user.email));
+
   const userListItem = document.createElement('li');
+  // userListItem.appendChild(profilePic);
   userListItem.appendChild(userLink);
   return userListItem;
 }
@@ -16,13 +25,13 @@ function buildUserListItem(user) {
 *Fetches users and adds them to the page.
 */
 function fetchUserList() {
-  const url = '/user-list';
+  const url = '/users';
   fetch(url).then(response => response.json())
     .then((users) => {
       const list = document.getElementById('users-container');
       list.innerHTML = '';
       users.forEach((user) => {
-        const userListItem = buildUserListItem(user.email);
+        const userListItem = buildUserListItem(user);
         list.appendChild(userListItem);
       });
     });
