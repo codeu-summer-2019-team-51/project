@@ -123,33 +123,25 @@ function fetchMessages() {
     });
 }
 
-/** Fetches about me data and adds them to the page. */
-function fetchAboutMe() {
-  const url = `/about?user=${parameterUsername}`;
+/** Fetches profile picture and about me data and adds them to the page. */
+function fetchUserData() {
+  const url = `/users?user=${parameterUsername}`;
   fetch(url)
-    .then(response => response.text())
-    .then((response) => {
-      const aboutMeContainer = document.getElementById('about-me-container');
-      let aboutMe = response;
-      if (response === '') {
-        aboutMe = 'This user has not entered any information yet.';
-      }
-      aboutMeContainer.innerHTML = aboutMe;
-    });
-}
-
-/** Fetches profile picture and adds it to the page. */
-function fetchProfilePic() {
-  const url = `/profile-pic?user=${parameterUsername}`;
-  fetch(url)
-    .then(response => response.text())
+    .then(response => response.json())
     .then((response) => {
       const profilePic = document.getElementById('profile-pic');
-      let filePath = response;
-      if (response === '') {
+      let filePath = response.profilePic;
+      if (filePath === '') {
         filePath = 'image/profile-pic.png';
       }
       profilePic.src = filePath;
+
+      const aboutMeContainer = document.getElementById('about-me-container');
+      let aboutMe = response.aboutMe;
+      if (aboutMe === '') {
+        aboutMe = 'This user has not entered any information yet.';
+      }
+      aboutMeContainer.innerHTML = aboutMe;
     });
 }
 
@@ -157,7 +149,6 @@ function fetchProfilePic() {
 function buildUI() {
   setPageTitle();
   showMessageFormIfViewingSelf();
-  fetchProfilePic();
-  fetchAboutMe();
+  fetchUserData();
   fetchMessages();
 }
