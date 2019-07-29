@@ -22,7 +22,7 @@ function fetchUserList() {
       const list = document.getElementById('users-container');
       list.innerHTML = '';
       users.forEach((user) => {
-        const userListItem = buildUserListItem(user);
+        const userListItem = buildUserListItem(user.email);
         list.appendChild(userListItem);
       });
     });
