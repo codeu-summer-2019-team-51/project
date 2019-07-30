@@ -24,6 +24,7 @@ import com.google.codeu.data.Review;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,8 +56,19 @@ public class ReviewServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
+
     String bookId = request.getParameter("bookId");
-    List<Review> reviews = datastore.getReviewsForBook(bookId);
+    String user = request.getParameter("user");
+
+    List<Review> reviews;
+    if (bookId != null) {
+      reviews = datastore.getReviewsForBook(bookId);
+    } else if (user != null) {
+      reviews = datastore.getReviewsByUser(user);
+    } else {
+      reviews = new ArrayList<>();
+    }
+
     Gson gson = new Gson();
     String json = gson.toJson(reviews);
     response.getWriter().println(json);

@@ -14,85 +14,49 @@
  * limitations under the License.
  */
 
-/**
- * Creates an li element.
- * @param {Element} childElement
- * @return {Element} li element
- */
-function createListItem(childElement) {
-  const listItemElement = document.createElement('li');
-  listItemElement.appendChild(childElement);
-  return listItemElement;
-}
+function loadNavigation() {  // eslint-disable-line no-unused-vars
+  const navigation = document.getElementsByTagName('nav')[0];
+  const navBar = document.createElement('ul');
+  navigation.appendChild(navBar);
 
-/**
- * Creates an anchor element.
- * @param {string} url
- * @param {string} text
- * @return {Element} Anchor element
- */
-function createLink(url, text) {
-  const linkElement = document.createElement('a');
-  linkElement.appendChild(document.createTextNode(text));
-  linkElement.href = url;
-  return linkElement;
-}
-
-function addBookPageButton() {
-  const navigationElement = document.getElementById('navigation');
-  if (!navigationElement) {
-    console.warn('Navigation element not found!');
-    return;
-  }
-
-  navigationElement.appendChild(
-   createListItem(
-        createLink(`/aboutbook.html?id=`)
-    )
-  )
-
-
-}
-
-/**
- * Adds a login or logout link to the page, depending on whether the user is
- * already logged in.
- */
-function addLoginOrLogoutLinkToNavigation() { // eslint-disable-line no-unused-vars
-  const navigationElement = document.getElementById('navigation');
-  if (!navigationElement) {
-    console.warn('Navigation element not found!');
-    return;
-  }
+  navBar.appendChild(createNavItem('Home', '/'));
+  navBar.appendChild(createNavItem('Books', '/book-list.html'));
+  navBar.appendChild(createNavItem('Reviews', '/review-feed.html'));
+  navBar.appendChild(createNavItem('Forum', '/forum.html'));
+  navBar.appendChild(createNavItem('User List', '/user-list.html'));
+  navBar.appendChild(createNavItem('About Us', '/aboutus.html'));
 
   fetch('/login-status')
     .then(response => response.json())
     .then((loginStatus) => {
       if (loginStatus.isLoggedIn) {
-        navigationElement.appendChild(
-          createListItem(
-            createLink(`/user-page.html?user=${loginStatus.username}`, 'Your Page')
-          )
-        );
-        navigationElement.appendChild(
-          createListItem(
-            createLink('/logout', 'Logout')
-          )
-        );
-        const linksToBookshelf = document.getElementsByClassName('user-bookshelf')
-        for (const link of linksToBookshelf) {
-          link.href = `/user-bookshelf.html?user=${loginStatus.username}`;
+        navBar.appendChild(createNavItem('Your Page', `/user-page.html?user=${loginStatus.username}`));
+        navBar.appendChild(createNavItem('Logout', '/logout'));
+
+        // Set bookshelf hyperlink in project description in home page
+        const linkToBookshelf = document.getElementById('user-bookshelf');
+        if (linkToBookshelf) {
+          linkToBookshelf.href = `/user-bookshelf.html?user=${loginStatus.username}`;
         }
       } else {
-        navigationElement.appendChild(
-          createListItem(
-            createLink('/login', 'Login')
-          )
-        );
-        const linksToBookshelf = document.getElementsByClassName('user-bookshelf')
-        for (const link of linksToBookshelf) {
-          link.href = `/login`;
-        }
+        navBar.appendChild(createNavItem('Login', '/login'));
       }
     });
+}
+
+/**
+ * Creates a link in a navigation bar made of a li element with an anchor element
+ * as its child.
+ * @param {string} url
+ * @param {string} text
+ * @return {Element} li element
+ */
+function createNavItem(text, url) {
+  const linkElement = document.createElement('a');
+  linkElement.appendChild(document.createTextNode(text));
+  linkElement.href = url;
+
+  const listItemElement = document.createElement('li');
+  listItemElement.appendChild(linkElement);
+  return listItemElement;
 }

@@ -17,60 +17,51 @@
 // Get ?user=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
 console.log(urlParams);
-const parameterUsername = urlParams.get('user');
+const user = urlParams.get('user');
 
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.
-if (!parameterUsername) {
+if (!user) {
   window.location.replace('/');
 }
 
 /** Sets the page title based on the URL parameter username. */
 function setPageTitle() {
-  document.getElementById('page-title').innerText = parameterUsername;
-  document.title = parameterUsername + ' - User Page';
+  document.getElementById('page-title').innerText = user;
+  document.title = user + ' - User Page';
 }
 
 /**
- * Builds an element that displays the message.
- * @param {Message} message
+ * Builds an element that displays the review.
+ * @param {Review} review
  * @return {Element}
  */
-function buildMessageDiv(message) {
-  const headerDiv = document.createElement('div');
-  const messageDate = new Date(message.timestamp);
-  headerDiv.classList.add('message-header');
-  headerDiv.appendChild(
-    document.createTextNode(`${message.user} - ${messageDate}`)
-  );
+ function buildReviewDiv(review) {
+   let date = new Date(review.timestamp)
+   const options = {
+     year: 'numeric',
+     month: 'short',
+     day: 'numeric',
+     hour: 'numeric',
+     minute: '2-digit'
+   };
+   date = date.toLocaleDateString('default', options);
 
-  const headerColumn = document.createElement('div');
-  headerColumn.classList.add('column');
-  headerColumn.appendChild(headerDiv);
+   const headerDiv = document.createElement('div');
+   headerDiv.classList.add('review-header');
+   headerDiv.innerHTML = `<b>${review.bookName}</b> ${date}`;
 
-  const headerRow = document.createElement('div');
-  headerRow.classList.add('row');
-  headerRow.appendChild(headerColumn);
 
-  const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = message.text;
+   const bodyDiv = document.createElement('div');
+   bodyDiv.classList.add('review-body');
+   bodyDiv.innerHTML = `<i>(${review.rating}/5)</i> ${review.comment}`;
 
-  const bodyColumn = document.createElement('div');
-  bodyColumn.classList.add('column');
-  bodyColumn.appendChild(bodyDiv);
+   const reviewDiv = document.createElement('div');
+   reviewDiv.classList.add('review-div');
+   reviewDiv.appendChild(headerDiv);
+   reviewDiv.appendChild(bodyDiv);
 
-  const bodyRow = document.createElement('div');
-  bodyRow.classList.add('row');
-  bodyRow.appendChild(bodyColumn);
-
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('container');
-  messageDiv.classList.add('message-div');
-  messageDiv.appendChild(headerRow);
-  messageDiv.appendChild(bodyRow);
-
-  return messageDiv;
-}
+   return reviewDiv;
+ }
 
 /**
  * Shows html element with specified elementId.
@@ -89,43 +80,42 @@ function hide(elementId) { // eslint-disable-line no-unused-vars
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
+ * Shows the review form if the user is logged in and viewing their own page.
  */
-function showMessageFormIfViewingSelf() {
+function showEditButtonIfViewingSelf() {
   fetch('/login-status')
     .then(response => response.json())
     .then((loginStatus) => {
       if (loginStatus.isLoggedIn &&
-        loginStatus.username === parameterUsername) {
-        show('message-form');
+          loginStatus.username === user) {
         show('profile-pic-editor');
         show('about-me-editor');
       }
     });
 }
 
-/** Fetches messages and adds them to the page. */
-function fetchMessages() {
-  const url = `/messages?user=${parameterUsername}`;
+/** Fetches reviews and adds them to the page. */
+function fetchReviews() {
+  const url = `/reviews?user=${user}`;
   fetch(url)
     .then(response => response.json())
-    .then((messages) => {
-      const messagesContainer = document.getElementById('message-container');
-      if (messages.length === 0) {
-        messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
+    .then((reviews) => {
+      const reviewsContainer = document.getElementById('review-container');
+      if (reviews.length === 0) {
+        reviewsContainer.innerHTML = '<p>This user has no posts yet.</p>';
       } else {
-        messagesContainer.innerHTML = '';
+        reviewsContainer.innerHTML = '';
       }
-      messages.forEach((message) => {
-        const messageDiv = buildMessageDiv(message);
-        messagesContainer.appendChild(messageDiv);
+      reviews.forEach((review) => {
+        const reviewDiv = buildReviewDiv(review);
+        reviewsContainer.appendChild(reviewDiv);
       });
     });
 }
 
 /** Fetches about me data and adds them to the page. */
 function fetchAboutMe() {
-  const url = `/about?user=${parameterUsername}`;
+  const url = `/about?user=${user}`;
   fetch(url)
     .then(response => response.text())
     .then((response) => {
@@ -140,7 +130,7 @@ function fetchAboutMe() {
 
 /** Fetches profile picture and adds it to the page. */
 function fetchProfilePic() {
-  const url = `/profile-pic?user=${parameterUsername}`;
+  const url = `/profile-pic?user=${user}`;
   fetch(url)
     .then(response => response.text())
     .then((response) => {
@@ -156,8 +146,8 @@ function fetchProfilePic() {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
-  showMessageFormIfViewingSelf();
+  showEditButtonIfViewingSelf();
   fetchProfilePic();
   fetchAboutMe();
-  fetchMessages();
+  fetchReviews();
 }
