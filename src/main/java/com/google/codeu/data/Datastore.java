@@ -162,16 +162,16 @@ public class Datastore {
       return null;
     }
   }
-  
+
   /**
   *Returns the list of Users who have posted reviews.
   */
   public Set<String> getUserEmailsWithReviews() {
     Set<String> users = new HashSet<>();
-    Query query = new Query("Message");
+    Query query = new Query("Review");
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity:results.asIterable()) {
-      users.add((String) entity.getProperty("user"));
+      users.add((String) entity.getProperty("author"));
     }
     return users;
   }
@@ -218,7 +218,7 @@ public class Datastore {
   public List<Review> getReviewsByUser(String user) {
     Query query =
             new Query("Review")
-                    .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+                    .setFilter(new Query.FilterPredicate("author", FilterOperator.EQUAL, user))
                     .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
