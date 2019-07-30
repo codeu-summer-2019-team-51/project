@@ -58,7 +58,7 @@ function buildReadingStatusButton(userBook, readingStatus, username) {
           status: readingStatus
         },
         success: () => {
-          window.location.href = `/user-bookshelf.html?user=${username}`;
+          window.location.href = `/user-page.html?user=${username}#user-book-container`;
         }
       });
     };

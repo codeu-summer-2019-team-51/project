@@ -26,80 +26,92 @@ limitations under the License.
   <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
   <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 
+  <!-- Modal Dependencies -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+  <!-- Tabs Dependencies -->
+  <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $(function() {
+      $("#tabs").tabs();
+    });
+  </script>
+
+  <link rel="stylesheet" href=
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/user-page.css">
-  <script src="js/user-page-loader.js"></script>
+  <link rel="stylesheet" href="/css/user-bookshelf.css">
+  <script src="js/user-page.js"></script>
   <script src="js/navigation-loader.js"></script>
+  <script src="js/constants/reading-status.js"></script>
+  <script src="js/user-bookshelf.js"></script>
 </head>
 
-<body onload="buildUI(); addLoginOrLogoutLinkToNavigation();">
+<body onload="
+    buildUI();
+    loadNavigation();
+    buildBookshelfUI();
+">
   <nav>
-    <ul id="navigation">
-      <!-- TODO: show only the main features with dropdown menu for related pages -->
-      <li><a href="/">Home</a></li>
-      <li><a href="/book-list.html">Books</a></li>
-      <li><a href="/review-feed.html">Reviews</a></li>
-      <li><a class="user-bookshelf">Your Bookshelf</a></li>
-      <li><a href="/forum.html">Forum</a></li>
-      <li><a href="/user-list.html">User List</a></li>
-      <li><a href="/aboutus.html">About Us</a></li>
-    </ul>
   </nav>
 
   <div class="container">
     <div class="row">
-      <div class="column column-20">
+      <div class="column column-10">
         <img id="profile-pic" class="avatar" alt="Profile Picture">
-        <div id="profile-pic-editor" class="edit-btn text-center hidden" onclick="
-                  show('profile-pic-form');
-                  hide('profile-pic-editor');
-                ">
+        <a id="profile-pic-editor" class="button button-clear hidden" href="#edit-profile-pic"
+            rel="modal:open">
           Edit
-        </div>
-        <form id="profile-pic-form" action="/profile-pic" method="POST" enctype="multipart/form-data" class="hidden">
-          Upload new profile picture:
-          <br />
-          <input type="file" name="profile-pic" accept="image/png, image/jpeg" required>
-          <br />
-          <input type="submit" value="Upload">
-        </form>
+        </a>
       </div>
 
       <div class="column column-50">
         <h1 id="page-title">User Page</h1>
         <div id="about-me-container">Loading...</div>
-        <div id="about-me-editor" class="edit-btn hidden" onclick="
-                show('about-me-form');
-                hide('about-me-container');
-                hide('about-me-editor');
-              ">
+        <a id="about-me-editor" class="button button-clear hidden" class="button" href="#edit-about-me"
+            rel="modal:open">
           Edit
-        </div>
-        <div id="about-me-form" class="hidden">
-          <form action="/about" method="POST">
-            <textarea name="about-me" placeholder="Enter your about me here." rows=4 required></textarea>
-            <br />
-            <input type="submit" value="Submit">
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="row" style="margin-top: 25px;">
-      <div class="column">
-        <form id="message-form" action="/messages" method="POST" class="hidden">
-          Enter a new message:
-          <br />
-          <textarea name="text" class="message-input"></textarea>
-          <br />
-          <input type="submit" value="Submit">
-        </form>
+        </a>
       </div>
     </div>
   </div>
 
-  <div id="message-container" class="container" style="margin-bottom: 20px;">
-    Loading...
+  <div id="edit-profile-pic" class="modal">
+    <h1>Change profile picture</h1>
+    <hr />
+    <form action="/profile-pic" method="POST" enctype="multipart/form-data">
+      <input type="file" name="profile-pic" accept="image/png, image/jpeg" required>
+      <br />
+      <input type="submit" value="Upload">
+    </form>
+  </div>
+
+  <div id="edit-about-me" class="modal">
+    <h1>Edit bio</h1>
+    <hr />
+    <form action="/about" method="POST">
+      <textarea name="about-me" placeholder="Enter your bio here." rows=4 required></textarea>
+      <br />
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <div id="tabs" class="container" style="border: none;">
+    <ul class="tab-selector">
+      <li class="tab button"><a class="tab-link" href="#review-container">Reviews</a></li>
+      <li class="tab button"><a class="tab-link" href="#user-book-container">Bookshelf</a></li>
+    </ul>
+    <div id="review-container">
+      Loading...
+    </div>
+    <div id="user-book-container">
+      Loading...
+    </div>
   </div>
 
 </body>
