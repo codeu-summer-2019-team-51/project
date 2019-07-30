@@ -144,7 +144,6 @@ public class Datastore {
   /** Stores the User in Datastore. */
   public void storeUser(User user) {
     Entity userEntity = new Entity("User", user.getEmail());
-    userEntity.setProperty("email", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
     userEntity.setProperty("profilePic", user.getProfilePic());
     datastore.put(userEntity);
@@ -155,19 +154,48 @@ public class Datastore {
    * null if no matching User was found.
    */
   public User getUser(String email) {
-    Query query = new Query("User")
-        .setFilter(new Query.FilterPredicate("email", FilterOperator.EQUAL, email));
-    PreparedQuery results = datastore.prepare(query);
-    Entity userEntity = results.asSingleEntity();
-    if (userEntity == null) {
+    Key key = KeyFactory.createKey("User", email);
+    try {
+      Entity userEntity = datastore.get(key);
+      return entityToUser(userEntity);
+    } catch (EntityNotFoundException e) {
       return null;
     }
+  }
 
-    String aboutMe = (String) userEntity.getProperty("aboutMe");
-    String profilePic = (String) userEntity.getProperty("profilePic");
-    User user = new User(email, aboutMe, profilePic);
+  /**
+  *Returns the list of Users who have posted reviews.
+  */
+  public Set<String> getUserEmailsWithReviews() {
+    Set<String> users = new HashSet<>();
+    Query query = new Query("Review");
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity:results.asIterable()) {
+      users.add((String) entity.getProperty("author"));
+    }
+    return users;
+  }
 
-    return user;
+  /**
+   * Returns a list of all users.
+   */
+  public Map<String, User> getAllUsers() {
+    Query query = new Query("User");
+    PreparedQuery results = datastore.prepare(query);
+
+    Map<String, User> users = new HashMap<String, User>();
+    for (Entity entity : results.asIterable()) {
+      try {
+        String userEmail = entity.getKey().getName();
+        users.put(userEmail, entityToUser(entity));
+      } catch (Exception e) {
+        System.err.println("Error reading message.");
+        System.err.println(entity.toString());
+        e.printStackTrace();
+      }
+    }
+
+    return users;
   }
 
   /**
@@ -198,7 +226,6 @@ public class Datastore {
   }
 
   /**
-
    * Returns a list of books. List is sorted by title.
    */
   public List<Book> getAllBooks() {
@@ -480,6 +507,18 @@ public class Datastore {
   }
 
   /**
+   * Converts Entity to User.
+   */
+  private User entityToUser(Entity entity) {
+    String email = entity.getKey().getName();
+    String aboutMe = (String) entity.getProperty("aboutMe");
+    String profilePic = (String) entity.getProperty("profilePic");
+
+    User user = new User(email, aboutMe, profilePic);
+    return user;
+  }
+
+  /**
    * Converts Entity to Book.
    */
   private Book entityToBook(Entity entity) {
@@ -647,18 +686,5 @@ public class Datastore {
     } catch (EntityNotFoundException e) {
       return null;
     }
-  }
-
-  /**
-  *Returns the list of Users who have posted messages.
-  */
-  public Set<String> getUsers() {
-    Set<String> users = new HashSet<>();
-    Query query = new Query("Review");
-    PreparedQuery results = datastore.prepare(query);
-    for (Entity entity:results.asIterable()) {
-      users.add((String) entity.getProperty("author"));
-    }
-    return users;
   }
 }

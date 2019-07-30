@@ -16,7 +16,6 @@
 
 // Get ?user=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
-console.log(urlParams);
 const user = urlParams.get('user');
 
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.
@@ -113,33 +112,25 @@ function fetchReviews() {
     });
 }
 
-/** Fetches about me data and adds them to the page. */
-function fetchAboutMe() {
-  const url = `/about?user=${user}`;
+/** Fetches profile picture and about me data and adds them to the page. */
+function fetchUserData() {
+  const url = `/users?user=${user}`;
   fetch(url)
-    .then(response => response.text())
-    .then((response) => {
-      const aboutMeContainer = document.getElementById('about-me-container');
-      let aboutMe = response;
-      if (response === '') {
-        aboutMe = 'This user has not entered any information yet.';
-      }
-      aboutMeContainer.innerHTML = aboutMe;
-    });
-}
-
-/** Fetches profile picture and adds it to the page. */
-function fetchProfilePic() {
-  const url = `/profile-pic?user=${user}`;
-  fetch(url)
-    .then(response => response.text())
+    .then(response => response.json())
     .then((response) => {
       const profilePic = document.getElementById('profile-pic');
-      let filePath = response;
-      if (response === '') {
+      let filePath = response.profilePic;
+      if (filePath === '') {
         filePath = 'image/profile-pic.png';
       }
       profilePic.src = filePath;
+
+      const aboutMeContainer = document.getElementById('about-me-container');
+      let aboutMe = response.aboutMe;
+      if (aboutMe === '') {
+        aboutMe = 'This user has not entered any information yet.';
+      }
+      aboutMeContainer.innerHTML = aboutMe;
     });
 }
 
@@ -147,7 +138,6 @@ function fetchProfilePic() {
 function buildUI() {
   setPageTitle();
   showEditButtonIfViewingSelf();
-  fetchProfilePic();
-  fetchAboutMe();
+  fetchUserData();
   fetchReviews();
 }

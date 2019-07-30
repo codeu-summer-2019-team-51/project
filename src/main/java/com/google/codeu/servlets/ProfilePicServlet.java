@@ -8,6 +8,7 @@ import com.google.codeu.data.User;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,9 +57,7 @@ public class ProfilePicServlet extends HttpServlet {
       return;
     }
 
-    String filePath = UPLOAD_DIRECTORY + File.separator + user + "_" + userData.getProfilePic();
-
-    response.getOutputStream().println(filePath);
+    response.getOutputStream().println(userData.getProfilePic());
   }
 
   /**
@@ -75,10 +74,6 @@ public class ProfilePicServlet extends HttpServlet {
     }
 
     String userEmail = userService.getCurrentUser().getEmail();
-    User user = datastore.getUser(userEmail);
-    if (user == null) {
-      user = new User(userEmail);
-    }
     String profilePic = "";
 
     if (ServletFileUpload.isMultipartContent(request)) {
@@ -88,9 +83,9 @@ public class ProfilePicServlet extends HttpServlet {
         for (FileItem item : multiparts) {
           if (!item.isFormField()) {
             String fileName = new File(item.getName()).getName();
-            item.write(new File(
-                UPLOAD_DIRECTORY + File.separator + userEmail + "_" + fileName));
-            profilePic = fileName;
+            String filePath = UPLOAD_DIRECTORY + File.separator + userEmail + "_" + fileName;
+            item.write(new File(filePath));
+            profilePic = filePath;
           }
         }
         //File uploaded successfully
@@ -102,6 +97,10 @@ public class ProfilePicServlet extends HttpServlet {
       request.setAttribute("message", "Sorry this Servlet only handles file upload request");
     }
 
+    User user = datastore.getUser(userEmail);
+    if (user == null) {
+      user = new User(userEmail);
+    }
     user.setProfilePic(profilePic);
     datastore.storeUser(user);
     response.sendRedirect("/user-page.html?user=" + userEmail);
