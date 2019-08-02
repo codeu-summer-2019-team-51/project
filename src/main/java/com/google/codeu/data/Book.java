@@ -8,23 +8,25 @@ public class Book {
   private String title;
   private List<String> authors;
   private double avgRating;
+  private String description;
 
   /**
    * Creates a new Book object for every new book for cases when the user wants
    * to provide only the title and author of the book.
    */
-  public Book(String title, List<String> authors) {
-    this(UUID.randomUUID(), title, authors, 0);
+  public Book(String title, List<String> authors, String description) {
+    this(UUID.randomUUID(), title, authors, 0,description);
   }
 
   /**
    * Constructor method to retrieve existing data from datastore.
    */
-  public Book(UUID id, String title, List<String> authors, double avgRating) {
+  public Book(UUID id, String title, List<String> authors, double avgRating, String description) {
     this.id = id;
     this.title = title;
     this.authors = authors;
     this.avgRating = avgRating;
+    this.description = description;
   }
 
   public UUID getId() {
@@ -53,5 +55,13 @@ public class Book {
 
   public void setAvgRating(double avgRating) {
     this.avgRating = avgRating;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 }

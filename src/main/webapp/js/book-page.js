@@ -156,6 +156,9 @@ function fetchBook() {
       const ratingDiv = document.getElementById('book-rating');
       const rating = book.avgRating;
 
+      const descriptionDiv = document.getElementById('book-description');
+      descriptionDiv.innerText = book.description;
+
       buildRatingDivContent(ratingDiv, rating);
     });
 }
