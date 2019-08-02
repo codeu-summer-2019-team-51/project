@@ -133,7 +133,19 @@ function fetchUserData() {
       }
 
       profilePic.src = profilePicSource;
-      aboutMeContainer.innerHTML = aboutMeContent;      
+      aboutMeContainer.innerHTML = aboutMeContent;
+    });
+}
+
+function fetchBlobstoreUrl() {
+  fetch('/blobstore-upload-url')
+    .then((response) => {
+      return response.text();
+    })
+    .then((imageUploadUrl) => {
+      const profilePicForm = document.getElementById('profile-pic-form');
+      profilePicForm.action = imageUploadUrl;
+      show('profile-pic-upload-button');
     });
 }
 
@@ -142,5 +154,6 @@ function buildUI() {
   setPageTitle();
   showEditButtonIfViewingSelf();
   fetchUserData();
+  fetchBlobstoreUrl();
   fetchReviews();
 }

@@ -84,10 +84,10 @@ limitations under the License.
   <div id="edit-profile-pic" class="modal">
     <h1>Change profile picture</h1>
     <hr />
-    <form action="/profile-pic" method="POST" enctype="multipart/form-data">
+    <form id="profile-pic-form" method="POST" enctype="multipart/form-data">
       <input type="file" name="profile-pic" accept="image/png, image/jpeg" required>
       <br />
-      <input type="submit" value="Upload">
+      <input id="profile-pic-upload-button" type="submit" value="Upload" class="hidden">
     </form>
   </div>
 
