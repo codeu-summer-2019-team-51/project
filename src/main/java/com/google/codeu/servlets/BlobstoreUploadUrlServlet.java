@@ -16,7 +16,7 @@ public class BlobstoreUploadUrlServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    String uploadUrl = blobstoreService.createUploadUrl("/profile-pic") ;
+    String uploadUrl = blobstoreService.createUploadUrl("/profile-pic");
 
     response.setContentType("text/html");
     response.getOutputStream().println(uploadUrl);
