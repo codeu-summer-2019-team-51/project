@@ -17,7 +17,11 @@ function buildUserListItem(user) {
   userLink.classList.add('user-link');
 
   const userAboutMe = document.createElement('p');
-  userAboutMe.innerText = user.aboutMe;
+  let aboutMeContent = user.aboutMe;
+  if (!aboutMeContent) {
+    aboutMeContent = '';
+  }
+  userAboutMe.innerHTML = aboutMeContent;
   userAboutMe.classList.add('about-me');
 
   const userDiv = document.createElement('div');
