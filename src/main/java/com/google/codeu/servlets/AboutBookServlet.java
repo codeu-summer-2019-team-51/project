@@ -64,25 +64,11 @@ public class AboutBookServlet extends HttpServlet {
         authors.add(s);
       }
     }
-    List<String> tags = new ArrayList<String>();
-    if (request.getParameter("tags") != null) {
-        flag = true;
-      String input = Jsoup.clean(request.getParameter("tags"), Whitelist.none());
-      for (String s: input.split(",")) {
-        tags.add(s);
-      }
-    }
     
-    if(flag){
-         Book book = new Book(title, authors, tags);
-          datastore.storeBook(book);
-    response.sendRedirect("/aboutbook.html?id=" + book.getId());
-    }
-    else{
          Book book = new Book(title, authors);
           datastore.storeBook(book);
     response.sendRedirect("/aboutbook.html?id=" + book.getId());
-    }
+    
 
   }
 }
