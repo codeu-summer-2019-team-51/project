@@ -63,10 +63,8 @@ public class AboutBookServlet extends HttpServlet {
         authors.add(s);
       }
     }
-    String description = null;
-    if (request.getParameter("description") != null) {
-      description = Jsoup.clean(request.getParameter("description"), Whitelist.none());
-    }
+
+    String description = Jsoup.clean(request.getParameter("description"), Whitelist.none());
 
     Book book = new Book(title, authors,description);
     datastore.storeBook(book);
