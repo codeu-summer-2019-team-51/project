@@ -55,6 +55,7 @@ public class AboutBookServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
+      boolean flag = false;
     String title = Jsoup.clean(request.getParameter("title"), Whitelist.none());
     List<String> authors = new ArrayList<String>();
     if (request.getParameter("authors") != null) {
@@ -63,9 +64,25 @@ public class AboutBookServlet extends HttpServlet {
         authors.add(s);
       }
     }
-
-    Book book = new Book(title, authors);
-    datastore.storeBook(book);
+    List<String> tags = new ArrayList<String>();
+    if (request.getParameter("tags") != null) {
+        flag = true;
+      String input = Jsoup.clean(request.getParameter("tags"), Whitelist.none());
+      for (String s: input.split(",")) {
+        tags.add(s);
+      }
+    }
+    
+    if(flag){
+         Book book = new Book(title, authors, tags);
+          datastore.storeBook(book);
     response.sendRedirect("/aboutbook.html?id=" + book.getId());
+    }
+    else{
+         Book book = new Book(title, authors);
+          datastore.storeBook(book);
+    response.sendRedirect("/aboutbook.html?id=" + book.getId());
+    }
+
   }
 }

@@ -528,8 +528,9 @@ public class Datastore {
     String title = (String) entity.getProperty("title");
     List<String> authors = (List<String>) entity.getProperty("authors");
     double avgRating = (double) getBookRating(idString);
+    List<String> tags = (List<String>) entity.getProperty("tags");
 
-    Book book = new Book(id, title, authors, avgRating);
+    Book book = new Book(id, title, authors, avgRating, tags);
     return book;
   }
 
@@ -670,6 +671,7 @@ public class Datastore {
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
     bookEntity.setProperty("avgRating", book.getAvgRating());
+    bookEntity.setProperty("tags", book.getTags());
     datastore.put(bookEntity);
   }
 
