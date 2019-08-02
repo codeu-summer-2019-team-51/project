@@ -27,7 +27,7 @@ public class Comment {
    * {@link Datastore}.
    */
   public Comment(UUID id, String text, String user, long timestamp,
-      String parentId, String threadId) {
+                 String parentId, String threadId) {
     this.id = id;
     this.text = text;
     this.user = user;

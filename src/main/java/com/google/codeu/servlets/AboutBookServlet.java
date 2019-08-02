@@ -3,17 +3,16 @@ package com.google.codeu.servlets;
 import com.google.codeu.data.Book;
 import com.google.codeu.data.Datastore;
 import com.google.gson.Gson;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles fetching and saving book data.
@@ -59,12 +58,14 @@ public class AboutBookServlet extends HttpServlet {
     List<String> authors = new ArrayList<String>();
     if (request.getParameter("authors") != null) {
       String input = Jsoup.clean(request.getParameter("authors"), Whitelist.none());
-      for (String s: input.split(",")) {
+      for (String s : input.split(",")) {
         authors.add(s);
       }
     }
 
-    Book book = new Book(title, authors);
+    String description = Jsoup.clean(request.getParameter("description"), Whitelist.none());
+
+    Book book = new Book(title, authors, description);
     datastore.storeBook(book);
     response.sendRedirect("/aboutbook.html?id=" + book.getId());
   }

@@ -7,21 +7,18 @@ import com.google.codeu.data.Comment;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Thread;
 import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.util.UUID;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import java.io.IOException;
 
 /**
-* Handles fetching thread comments.
-*/
+ * Handles fetching thread comments.
+ */
 @WebServlet("/thread")
 public class ThreadServlet extends HttpServlet {
 

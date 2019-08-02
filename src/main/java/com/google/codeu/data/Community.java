@@ -28,7 +28,7 @@ public class Community {
    * {@link Datastore}.
    */
   public Community(UUID id, String name, String description,
-      Set<String> members) {
+                   Set<String> members) {
     this.id = id;
     this.name = name;
     this.description = description;
