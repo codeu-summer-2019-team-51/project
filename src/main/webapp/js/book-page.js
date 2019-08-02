@@ -157,7 +157,11 @@ function fetchBook() {
       const rating = book.avgRating;
 
       const descriptionDiv = document.getElementById('book-description');
-      descriptionDiv.innerText = book.description;
+      let description = book.description;
+      if (!description) {
+        description = 'This book has no description yet.';
+      }
+      descriptionDiv.innerText = description;
 
       buildRatingDivContent(ratingDiv, rating);
     });
