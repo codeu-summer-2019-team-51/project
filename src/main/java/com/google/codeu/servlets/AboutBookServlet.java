@@ -64,7 +64,7 @@ public class AboutBookServlet extends HttpServlet {
       }
     }
     String description = null;
-    if (request.getParameter("description")!=null) {
+    if (request.getParameter("description") != null) {
       description = Jsoup.clean(request.getParameter("description"), Whitelist.none());
     }
 
