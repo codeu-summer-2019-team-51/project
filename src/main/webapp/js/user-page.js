@@ -119,18 +119,33 @@ function fetchUserData() {
     .then(response => response.json())
     .then((response) => {
       const profilePic = document.getElementById('profile-pic');
-      let filePath = response.profilePic;
-      if (filePath === '') {
-        filePath = 'image/profile-pic.png';
-      }
-      profilePic.src = filePath;
-
       const aboutMeContainer = document.getElementById('about-me-container');
-      let aboutMe = response.aboutMe;
-      if (aboutMe === '') {
-        aboutMe = 'This user has not entered any information yet.';
+
+      let profilePicSource = 'image/profile-pic.png';
+      let aboutMeContent = 'This user has not entered any information yet.';
+      if (response) {
+        if (response.profilePic) {
+          profilePicSource = response.profilePic;
+        }
+        if (response.aboutMe) {
+          aboutMeContent = response.aboutMe;
+        }
       }
-      aboutMeContainer.innerHTML = aboutMe;
+
+      profilePic.src = profilePicSource;
+      aboutMeContainer.innerHTML = aboutMeContent;
+    });
+}
+
+function fetchBlobstoreUrl() {
+  fetch('/blobstore-upload-url')
+    .then((response) => {
+      return response.text();
+    })
+    .then((imageUploadUrl) => {
+      const profilePicForm = document.getElementById('profile-pic-form');
+      profilePicForm.action = imageUploadUrl;
+      show('profile-pic-upload-button');
     });
 }
 
@@ -139,5 +154,6 @@ function buildUI() {
   setPageTitle();
   showEditButtonIfViewingSelf();
   fetchUserData();
+  fetchBlobstoreUrl();
   fetchReviews();
 }
