@@ -15,7 +15,7 @@ public class Book {
    * to provide only the title and author of the book.
    */
   public Book(String title, List<String> authors, String description) {
-    this(UUID.randomUUID(), title, authors, 0,description);
+    this(UUID.randomUUID(), title, authors, 0, description);
   }
 
   /**

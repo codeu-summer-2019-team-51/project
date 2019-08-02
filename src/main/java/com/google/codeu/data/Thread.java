@@ -15,7 +15,7 @@ public class Thread {
    * {@code description}. Generates a random ID.
    */
   public Thread(String name, String description, String creator,
-      String communityId) {
+                String communityId) {
     this(UUID.randomUUID(), name, description, creator, communityId);
   }
 
@@ -25,7 +25,7 @@ public class Thread {
    * {@link Datastore}.
    */
   public Thread(UUID id, String name, String description, String creator,
-      String communityId) {
+                String communityId) {
     this.id = id;
     this.name = name;
     this.description = description;

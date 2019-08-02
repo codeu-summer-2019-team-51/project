@@ -17,20 +17,11 @@
 package com.google.codeu.data;
 
 import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
-
 import com.google.codeu.common.Tree;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Provides access to the data stored in Datastore.
@@ -59,13 +50,13 @@ public class Datastore {
    * Returns messages posted by a specific user.
    *
    * @return a list of messages posted by the user, or empty list if user has
-   *     never posted a message. List is sorted by time descending.
+   * never posted a message. List is sorted by time descending.
    */
   public List<Message> getMessages(String user) {
     Query query =
-            new Query("Message")
-                    .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
-                    .addSort("timestamp", SortDirection.DESCENDING);
+        new Query("Message")
+            .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+            .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     return createListOfMessages(results, user);
@@ -117,7 +108,7 @@ public class Datastore {
    */
   private List<Review> createListOfReviews(PreparedQuery results, String user) {
     List<Review> reviews = new ArrayList<>();
-    for (Entity entity: results.asIterable()) {
+    for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
@@ -129,7 +120,7 @@ public class Datastore {
         List<String> pictures = (List<String>) entity.getProperty("pictures");
         String bookName = getBook(bookId).getTitle();
 
-        Review review = new Review(id,timestamp,temp,rating,text,pictures,bookId, bookName);
+        Review review = new Review(id, timestamp, temp, rating, text, pictures, bookId, bookName);
         reviews.add(review);
       } catch (Exception e) {
         System.err.println("Error reading message.");
@@ -141,7 +132,9 @@ public class Datastore {
   }
 
 
-  /** Stores the User in Datastore. */
+  /**
+   * Stores the User in Datastore.
+   */
   public void storeUser(User user) {
     Entity userEntity = new Entity("User", user.getEmail());
     userEntity.setProperty("aboutMe", user.getAboutMe());
@@ -164,13 +157,13 @@ public class Datastore {
   }
 
   /**
-  *Returns the list of Users who have posted reviews.
-  */
+   * Returns the list of Users who have posted reviews.
+   */
   public Set<String> getUserEmailsWithReviews() {
     Set<String> users = new HashSet<>();
     Query query = new Query("Review");
     PreparedQuery results = datastore.prepare(query);
-    for (Entity entity:results.asIterable()) {
+    for (Entity entity : results.asIterable()) {
       users.add((String) entity.getProperty("author"));
     }
     return users;
@@ -217,9 +210,9 @@ public class Datastore {
    */
   public List<Review> getReviewsByUser(String user) {
     Query query =
-            new Query("Review")
-                    .setFilter(new Query.FilterPredicate("author", FilterOperator.EQUAL, user))
-                    .addSort("timestamp", SortDirection.DESCENDING);
+        new Query("Review")
+            .setFilter(new Query.FilterPredicate("author", FilterOperator.EQUAL, user))
+            .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
     return createListOfReviews(results, user);
@@ -530,7 +523,7 @@ public class Datastore {
     double avgRating = (double) getBookRating(idString);
     String description = (String) entity.getProperty("description");
 
-    Book book = new Book(id, title, authors, avgRating,description);
+    Book book = new Book(id, title, authors, avgRating, description);
     return book;
   }
 
@@ -664,10 +657,12 @@ public class Datastore {
         / (new Integer(count)).doubleValue();
   }
 
-  /** Stores the Book in Datastore. */
+  /**
+   * Stores the Book in Datastore.
+   */
   public void storeBook(Book book) {
     Entity bookEntity = new Entity("Book", book.getId().toString());
-    bookEntity.setProperty("id",book.getId().toString());
+    bookEntity.setProperty("id", book.getId().toString());
     bookEntity.setProperty("title", book.getTitle());
     bookEntity.setProperty("authors", book.getAuthors());
     bookEntity.setProperty("avgRating", book.getAvgRating());
@@ -676,9 +671,9 @@ public class Datastore {
   }
 
   /**
-  * Returns the Book identified by the id, or
-  * null if no matching Book was found.
-  */
+   * Returns the Book identified by the id, or
+   * null if no matching Book was found.
+   */
   public Book getBook(String id) {
 
     Key key = KeyFactory.createKey("Book", id);

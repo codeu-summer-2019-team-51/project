@@ -27,7 +27,7 @@ public class UserBook {
    * {@link Entity} stored in {@link Datastore}.
    */
   public UserBook(String idString, String user, String bookId, String status,
-      long timestamp) {
+                  long timestamp) {
     this.idString = idString;
     this.bookId = bookId;
     this.user = user;

@@ -6,22 +6,19 @@ import com.google.codeu.data.Community;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Thread;
 import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import java.io.IOException;
+import java.util.List;
 
 /**
-* Handles fetching community threads.
-*/
+ * Handles fetching community threads.
+ */
 @WebServlet("/community")
 public class CommunityServlet extends HttpServlet {
 
