@@ -1,6 +1,6 @@
-# CodeU Summer 2019 - Team 51
+## CodeU Summer 2019 - Team 51
 
-This is the primary codebase of Team 51 in CodeU Summer 2019.
+This is the primary codebase of Team 51 for CodeU Summer 2019.
 
 **Team Members:**
 
